@@ -1,0 +1,38 @@
+import React, { Component, Fragment } from 'react';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+
+import Login from './pages/Auth/Login';
+import Home from './pages/KeepIt/Home';
+
+const App = () => {
+  const state= {
+    authLoading: false,
+    token: null
+  }
+  let routes = (
+    <>
+      <Route
+        path="/"
+        exact
+        render={(props) => (
+          <Login {...props} loading={state.authLoading} />
+        )}
+      />
+      {/* /home definido só para testes */}
+      <Route path="/home" exact render={(props) => <Home {...props} />} />
+    </>
+  );
+  // Quando estiver feito à autenticação, colocar o if a apontar para variavel
+  if (false) {
+    // alterar o componente a que está a fazer render
+    routes = <Route path="/" exact render={(props) => <Login {...props} />} />;
+  }
+  return (
+    <Switch>
+      {routes}
+      <Redirect to="/" />
+    </Switch>
+  );
+};
+
+export default withRouter(App);
