@@ -1,0 +1,12 @@
+.navContainer {
+  padding: 1rem 1rem 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.shortcutGroup{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

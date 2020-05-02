@@ -1,6 +1,6 @@
 .input {
   margin: 1rem 0;
-  width: 100%;
+  width: calc(100% - 1rem);
 }
 
 .input label {
@@ -20,8 +20,8 @@
 }
 
 .input .touched.invalid {
-    border-color: red;
-    background: #ffc2c2;
+  border-color: red;
+  background: #ffc2c2;
 }
 
 .input input:focus,

@@ -1,0 +1,7 @@
+.searchBarContainer{
+  min-width: 30%;
+}
+
+.searchBarContainer .uk-search.uk-search-default{
+  width: 100%;
+}

@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 
 import Login from './pages/Auth/Login';
 import Home from './pages/KeepIt/Home';
 
+
 const App = () => {
   const state= {
-    authLoading: false,
     token: null
   }
   let routes = (
@@ -15,7 +15,7 @@ const App = () => {
         path="/"
         exact
         render={(props) => (
-          <Login {...props} loading={state.authLoading} />
+          <Login {...props} />
         )}
       />
       {/* /home definido só para testes */}
