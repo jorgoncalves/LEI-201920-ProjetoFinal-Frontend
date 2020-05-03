@@ -1,0 +1,9 @@
+.notifications {
+  /* flex: 1 0 25%; */
+  /* flex-wrap: wrap; */
+}
+
+.notification-card {
+  width: calc(50% - 15px);
+  margin-bottom: 30px;
+}

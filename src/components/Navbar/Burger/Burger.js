@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import './Burger.css';
 
@@ -7,21 +8,22 @@ export default function Burger() {
     <div className="burgerContainer">
       <a href="#" uk-icon="icon: grid; ratio: 2"></a>
       <div uk-dropdown="mode: click;">
-        <ul class="uk-nav uk-dropdown-nav">
-          <li class="uk-active">
-            <a href="#">Active</a>
+        <ul className="uk-nav uk-dropdown-nav">
+          <li className="uk-nav-header">Header</li>
+          <li className={useLocation().pathname == '/home' ? 'uk-active' : ''}>
+            <Link to="/home">Home</Link>
           </li>
           <li>
             <a href="#">Item</a>
           </li>
-          <li class="uk-nav-header">Header</li>
+          <li className="uk-nav-header">Header</li>
           <li>
             <a href="#">Item</a>
           </li>
           <li>
             <a href="#">Item</a>
           </li>
-          <li class="uk-nav-divider"></li>
+          <li className="uk-nav-divider"></li>
           <li>
             <a href="#">Item</a>
           </li>

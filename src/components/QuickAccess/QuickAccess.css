@@ -1,0 +1,8 @@
+.quickAccessContainer{
+  min-width: 25vw;
+  height: 100%;
+}
+
+.quickAccessContainer .uk-card-body{
+  height: calc(100% - 82px);
+}
