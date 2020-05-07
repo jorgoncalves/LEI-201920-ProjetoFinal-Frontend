@@ -1,7 +1,17 @@
-.homeLeftContainer{
-width: 25%;
+.mainContainer {
+  min-height: calc(100% - 1rem - 83px - 20px);
+  margin-bottom: 0;
 }
 
-.homeRightContainer{
+.homeLeftContainer {
+  width: 25%;
+}
+
+.homeRightContainer {
   width: 65%;
+}
+
+.homeRightContainer div:nth-child(1),
+.homeRightContainer div:nth-child(2) {
+  min-height: calc(50% - 30px);
 }

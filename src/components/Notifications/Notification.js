@@ -16,7 +16,7 @@ export default function Notification(props) {
       }
       if (
         operator === 'next' &&
-        prevState.pageNotification <=
+        prevState.pageNotification + 1 <
           Math.round(prevState.notifications.length / 4)
       ) {
         newPageNotification = prevState.pageNotification + 1;
@@ -33,10 +33,13 @@ export default function Notification(props) {
   };
 
   return (
-    <>
+    <div>
       <div className="uk-flex uk-flex-between">
         <h1 className="uk-heading-small">Notifications</h1>
-        <ul class="uk-pagination uk-flex-right uk-margin-medium-top" uk-margin>
+        <ul
+          className="uk-pagination uk-flex-right uk-margin-medium-top"
+          uk-margin="true"
+        >
           <li>
             <a href="#">
               <span
@@ -46,18 +49,18 @@ export default function Notification(props) {
             </a>
           </li>
           <li>
-            <a href="#">1</a>
+            <span className="uk-disabled">{state.pageNotification + 1}</span>
           </li>
-          {Math.round(state.notifications.length / 4) > 3 && (
-            <li class="uk-disabled">
-              <span>...</span>
-            </li>
-          )}
-          <li>
-            <a href="#">5</a>
+          <li className="uk-disabled">
+            <span>/</span>
           </li>
           <li>
-            <a href="#">
+            <span className="uk-disabled">
+              {Math.ceil(state.notifications.length / 4)}
+            </span>
+          </li>
+          <li>
+            <a>
               <span
                 uk-pagination-next="true"
                 onClick={handleNavigation.bind(this, 'next')}
@@ -87,6 +90,6 @@ export default function Notification(props) {
             );
           })}
       </div>
-    </>
+    </div>
   );
 }

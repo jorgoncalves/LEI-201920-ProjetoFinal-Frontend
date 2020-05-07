@@ -12,7 +12,6 @@ export default function QuickAccess() {
           <li>List item 2</li>
           <li>List item 3</li>
           <li>List item 4</li>
-
           <li>List item 5</li>
           <li>List item 6</li>
           <li>List item 7</li>
