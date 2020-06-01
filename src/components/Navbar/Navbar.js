@@ -7,7 +7,7 @@ import Searchbar from './Searchbar/Searchbar';
 import Shortcut from './Shortcut/Shortcut';
 import Profile from './Profile/Profile';
 
-export default function Navbar() {
+export default function Navbar(props) {
   // const [state, setstate] = useState(0);
   const userShortcuts = [
     { name: 'Shortcut 1', link: '#' },
@@ -24,7 +24,7 @@ export default function Navbar() {
             return <Shortcut key={index} shortcut={shortcut} />;
           })}
         </div>
-        <Profile />
+        <Profile onLogout={props.onLogout} />
       </div>
       <hr />
     </>

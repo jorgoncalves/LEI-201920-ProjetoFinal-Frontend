@@ -8,7 +8,7 @@ export default function PendingSection() {
       <h1 className="uk-heading-small">Pending Section</h1>
       <div className="uk-card-default uk-card-body uk-card-small">
         <ul
-          class="uk-subnav uk-subnav-pill"
+          className="uk-subnav uk-subnav-pill"
           uk-switcher="animation: uk-animation-fade"
         >
           <li>

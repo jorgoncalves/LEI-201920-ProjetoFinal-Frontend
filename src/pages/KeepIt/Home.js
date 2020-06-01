@@ -6,7 +6,9 @@ import PendingSection from '../../components/PendingSection/PendingSection';
 
 import './Home.css';
 
-function Home() {
+function Home(props) {
+  console.log(props);
+
   const [state, setState] = useState({
     notifications: [
       {
@@ -33,7 +35,8 @@ function Home() {
         title: 'Notif 3',
         user: 'Utilizador 4',
         description: 'Pedido de revisão concluido (Aprovado)',
-      },{
+      },
+      {
         title: 'Notif 1',
         user: 'Utilizador 1',
         description: 'Necessita de Aprovar o Documento DF1',
@@ -57,7 +60,8 @@ function Home() {
         title: 'Notif 3',
         user: 'Utilizador 4',
         description: 'Pedido de revisão concluido (Aprovado)',
-      },{
+      },
+      {
         title: 'Notif 1',
         user: 'Utilizador 1',
         description: 'Necessita de Aprovar o Documento DF1',
@@ -81,7 +85,7 @@ function Home() {
   });
   return (
     <>
-      <Navbar />
+      <Navbar onLogout={props.onLogout} />
       <div className="uk-margin uk-flex uk-flex-around mainContainer">
         <div className="homeLeftContainer">
           <QuickAccess />

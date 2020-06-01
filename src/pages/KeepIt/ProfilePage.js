@@ -2,10 +2,10 @@ import React from 'react';
 
 import Navbar from '../../components/Navbar/Navbar';
 
-export default function LayoutPage() {
+export default function LayoutPage(props) {
   return (
     <>
-      <Navbar />
+      <Navbar onLogout={props.onLogout}/>
     </>
   );
 }
