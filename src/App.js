@@ -14,6 +14,8 @@ import Login from './pages/Auth/Login';
 import Home from './pages/KeepIt/Home';
 import ProfilePage from './pages/KeepIt/ProfilePage';
 
+import { loginAddress } from './util/restAddress';
+
 export default withRouter(function App() {
   const [state, setState] = useState({});
   let history = useHistory();
@@ -37,7 +39,7 @@ export default withRouter(function App() {
     e.preventDefault();
     setState({ authLoading: true });
     console.log(authData);
-    const tempResp = await fetch('http://localhost:8080/auth/login', {
+    const tempResp = await fetch(loginAddress, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
