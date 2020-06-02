@@ -9,17 +9,17 @@ import './Login.css';
 
 import LOGO from '../../img/LOGO.png';
 
-function Login() {
+function Login(props) {
   const [state, setState] = useState({
     loginForm: {
       email: {
-        value: '',
+        value: 'jorge@email.com',
         valid: false,
         touched: false,
         validators: [required, email],
       },
       password: {
-        value: '',
+        value: '123453',
         valid: false,
         touched: false,
         validators: [required, length({ min: 5 })],
@@ -101,6 +101,8 @@ function Login() {
         formIsValid: formIsValid,
       };
     });
+    console.log(state);
+    
   };
   const inputBlurHandler = (input) => {
     setState((prevState) => {
@@ -121,7 +123,7 @@ function Login() {
         <img src={LOGO} className="uk-margin login-logo" />
         <form
           onSubmit={(e) =>
-            loginHandler(e, {
+            props.onLogin(e, {
               email: state.loginForm.email.value,
               password: state.loginForm.password.value,
             })
@@ -156,7 +158,7 @@ function Login() {
             design="raised"
             type="submit"
             loading={state.loading}
-            link="/home"
+            // link="/home"
           >
             Login
           </Button>

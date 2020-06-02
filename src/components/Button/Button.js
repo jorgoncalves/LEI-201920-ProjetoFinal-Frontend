@@ -11,6 +11,7 @@ const button = (props) =>
   !props.link ? (
     <button
       className={[
+        'uk-margin uk-button uk-button-default',
         'button',
         `button--${props.design}`,
         `button--${props.mode}`,

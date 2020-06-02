@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import './Profile.css';
 
-export default function Profile() {
+export default function Profile(props) {
   return (
     <div className="profileContainer">
       <a uk-icon="icon: user; ratio: 2"></a>
