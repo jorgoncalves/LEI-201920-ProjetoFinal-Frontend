@@ -9,3 +9,24 @@
 .profileContainer .uk-icon svg{
   color: #a1a1a1;
 }
+
+.fRight{
+  float: right;
+}
+
+.fLeft{
+  float: left;
+}
+
+.dropdownProf{
+  width: 20rem;
+}
+
+.profInfo{
+  margin: .1rem 0;
+  font-weight: 500;
+}
+
+.uk-nav-divider{
+  margin-top: 1rem;
+}
