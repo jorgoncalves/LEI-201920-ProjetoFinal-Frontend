@@ -1,24 +1,26 @@
-import { userInfo } from "./restAddress";
+import { userInfo } from './restAddress';
 
 export const getUserInfo = async (id) => {
   const tempResp = await fetch(userInfo + id, {
-    method: "GET",
+    method: 'GET',
   });
 
   const resp = await tempResp.json();
   try {
     if (resp.status !== 200 && resp.status !== 201) {
-      console.log("Error!");
-      throw new Error("Could not find User with your ID!");
+      console.log('Error!');
+      throw new Error('Could not find User with your ID!');
     }
+    console.log(resp);
+
     return {
       name: resp.data.respFind.name,
-      email: "resp.data.respFind.email",
+      email: resp.data.respFindAuth.email,
       country: resp.data.respFind.country,
       country_code: resp.data.respFind.country_code,
       phone_number: resp.data.respFind.phone_number,
       user_display: resp.data.respFind.user_display,
-      department: "resp.data.respFind.department",
+      department: resp.data.respFindDepart.map((depart) => `${depart.name} `),
       profile_pic: resp.data.respFind.profile_img_path,
     };
   } catch (error) {
@@ -51,17 +53,17 @@ export const getUserInfo = async (id) => {
 
 export const getAllUserInfo = async () => {
   const tempResp = await fetch(userInfo, {
-    method: "GET",
+    method: 'GET',
   });
 
   const resp = await tempResp.json();
   try {
     if (resp.status !== 200 && resp.status !== 201) {
-      console.log("Error!");
-      throw new Error("Could not find User with your ID!");
+      console.log('Error!');
+      throw new Error('Could not find User with your ID!');
     }
     return {
-      data: resp.data.respFind
+      data: resp.data.respFind,
     };
   } catch (error) {
     //   UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
