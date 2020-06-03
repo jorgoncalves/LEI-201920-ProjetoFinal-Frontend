@@ -32,7 +32,14 @@ export default function Notification(props) {
     });
   };
 
-  return (
+  const showModalNotif = (notifData) => {
+    props.setNotifShow({
+      state: true,
+      notification: notifData,
+    });
+  };
+
+  return ( <>
     <div>
       <div className="uk-flex uk-flex-between">
         <h1 className="uk-heading-small">Notifications</h1>
@@ -80,6 +87,7 @@ export default function Notification(props) {
               <div
                 key={index}
                 className="uk-card uk-card-default uk-card-body notification-card"
+                onClick={showModalNotif.bind(this, notification)}
               >
                 <h3 className="uk-card-title">
                   {notification.title}
@@ -90,6 +98,6 @@ export default function Notification(props) {
             );
           })}
       </div>
-    </div>
+    </div> </>
   );
 }

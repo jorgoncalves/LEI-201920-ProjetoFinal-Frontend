@@ -14,7 +14,7 @@ import Login from './pages/Auth/Login';
 import Home from './pages/KeepIt/Home';
 import ProfilePage from './pages/KeepIt/ProfilePage';
 
-import { loginAddress } from './util/restAddress';
+import { loginAddress, userInfo } from './util/restAddress';
 
 export default withRouter(function App() {
   const [state, setState] = useState({});
@@ -27,6 +27,7 @@ export default withRouter(function App() {
       error: null,
     });
     localStorage.removeItem('token');
+    localStorage.removeItem('userID');
     localStorage.removeItem('expiryDate');
     history.push('/');
   };
@@ -66,6 +67,7 @@ export default withRouter(function App() {
         authLoading: false,
       });
       localStorage.setItem('token', resp.data.token);
+      localStorage.setItem('userID', tokenDecode.userID);
       const remainingMilliseconds = 60 * 60 * 1000;
       const expiryDate = new Date(new Date().getTime() + remainingMilliseconds);
       localStorage.setItem('expiryDate', expiryDate.toISOString());

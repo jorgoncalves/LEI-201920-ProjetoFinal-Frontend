@@ -11,7 +11,7 @@ export default function Burger() {
         <ul className="uk-nav uk-dropdown-nav">
           <li className="uk-nav-header">Header</li>
           <li className={useLocation().pathname == '/home' ? 'uk-active' : ''}>
-            <Link to="/home">Home</Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
             <a href="#">Item</a>

@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import QuickAccess from '../../components/QuickAccess/QuickAccess';
 import Notification from '../../components/Notifications/Notification';
 import PendingSection from '../../components/PendingSection/PendingSection';
+import ModalNotif from '../../components/Notifications/Modal/Modal';
 
 import './Home.css';
 
@@ -83,6 +84,14 @@ function Home(props) {
       },
     ],
   });
+
+  const [notifShow, setNotifShow] = useState({
+    state: false,
+    notification: undefined
+  });
+
+  
+
   return (
     <>
       <Navbar onLogout={props.onLogout} />
@@ -91,10 +100,11 @@ function Home(props) {
           <QuickAccess />
         </div>
         <div className="homeRightContainer">
-          <Notification notifications={state.notifications} />
+          <Notification notifications={state.notifications} setNotifShow={setNotifShow} />
           <PendingSection />
         </div>
       </div>
+      { notifShow.state ? <ModalNotif setNotifShow={setNotifShow} notifShow={notifShow} /> : null }
     </>
   );
 }
