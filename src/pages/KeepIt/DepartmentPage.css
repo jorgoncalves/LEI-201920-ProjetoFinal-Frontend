@@ -1,0 +1,11 @@
+.DepartBox{
+    width: 95%;
+    margin: auto;
+}
+
+.parentFlex {
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}

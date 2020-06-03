@@ -6,7 +6,7 @@
 .profileLInline{
     margin: 0;
     padding: 0;
-    width: 60%;
+    width: 70%;
     display: inline-block;
     vertical-align: top;
 }
@@ -21,4 +21,33 @@
 
 .inlineB{
     display: inline-block;
+    vertical-align: baseline;
+}
+
+.inlineB1{
+    width: 10%;
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.inlineB4{
+    width: 40%;
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.inlineB5{
+    width: 50%;
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.usr_info_put{
+    color: #333 !important;
+    font-size: 1.25rem !important;
+}
+
+.usr_info_put:disabled{
+    border: 0 !important;
+    color: #333 !important;
 }

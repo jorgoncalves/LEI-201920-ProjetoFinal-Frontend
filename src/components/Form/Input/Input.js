@@ -3,14 +3,19 @@ import React from 'react';
 import './Input.css';
 
 const input = (props) => (
-  <div className="input uk-margin">
+  <div
+    className={[
+      'input',
+      props.newClasses
+    ].join(' ')}
+  >
     {props.label && <label htmlFor={props.id}>{props.label}</label>}
     {props.control === 'input' && (
       <input
         className={[
           'uk-input',
           !props.valid ? 'invalid' : 'valid',
-          props.touched ? 'touched' : 'untouched',
+          props.touched ? 'touched' : 'untouched'
         ].join(' ')}
         type={props.type}
         id={props.id}
@@ -21,6 +26,7 @@ const input = (props) => (
           props.onChange(props.id, e.target.value, e.target.files)
         }
         onBlur={props.onBlur}
+        disabled={props.disabled}
       />
     )}
     {props.control === 'textarea' && (

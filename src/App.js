@@ -13,6 +13,8 @@ import jwtDecode from 'jwt-decode';
 import Login from './pages/Auth/Login';
 import Home from './pages/KeepIt/Home';
 import ProfilePage from './pages/KeepIt/ProfilePage';
+import DepartmentPage from './pages/KeepIt/DepartmentPage';
+import useDocsPage from './pages/KeepIt/useDocsPage';
 
 import { loginAddress, userInfo } from './util/restAddress';
 
@@ -141,6 +143,20 @@ export default withRouter(function App() {
           exact
           render={(props) => (
             <ProfilePage {...props} onLogout={logoutHandler} />
+          )}
+        />
+        <Route
+          path="/department"
+          exact
+          render={(props) => (
+            <DepartmentPage {...props} onLogout={logoutHandler} />
+          )}
+        />
+        <Route
+          path="/useDocs"
+          exact
+          render={(props) => (
+            <DepartmentPage {...props} onLogout={logoutHandler} />
           )}
         />
       </>

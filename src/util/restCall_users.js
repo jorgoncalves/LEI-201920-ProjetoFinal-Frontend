@@ -6,7 +6,6 @@ export const getUserInfo = async (id) => {
   });
 
   const resp = await tempResp.json();
-  console.log(resp);
   try {
     if (resp.status !== 200 && resp.status !== 201) {
       console.log("Error!");
@@ -20,6 +19,7 @@ export const getUserInfo = async (id) => {
       phone_number: resp.data.respFind.phone_number,
       user_display: resp.data.respFind.user_display,
       department: "resp.data.respFind.department",
+      profile_pic: resp.data.respFind.profile_img_path,
     };
   } catch (error) {
     //   UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
@@ -49,6 +49,31 @@ export const getUserInfo = async (id) => {
 //   };
 // };
 
+export const getAllUserInfo = async () => {
+  const tempResp = await fetch(userInfo, {
+    method: "GET",
+  });
+
+  const resp = await tempResp.json();
+  try {
+    if (resp.status !== 200 && resp.status !== 201) {
+      console.log("Error!");
+      throw new Error("Could not find User with your ID!");
+    }
+    return {
+      data: resp.data.respFind
+    };
+  } catch (error) {
+    //   UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
+    //   setState({
+    //     token: null,
+    //     tokenInfo: null,
+    //     authLoading: false,
+    //     error: error,
+    //  });
+    return error.message;
+  }
+};
 
 //-------------------------------------------------------------------------------
 // exports.getAllClientes = async () => {

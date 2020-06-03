@@ -30,3 +30,42 @@
   border-color: #3b0062;
   color: #3b0062;
 } */
+
+/*User Profile*/
+.inlineB{
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.inlineB1{
+  width: 10%;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.inlineB4{
+  width: 40%;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.inlineB5{
+  width: 50%;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.usr_info_put input{
+  color: #333 !important;
+  font-size: 1.25rem !important;
+  -webkit-appearance: none;
+}
+
+.usr_info_put input:disabled{
+  border: 0 !important;
+  color: #333 !important;
+}
+
+.usr_info_put:disabled::placeholder{
+  visibility: hidden;
+}
