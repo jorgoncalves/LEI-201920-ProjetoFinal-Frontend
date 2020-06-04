@@ -5,27 +5,28 @@ import UserCard from '../../components/UserCard/UserCard';
 import './DepartmentPage.css'
 
 const {
-  getAllUserInfo
-} = require('../../util/restCall_users');
+  getUserDepartColleagues
+} = require('../../util/restCall_departs');
 
 export default function LayoutPage(props) {
   //
   //Ir buscar informação FALTA 1 GET DEPARTMENT FROM USER
   //
   const [loading, setLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState();
+  const [departColleagues, setDepartColleagues] = useState();
+  const currentUser = localStorage.getItem('userID');
 
   useEffect(() => {
-    async function userInform() {
-      let userInfo = await getAllUserInfo();
-
-      setUserInfo(userInfo.data);
+    async function departColleaguesInform() {
+      let departColleaguesInfo = await getUserDepartColleagues(currentUser);
+      console.log(departColleaguesInfo)
+      setDepartColleagues(departColleaguesInfo.resp.data.respDepartUsers);
       setLoading(false);
     }
-    userInform();
+    departColleaguesInform();
   }, [])
-  
-  console.log("teste",userInfo);
+
+  console.log("teste",departColleagues);
 
   return (
     <>
@@ -35,16 +36,32 @@ export default function LayoutPage(props) {
         <>
         <Navbar onLogout={props.onLogout}/>
         <div className="profileBox">
-          <h2 className="uk-heading-divider uk-margin-medium-bottom">Department - "DEPARTMENT GOES HERE"</h2>
-          <div className="profileBox parentFlex uk-child-width-1-5@m uk-grid-small uk-grid-match" uk-grid> 
-            {userInfo.map((user, index) => {
+          <ul uk-tab="true" uk-switcher="animation: uk-animation-fade">
+            {departColleagues.map((depart, index) => {
               return (
-                  <UserCard
-                    key={index}
-                    userInfo={user}
-                  />
+                  <li key={index}><a className="departTitle">{depart.departInfo.name}</a></li>
               );
             })}
+            </ul>
+          <div className="uk-switcher">
+          {departColleagues.map((depart, index) => {
+            return (
+              <div key="index" className="profileBox parentFlex uk-child-width-1-5@m uk-grid-small uk-grid-match" uk-grid="true">
+              {depart.departInfo.userInDepartInfo.map((user, idx) => {
+                  console.log("user",user)
+                  return (
+                      <UserCard
+                      key={idx}
+                      userInfo={user}
+                      departChief={depart.departInfo.chief_userID}
+                      currentUser={currentUser}
+                      />
+                  );
+                })
+              }
+              </div>
+            );
+          })}
           </div>
         </div>
         </>

@@ -7,5 +7,14 @@
     display: flex;
     flex-wrap: wrap;
     flex-flow: row wrap;
-    justify-content: space-evenly;
+}
+
+.departTitle{
+    padding: 5px 1.5rem !important;
+    font-size: 12pt !important;
+    font-weight: 500 !important;
+}
+
+.uk-tab>.uk-active>a{
+    border-bottom: 3px solid #1e87f0;
 }

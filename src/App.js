@@ -14,7 +14,7 @@ import Login from './pages/Auth/Login';
 import Home from './pages/KeepIt/Home';
 import ProfilePage from './pages/KeepIt/ProfilePage';
 import DepartmentPage from './pages/KeepIt/DepartmentPage';
-import useDocsPage from './pages/KeepIt/useDocsPage';
+import DocsPage from './pages/KeepIt/DocsPage';
 
 import { loginAddress, userInfo } from './util/restAddress';
 
@@ -156,7 +156,14 @@ export default withRouter(function App() {
           path="/useDocs"
           exact
           render={(props) => (
-            <DepartmentPage {...props} onLogout={logoutHandler} />
+            <DocsPage {...props} onLogout={logoutHandler} title="Documents for Use" files="use"/>
+          )}
+        />
+        <Route
+          path="/aprovDocs"
+          exact
+          render={(props) => (
+            <DocsPage {...props} onLogout={logoutHandler} title="Documents for Approval" files="aprove"/>
           )}
         />
       </>
