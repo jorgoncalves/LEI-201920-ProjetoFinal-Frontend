@@ -9,31 +9,32 @@ export default function Burger() {
       <a href="#" uk-icon="icon: grid; ratio: 2"></a>
       <div uk-dropdown="mode: click;">
         <ul className="uk-nav uk-dropdown-nav">
-
           <li className="uk-nav-header">Gestão</li>
           <li className={useLocation().pathname == '/' ? 'actv' : ''}>
             <Link to="/">Home</Link>
           </li>
           <li className={useLocation().pathname == '/department' ? 'actv' : ''}>
-            <a href="/department">Departamento</a>
+            <Link to="/department">Departamento</Link>
           </li>
 
           <li className="uk-nav-header">Documentação</li>
           <li className={useLocation().pathname == '/useDocs' ? 'actv' : ''}>
-            <a href="/useDocs">Documentos para uso</a>
+            <Link to="/useDocs">Documentos para uso</Link>
           </li>
           <li className={useLocation().pathname == '/aprovDocs' ? 'actv' : ''}>
-            <a href="/aprovDocs">Documentos por aprovar</a>
+            <Link to="/aprovDocs">Documentos por aprovar</Link>
           </li>
           <li className={useLocation().pathname == '/penDocs' ? 'actv' : ''}>
-            <a href="/penDocs">Documentos pendentes</a>
+            <Link to="/penDocs">Documentos pendentes</Link>
           </li>
-          <li className={useLocation().pathname == '/notAprovDocs' ? 'actv' : ''}>
-            <a href="/notAprovDocs">Documentos reprovados</a>
+          <li
+            className={useLocation().pathname == '/notAprovDocs' ? 'actv' : ''}
+          >
+            <Link to="/notAprovDocs">Documentos reprovados</Link>
           </li>
           <li className="uk-nav-divider"></li>
           <li className={useLocation().pathname == '/newDoc' ? 'actv' : ''}>
-            <a href="/newDoc">Submeter Novo Documento</a>
+            <Link to="/newDoc">Submeter Novo Documento</Link>
           </li>
         </ul>
       </div>

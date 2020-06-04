@@ -156,14 +156,48 @@ export default withRouter(function App() {
           path="/useDocs"
           exact
           render={(props) => (
-            <DocsPage {...props} onLogout={logoutHandler} title="Documents for Use" files="use"/>
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Documents for Use"
+              files="use"
+            />
           )}
         />
         <Route
           path="/aprovDocs"
           exact
           render={(props) => (
-            <DocsPage {...props} onLogout={logoutHandler} title="Documents for Approval" files="aprove"/>
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Documents for Approval"
+              files="aprove"
+            />
+          )}
+        />
+        <Route
+          path="/penDocs"
+          exact
+          render={(props) => (
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Pending Documents"
+              files="pending"
+            />
+          )}
+        />
+        <Route
+          path="/notAprovDocs"
+          exact
+          render={(props) => (
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Not Approved Documents"
+              files="notaprove"
+            />
           )}
         />
       </>
