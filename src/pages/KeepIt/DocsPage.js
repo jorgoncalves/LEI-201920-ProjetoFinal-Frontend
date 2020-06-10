@@ -5,7 +5,7 @@ import './DocsPage.css';
 import Navbar from '../../components/Navbar/Navbar';
 import DocsShow from '../../components/DocsShow/DocsShow';
 
-import { getDocs } from '../../util/restAddress';
+import { getDocsUser } from '../../util/restCall_Docs';
 
 export default function useDocsPage(props) {
   const [state, setState] = useState({
@@ -65,21 +65,12 @@ export default function useDocsPage(props) {
 
   const fls = props.files == 'use' ? state.use_files : state.to_aprove_files;
 
-  const getInitialData = async () => {
-    const documents = await fetch(getDocs, {
-      method: 'GET',
-      // data: { userID, status: 'pending' },
-    });
-  };
-
   useEffect(() => {
-    let isMounted = true;
-    if (isMounted) {
-      getInitialData();
+    const userID = localStorage.getItem('userID');
+    async function getInitialData() {
+      const documents = await getDocsUser(userID, props.docStatus);
     }
-    return () => {
-      isMounted = false;
-    };
+    getInitialData();
   }, []);
 
   return (
@@ -90,7 +81,7 @@ export default function useDocsPage(props) {
           {props.title}
         </h2>
         <div className="DocsBox">
-          <table class="uk-table uk-table-striped">
+          <table className="uk-table uk-table-striped">
             <thead>
               <tr>
                 <th>Public</th>

@@ -180,6 +180,7 @@ export default withRouter(function App() {
               title="Documents for Use"
               files="use"
               userInfo={state.userInfo}
+              docStatus="use"
             />
           )}
         />
@@ -193,6 +194,7 @@ export default withRouter(function App() {
               title="Documents for Approval"
               files="aprove"
               userInfo={state.userInfo}
+              docStatus="aprove"
             />
           )}
         />
@@ -206,6 +208,7 @@ export default withRouter(function App() {
               title="Pending Documents"
               files="pending"
               userInfo={state.userInfo}
+              docStatus="pending"
             />
           )}
         />
@@ -218,6 +221,7 @@ export default withRouter(function App() {
               onLogout={logoutHandler}
               title="Not Approved Documents"
               files="notaprove"
+              docStatus="notaprove"
               userInfo={state.userInfo}
             />
           )}
