@@ -41,17 +41,16 @@ export const getCountriesList = async () => {
   });
 
   const resp = await tempResp.json();
+  console.log(tempResp);
 
   try {
-    if (resp.status !== 200 && resp.status !== 201) {
+    if (tempResp.status !== 200 && tempResp.status !== 201) {
       console.log('Error!');
       throw new Error('Could request Countries List!');
     }
     console.log(resp);
 
-    return {
-      resp
-    };
+    return [...resp];
   } catch (error) {
     //   UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
     //   setState({
@@ -60,11 +59,11 @@ export const getCountriesList = async () => {
     //     authLoading: false,
     //     error: error,
     //  });
-    return {error:error.message,
-            status:500
-          };
+    console.log(error);
+
+    return { error: error.message, status: 500 };
   }
-}
+};
 
 // exports.updateCliente = async (data) => {
 //   const response = await axios(`${constants.clients}/${data._id}`, {

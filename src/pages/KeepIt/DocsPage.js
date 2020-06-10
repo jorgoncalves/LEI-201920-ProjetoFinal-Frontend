@@ -5,8 +5,9 @@ import './DocsPage.css';
 import Navbar from '../../components/Navbar/Navbar';
 import DocsShow from '../../components/DocsShow/DocsShow';
 
-export default function useDocsPage(props) {
+import { getDocs } from '../../util/restAddress';
 
+export default function useDocsPage(props) {
   const [state, setState] = useState({
     use_files: [
       {
@@ -62,34 +63,48 @@ export default function useDocsPage(props) {
     ],
   });
 
-  const fls = props.files=="use" ? state.use_files : state.to_aprove_files
+  const fls = props.files == 'use' ? state.use_files : state.to_aprove_files;
+
+  const getInitialData = async () => {
+    const documents = await fetch(getDocs, {
+      method: 'GET',
+      // data: { userID, status: 'pending' },
+    });
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    if (isMounted) {
+      getInitialData();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <>
-      <Navbar onLogout={props.onLogout}/>
+      <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
       <div className="DocsBox">
-        <h2 className="uk-heading-divider uk-margin-medium-bottom">{props.title}</h2>
+        <h2 className="uk-heading-divider uk-margin-medium-bottom">
+          {props.title}
+        </h2>
         <div className="DocsBox">
-        <table class="uk-table uk-table-striped">
-          <thead>
+          <table class="uk-table uk-table-striped">
+            <thead>
               <tr>
-                  <th>Public</th>
-                  <th>File Name</th>
-                  <th>External</th>
-                  <th>Size</th>
+                <th>Public</th>
+                <th>File Name</th>
+                <th>External</th>
+                <th>Size</th>
               </tr>
-          </thead>
-          <tbody>
-            {fls.map((file, index) => {
-              return (
-                  <DocsShow
-                    key={index}
-                    file={file}
-                  />
-              );
-            })}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {fls.map((file, index) => {
+                return <DocsShow key={index} file={file} />;
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </>
