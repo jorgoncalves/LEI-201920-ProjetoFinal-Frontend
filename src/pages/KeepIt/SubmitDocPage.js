@@ -47,6 +47,7 @@ export default function LayoutPage(props) {
               type="text"
               control="input"
               placeholder="Insert a Name for the Documentation"
+              newInputClasses="uk-form-width-large"
               required={true}
               />
             <div className="uk-margin">

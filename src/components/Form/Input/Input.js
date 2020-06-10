@@ -6,7 +6,7 @@ const input = (props) => (
   <div
     className={[
       'input',
-      props.newClasses
+      props.newDivClasses
     ].join(' ')}
   >
     {props.label && <label htmlFor={props.id}>{props.label}</label>}
@@ -15,7 +15,8 @@ const input = (props) => (
         className={[
           'uk-input',
           !props.valid ? 'invalid' : 'valid',
-          props.touched ? 'touched' : 'untouched'
+          props.touched ? 'touched' : 'untouched',
+          props.newInputClasses
         ].join(' ')}
         type={props.type}
         id={props.id}

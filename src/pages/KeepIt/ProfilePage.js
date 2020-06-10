@@ -18,20 +18,6 @@ export default function LayoutPage(props) {
   const [countriesList, setCountriesList] = useState();
 
   useEffect(() => {
-    async function countryList(){
-      let resp = await getCountriesList();
-      if (resp.status!=500){
-        let countries = [];
-
-        resp.forEach(element => {
-          countries.push(element.translation.pt)
-        });
-        setCountriesList(countries)
-      }else{
-        setCountriesList([`${resp.error}`])
-      }
-    }
-
     async function userInform() {
       const userID = localStorage.getItem('userID');
       let userInfo = await getUserInfo(userID);
@@ -72,12 +58,9 @@ export default function LayoutPage(props) {
         formIsValid: true,
       });
       setUserInfo(userInfo);
+      setLoading(false);
     }
-
-    countryList();
     userInform();
-    setLoading(false);
-
   }, []);
   useEffect(() => {
     setStateReset(state);
@@ -184,14 +167,13 @@ export default function LayoutPage(props) {
                   </h4>
                   <Input
                     id="country"
-                    type="select"
-                    control="select"
+                    type="text"
+                    control="input"
                     newClasses="inlineB5 usr_info_put uk-margin-remove-top"
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler.bind(this, 'country')}
                     value={state.userInfo_form.country.value}
                     disabled={isDisabled ? true : false}
-                    options={countriesList.map}
                   />
                   <br />
 
@@ -202,7 +184,7 @@ export default function LayoutPage(props) {
                     id="country_code"
                     type="number"
                     control="input"
-                    placeholder={isDisabled ? "NA" : "Code"}
+                    placeholder="Country Code"
                     newClasses="inlineB1 usr_info_put uk-margin-remove-top"
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler.bind(this, 'country_code')}
@@ -213,8 +195,8 @@ export default function LayoutPage(props) {
                     id="phone_number"
                     type="number"
                     control="input"
-                    placeholder={isDisabled ? "" : "Phone Number"}
-                    newClasses="inlineB3 usr_info_put uk-margin-remove-top"
+                    placeholder="Phone Number"
+                    newClasses="inlineB4 usr_info_put uk-margin-remove-top"
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler.bind(this, 'country_code')}
                     value={state.userInfo_form.phone_number.value}
@@ -235,9 +217,7 @@ export default function LayoutPage(props) {
               <Button
                 onClick={isDisabled ? editable.bind(this) : null}
                 children={isDisabled ? `Edit Profile` : `Save`}
-                newClasses='uk-margin-small-right'
               ></Button>
-
               {!isDisabled && (
                 <Button
                   onClick={editable.bind(this)}
