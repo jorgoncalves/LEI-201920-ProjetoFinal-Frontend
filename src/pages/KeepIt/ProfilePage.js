@@ -7,36 +7,39 @@ import Navbar from '../../components/Navbar/Navbar';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Form/Input/Input';
 
-const { getUserInfo, getCountriesList } = require('../../util/restCall_users');
+import { getUserInfo, getCountriesList } from '../../util/restCall_users';
 
 export default function LayoutPage(props) {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState();
   const [isDisabled, setDisabled] = useState(true);
-  const [state, setState] = useState();
-  const [stateReset, setStateReset] = useState();
+  const [state, setState] = useState({});
+  const [stateReset, setStateReset] = useState({});
   const [countriesList, setCountriesList] = useState();
 
-  useEffect(() => {
-    async function countryList(){
-      let resp = await getCountriesList();
-      if (resp.status!=500){
-        let countries = [];
+  useEffect(async () => {
+    let resp = await getCountriesList();
+    console.log(resp);
 
-        resp.forEach(element => {
-          countries.push(element.translation.pt)
-        });
-        setCountriesList(countries)
-      }else{
-        setCountriesList([`${resp.error}`])
-      }
+    if (resp.status != 500) {
+      let countries = [];
+
+      resp.forEach((element) => {
+        countries.push(element.translations.pt);
+      });
+      setCountriesList(countries);
+    } else {
+      setCountriesList([`${resp.error}`]);
     }
 
-    async function userInform() {
-      const userID = localStorage.getItem('userID');
-      let userInfo = await getUserInfo(userID);
+    const userID = localStorage.getItem('userID');
+    let userInfo = await getUserInfo(userID);
+    console.log(userInfo);
+    setUserInfo(userInfo);
+    console.log('loading', loading);
 
-      setState({
+    setState((prevState) => {
+      return {
         userInfo_form: {
           name: {
             value: userInfo.name,
@@ -70,14 +73,10 @@ export default function LayoutPage(props) {
           },
         },
         formIsValid: true,
-      });
-      setUserInfo(userInfo);
-    }
-
-    countryList();
-    userInform();
+      };
+    });
+    console.log(state);
     setLoading(false);
-
   }, []);
   useEffect(() => {
     setStateReset(state);
@@ -130,12 +129,11 @@ export default function LayoutPage(props) {
       };
     });
   };
-
   return (
     <>
       {loading ? null : (
         <>
-          <Navbar onLogout={props.onLogout} />
+          <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
           <div className="profileBox">
             <h2 className="uk-heading-divider uk-margin-medium-bottom">
               User Profile
@@ -191,7 +189,7 @@ export default function LayoutPage(props) {
                     onBlur={inputBlurHandler.bind(this, 'country')}
                     value={state.userInfo_form.country.value}
                     disabled={isDisabled ? true : false}
-                    options={countriesList.map}
+                    options={countriesList}
                   />
                   <br />
 
@@ -202,7 +200,7 @@ export default function LayoutPage(props) {
                     id="country_code"
                     type="number"
                     control="input"
-                    placeholder={isDisabled ? "NA" : "Code"}
+                    placeholder={isDisabled ? 'NA' : 'Code'}
                     newClasses="inlineB1 usr_info_put uk-margin-remove-top"
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler.bind(this, 'country_code')}
@@ -213,7 +211,7 @@ export default function LayoutPage(props) {
                     id="phone_number"
                     type="number"
                     control="input"
-                    placeholder={isDisabled ? "" : "Phone Number"}
+                    placeholder={isDisabled ? '' : 'Phone Number'}
                     newClasses="inlineB3 usr_info_put uk-margin-remove-top"
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler.bind(this, 'country_code')}
@@ -235,7 +233,7 @@ export default function LayoutPage(props) {
               <Button
                 onClick={isDisabled ? editable.bind(this) : null}
                 children={isDisabled ? `Edit Profile` : `Save`}
-                newClasses='uk-margin-small-right'
+                newClasses="uk-margin-small-right"
               ></Button>
 
               {!isDisabled && (

@@ -87,24 +87,27 @@ function Home(props) {
 
   const [notifShow, setNotifShow] = useState({
     state: false,
-    notification: undefined
+    notification: undefined,
   });
-
-  
 
   return (
     <>
-      <Navbar onLogout={props.onLogout} />
+      <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
       <div className="uk-margin uk-flex uk-flex-around mainContainer">
         <div className="homeLeftContainer">
           <QuickAccess />
         </div>
         <div className="homeRightContainer">
-          <Notification notifications={state.notifications} setNotifShow={setNotifShow} />
+          <Notification
+            notifications={state.notifications}
+            setNotifShow={setNotifShow}
+          />
           <PendingSection />
         </div>
       </div>
-      { notifShow.state ? <ModalNotif setNotifShow={setNotifShow} notifShow={notifShow} /> : null }
+      {notifShow.state ? (
+        <ModalNotif setNotifShow={setNotifShow} notifShow={notifShow} />
+      ) : null}
     </>
   );
 }

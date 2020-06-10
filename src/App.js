@@ -18,6 +18,7 @@ import DocsPage from './pages/KeepIt/DocsPage';
 import SubmitDocPage from './pages/KeepIt/SubmitDocPage';
 
 import { loginAddress, userInfo } from './util/restAddress';
+import { getUserInfo } from './util/restCall_users';
 
 export default withRouter(function App() {
   const [state, setState] = useState({});
@@ -64,13 +65,17 @@ export default withRouter(function App() {
         throw new Error('Could not authenticate you!');
       }
       const tokenDecode = jwtDecode(resp.data.token);
+      let userInfo = await getUserInfo(tokenDecode.userID);
+      console.log(userInfo);
       setState({
         tokenInfo: tokenDecode,
         token: resp.data.token,
         authLoading: false,
+        userInfo,
       });
       localStorage.setItem('token', resp.data.token);
       localStorage.setItem('userID', tokenDecode.userID);
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
       const remainingMilliseconds = 60 * 60 * 1000;
       const expiryDate = new Date(new Date().getTime() + remainingMilliseconds);
       localStorage.setItem('expiryDate', expiryDate.toISOString());
@@ -82,10 +87,12 @@ export default withRouter(function App() {
         tokenInfo: null,
         authLoading: false,
         error: error,
+        userInfo: null,
       });
     }
   };
   useEffect(() => {
+    const userInfo = localStorage.getItem('userInfo');
     const token = localStorage.getItem('token');
     const expiryDate = localStorage.getItem('expiryDate');
     if (!token || !expiryDate) {
@@ -102,6 +109,7 @@ export default withRouter(function App() {
     setState({
       token: token,
       tokenInfo: tokenDecode,
+      userInfo: JSON.parse(userInfo),
       authLoading: false,
     });
     setAutoLogout(remainingMilliseconds);
@@ -136,6 +144,7 @@ export default withRouter(function App() {
               {...props}
               tokenInfo={state.tokenInfo}
               onLogout={logoutHandler}
+              userInfo={state.userInfo}
             />
           )}
         />
@@ -143,14 +152,22 @@ export default withRouter(function App() {
           path="/profile"
           exact
           render={(props) => (
-            <ProfilePage {...props} onLogout={logoutHandler} />
+            <ProfilePage
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
           )}
         />
         <Route
           path="/department"
           exact
           render={(props) => (
-            <DepartmentPage {...props} onLogout={logoutHandler} />
+            <DepartmentPage
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
           )}
         />
         <Route
@@ -162,6 +179,7 @@ export default withRouter(function App() {
               onLogout={logoutHandler}
               title="Documents for Use"
               files="use"
+              userInfo={state.userInfo}
             />
           )}
         />
@@ -174,6 +192,7 @@ export default withRouter(function App() {
               onLogout={logoutHandler}
               title="Documents for Approval"
               files="aprove"
+              userInfo={state.userInfo}
             />
           )}
         />
@@ -186,6 +205,7 @@ export default withRouter(function App() {
               onLogout={logoutHandler}
               title="Pending Documents"
               files="pending"
+              userInfo={state.userInfo}
             />
           )}
         />
@@ -198,6 +218,7 @@ export default withRouter(function App() {
               onLogout={logoutHandler}
               title="Not Approved Documents"
               files="notaprove"
+              userInfo={state.userInfo}
             />
           )}
         />
@@ -208,6 +229,7 @@ export default withRouter(function App() {
             <SubmitDocPage
               {...props}
               onLogout={logoutHandler}
+              userInfo={state.userInfo}
             />
           )}
         />

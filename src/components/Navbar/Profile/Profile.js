@@ -11,9 +11,11 @@ export default function Profile(props) {
   const [LocationPath, setUseLocation] = useState(useLocation().pathname);
   useEffect(() => {
     async function userInform() {
-      const userID = localStorage.getItem('userID');
-      let userInfo = await getUserInfo(userID);
-      setUserInfo(userInfo);
+      // const userID = localStorage.getItem('userID');
+      // let userInfo = await getUserInfo(userID);
+      console.log(props.userInfo);
+
+      setUserInfo(props.userInfo);
       setLoading(false);
     }
     userInform();

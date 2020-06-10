@@ -24,7 +24,7 @@ export default function Navbar(props) {
             return <Shortcut key={index} shortcut={shortcut} />;
           })}
         </div>
-        <Profile onLogout={props.onLogout}/>
+        <Profile onLogout={props.onLogout} userInfo={props.userInfo} />
       </div>
       <hr />
     </>

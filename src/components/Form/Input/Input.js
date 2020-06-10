@@ -3,19 +3,14 @@ import React from 'react';
 import './Input.css';
 
 const input = (props) => (
-  <div
-    className={[
-      'input',
-      props.newClasses
-    ].join(' ')}
-  >
+  <div className={['input', props.newClasses].join(' ')}>
     {props.label && <label htmlFor={props.id}>{props.label}</label>}
     {props.control === 'input' && (
       <input
         className={[
           'uk-input',
           !props.valid ? 'invalid' : 'valid',
-          props.touched ? 'touched' : 'untouched'
+          props.touched ? 'touched' : 'untouched',
         ].join(' ')}
         type={props.type}
         id={props.id}
@@ -45,24 +40,25 @@ const input = (props) => (
       />
     )}
     {props.control === 'select' && (
-      <select class="uk-select"
-      className={[
-        'uk-input',
-        !props.valid ? 'invalid' : 'valid',
-        props.touched ? 'touched' : 'untouched'
-      ].join(' ')}
-      id={props.id}
-      required={props.required}
-      placeholder={props.placeholder}
-      onBlur={props.onBlur}
-      disabled={props.disabled}
+      <select
+        class="uk-select"
+        className={[
+          'uk-input',
+          !props.valid ? 'invalid' : 'valid',
+          props.touched ? 'touched' : 'untouched',
+        ].join(' ')}
+        id={props.id}
+        required={props.required}
+        placeholder={props.placeholder}
+        onBlur={props.onBlur}
+        disabled={props.disabled}
       >
         {props.options.map((option, index) => {
-          return(
-            <option
-              key={index}>{option}
+          return (
+            <option key={index} selected={props.value === option}>
+              {option}
             </option>
-          )
+          );
         })}
       </select>
     )}
