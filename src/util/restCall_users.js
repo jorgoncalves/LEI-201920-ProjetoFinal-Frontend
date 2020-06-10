@@ -1,4 +1,4 @@
-import { userInfo } from './restAddress';
+import { userInfo, getCountries } from './restAddress';
 
 export const getUserInfo = async (id) => {
   const tempResp = await fetch(userInfo + id, {
@@ -34,6 +34,37 @@ export const getUserInfo = async (id) => {
     return error.message;
   }
 };
+
+export const getCountriesList = async () => {
+  const tempResp = await fetch(getCountries, {
+    method: 'GET',
+  });
+
+  const resp = await tempResp.json();
+
+  try {
+    if (resp.status !== 200 && resp.status !== 201) {
+      console.log('Error!');
+      throw new Error('Could request Countries List!');
+    }
+    console.log(resp);
+
+    return {
+      resp
+    };
+  } catch (error) {
+    //   UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
+    //   setState({
+    //     token: null,
+    //     tokenInfo: null,
+    //     authLoading: false,
+    //     error: error,
+    //  });
+    return {error:error.message,
+            status:500
+          };
+  }
+}
 
 // exports.updateCliente = async (data) => {
 //   const response = await axios(`${constants.clients}/${data._id}`, {

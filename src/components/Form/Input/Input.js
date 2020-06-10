@@ -44,6 +44,28 @@ const input = (props) => (
         onBlur={props.onBlur}
       />
     )}
+    {props.control === 'select' && (
+      <select class="uk-select"
+      className={[
+        'uk-input',
+        !props.valid ? 'invalid' : 'valid',
+        props.touched ? 'touched' : 'untouched'
+      ].join(' ')}
+      id={props.id}
+      required={props.required}
+      placeholder={props.placeholder}
+      onBlur={props.onBlur}
+      disabled={props.disabled}
+      >
+        {props.options.map((option, index) => {
+          return(
+            <option
+              key={index}>{option}
+            </option>
+          )
+        })}
+      </select>
+    )}
   </div>
 );
 

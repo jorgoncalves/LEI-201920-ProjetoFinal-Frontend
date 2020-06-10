@@ -1,0 +1,12 @@
+.userPopup{
+  padding: .5rem 1rem;
+  width: fit-content;
+  height: fit-content;
+  display: inline-block;
+  margin: .3rem .3rem .5rem;
+  border-radius: 2rem;
+  border: 1px solid;
+  background-color: white;
+  color: #333;
+  font-weight: 400;
+}

@@ -1,0 +1,46 @@
+.userSelect{
+ width: min-content;
+}
+
+/* .userSelect:focus:focus-within .userInputDropdown  {
+  display: block;
+}*/
+
+/* .userInputDropdown:focus {
+  width: 500px;
+  height:40px;
+  display: block;
+  transition: display 500ms;
+}*/
+/* .userInput:focus-within .userInputDropdown {
+  width: 500px;
+  height:40px;
+  display: block;
+  transition: display 500ms;
+} */
+
+.userInputDropdown{
+  position: absolute;
+  display: none;
+  z-index:10;
+}
+
+.selection{
+  transition: .5s background-color;
+  width: 500px;
+  height:40px;
+}
+.selection:hover{
+  transition: .5s;
+  background-color: lightgray;
+}
+
+.iconActUser{
+  margin-left: .3rem;
+}
+
+@keyframes cssAnimation {
+  0% {}
+  99%{opacity:0}
+  100%   { display: none; }
+}

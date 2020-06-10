@@ -11,10 +11,11 @@ const button = (props) =>
   !props.link ? (
     <button
       className={[
-        'uk-margin uk-button uk-button-default',
+        'uk-button uk-button-default',
         'button',
         `button--${props.design}`,
         `button--${props.mode}`,
+        props.newClasses
       ].join(' ')}
       onClick={props.onClick}
       disabled={props.disabled || props.loading}

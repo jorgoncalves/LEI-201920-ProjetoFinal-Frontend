@@ -15,6 +15,7 @@ import Home from './pages/KeepIt/Home';
 import ProfilePage from './pages/KeepIt/ProfilePage';
 import DepartmentPage from './pages/KeepIt/DepartmentPage';
 import DocsPage from './pages/KeepIt/DocsPage';
+import SubmitDocPage from './pages/KeepIt/SubmitDocPage';
 
 import { loginAddress, userInfo } from './util/restAddress';
 
@@ -197,6 +198,16 @@ export default withRouter(function App() {
               onLogout={logoutHandler}
               title="Not Approved Documents"
               files="notaprove"
+            />
+          )}
+        />
+        <Route
+          path="/newDoc"
+          exact
+          render={(props) => (
+            <SubmitDocPage
+              {...props}
+              onLogout={logoutHandler}
             />
           )}
         />
