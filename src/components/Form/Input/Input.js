@@ -36,11 +36,13 @@ const input = (props) => (
           'uk-textarea',
           !props.valid ? 'invalid' : 'valid',
           props.touched ? 'touched' : 'untouched',
+          props.newInputClasses
         ].join(' ')}
         id={props.id}
         rows={props.rows}
         required={props.required}
         value={props.value}
+        placeholder={props.placeholder}
         onChange={(e) => props.onChange(props.id, e.target.value)}
         onBlur={props.onBlur}
       />
@@ -52,6 +54,7 @@ const input = (props) => (
           'uk-input',
           !props.valid ? 'invalid' : 'valid',
           props.touched ? 'touched' : 'untouched',
+          props.newInputClasses
         ].join(' ')}
         id={props.id}
         required={props.required}

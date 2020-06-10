@@ -134,7 +134,7 @@ function Login(props) {
             label="Your E-Mail"
             type="email"
             control="input"
-            newClasses="uk-margin"
+            newDivClasses="uk-margin"
             onChange={inputChangeHandler}
             onBlur={inputBlurHandler.bind(this, 'email')}
             value={state.loginForm['email'].value}
@@ -146,7 +146,7 @@ function Login(props) {
             label="Password"
             type="password"
             control="input"
-            newClasses="uk-margin"
+            newDivClasses="uk-margin"
             onChange={inputChangeHandler}
             onBlur={inputBlurHandler.bind(this, 'password')}
             value={state.loginForm['password'].value}

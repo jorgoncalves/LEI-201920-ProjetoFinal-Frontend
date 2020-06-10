@@ -157,7 +157,7 @@ export default function LayoutPage(props) {
                     id="name"
                     type="text"
                     control="input"
-                    newClasses="inlineB5 usr_info_put uk-margin-remove-top uk-margin-small-bottom"
+                    newDivClasses="inlineB5 usr_info_put uk-margin-remove-top uk-margin-small-bottom"
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler.bind(this, 'name')}
                     value={state.userInfo_form.name.value}
@@ -184,7 +184,7 @@ export default function LayoutPage(props) {
                     id="country"
                     type="select"
                     control="select"
-                    newClasses="inlineB5 usr_info_put uk-margin-remove-top"
+                    newDivClasses="inlineB5 usr_info_put uk-margin-remove-top"
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler.bind(this, 'country')}
                     value={state.userInfo_form.country.value}
@@ -201,7 +201,7 @@ export default function LayoutPage(props) {
                     type="number"
                     control="input"
                     placeholder={isDisabled ? 'NA' : 'Code'}
-                    newClasses="inlineB1 usr_info_put uk-margin-remove-top"
+                    newDivClasses="inlineB1 usr_info_put uk-margin-remove-top"
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler.bind(this, 'country_code')}
                     value={state.userInfo_form.country_code.value}
@@ -212,7 +212,7 @@ export default function LayoutPage(props) {
                     type="number"
                     control="input"
                     placeholder={isDisabled ? '' : 'Phone Number'}
-                    newClasses="inlineB3 usr_info_put uk-margin-remove-top"
+                    newDivClasses="inlineB3 usr_info_put uk-margin-remove-top"
                     onChange={inputChangeHandler}
                     onBlur={inputBlurHandler.bind(this, 'country_code')}
                     value={state.userInfo_form.phone_number.value}
@@ -234,13 +234,14 @@ export default function LayoutPage(props) {
                 onClick={isDisabled ? editable.bind(this) : null}
                 children={isDisabled ? `Edit Profile` : `Save`}
                 newClasses="uk-margin-small-right"
-              ></Button>
+              />
 
               {!isDisabled && (
                 <Button
                   onClick={editable.bind(this)}
                   children="Cancel"
-                ></Button>
+                  newClasses="uk-margin-small-right"
+                />
               )}
             </div>
           </div>

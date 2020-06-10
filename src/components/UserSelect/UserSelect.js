@@ -6,49 +6,49 @@ import UserPopup from './UserPopup/UserPopup';
 
 export default function Profile(props) {
 
-  const addSelectedUser = (user , event) => {
+  const addSelected = (user , event) => {
     event.target.parentElement.style.display="none";
 
-    console.log(user.userID)
-    props.selectUser([...props.selectedUsers,user])
-    console.log(props.selectedUsers);
+    props.select([...props.selected,user]);
 
-    props.setUserInfo([...props.userInfo.filter(u => u.userID != user.userID)])
+    props.setInfo([...props.Info.filter(u => u.userID != user.userID)]);
   }
 
-  const removeSelectedUser = (user, event) => {
+  const removeSelected = (user, event) => {
     console.log("info",event);
 
-    console.log(user.userID)
-    props.selectUser([...props.selectedUsers.filter(u => u.userID != user.userID)])
-    console.log(props.selectedUsers);
+    console.log(user.userID);
+    props.select([...props.selected.filter(u => u.userID != user.userID)]);
+    console.log(props.selected);
 
-    props.setUserInfo([...props.userInfo,user])
+    props.setInfo([...props.Info,user]);
   }
 
-  const showUserList = (e) => {
-    e.target.parentElement.children[1].style.display="block"
-    props.setUnFocus(e.target.parentElement.children[1])
+  const showList = (e) => {
+    e.target.parentElement.children[1].style.display="block";
+    props.setUnFocus([...props.toUnFocus,e.target.parentElement.children[1]]);
+    console.log(e.target.parentElement.children[1]);
+    console.log(props.toUnFocus);
   }
   return (
     <>
       {props.loading ? null : (
         <div className="uk-margin userSelect">
-          {props.selectedUsers.map((user, index) => {
-            console.log("teste")
+          {props.selected.map((user, index) => {
             return(
               <UserPopup key={index} user={user}>
-                <i className="iconActUser" uk-icon="icon: close;" onClick={removeSelectedUser.bind(this, user)}></i>
+                <i className="iconActUser" uk-icon="icon: close;" onClick={removeSelected.bind(this, user)}></i>
               </UserPopup>
             );
           })
           }
           <div className="userInput">
-            <input className="uk-input uk-form-width-large textInput" type="text" placeholder={props.title} onFocus={showUserList.bind(this)}/>
+            <input className="uk-input uk-form-width-large textInput" type="text" placeholder={props.title} onFocus={showList.bind(this)}/>
             <div className="userInputDropdown userSelect">
-              {props.userInfo.map((user, index) => {
+              {
+              props.Info.map((user, index) => {
                 return(
-                  <div className="uk-input uk-form-width-large selection" key={index} onClick={addSelectedUser.bind(this, user)}>
+                  <div className="uk-input uk-form-width-large selection" key={index} onClick={addSelected.bind(this, user)}>
                     {user.name}
                   </div>
                 );
