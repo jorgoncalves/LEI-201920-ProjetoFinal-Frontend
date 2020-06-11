@@ -180,7 +180,7 @@ export default withRouter(function App() {
               title="Documents for Use"
               files="use"
               userInfo={state.userInfo}
-              docStatus="use"
+              docStatus="approved"
             />
           )}
         />
@@ -194,7 +194,7 @@ export default withRouter(function App() {
               title="Documents for Approval"
               files="aprove"
               userInfo={state.userInfo}
-              docStatus="aprove"
+              docStatus="forapproval"
             />
           )}
         />
@@ -213,7 +213,7 @@ export default withRouter(function App() {
           )}
         />
         <Route
-          path="/notAprovDocs"
+          path="/notApprovDocs"
           exact
           render={(props) => (
             <DocsPage
@@ -221,7 +221,7 @@ export default withRouter(function App() {
               onLogout={logoutHandler}
               title="Not Approved Documents"
               files="notaprove"
-              docStatus="notaprove"
+              docStatus="notapproved"
               userInfo={state.userInfo}
             />
           )}
