@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import './Modal.css';
 
+import Button from '../../Button/Button';
+
 export default function ModalNotification(props) {
 //   const [state, setState] = useState({
 //     pageNotification: 0,
@@ -49,7 +51,12 @@ export default function ModalNotification(props) {
               <p>{props.notifShow.notification.description}</p>
             </div>
             <div className="uk-card-footer">
-                TESTE
+            <Button
+                link="#"
+                border=""
+                children="Submit"
+                newClasses="uk-margin-small-top uk-margin-small-left"
+            />
             </div>
         </div>
     </div>

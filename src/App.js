@@ -16,6 +16,7 @@ import ProfilePage from './pages/KeepIt/ProfilePage';
 import DepartmentPage from './pages/KeepIt/DepartmentPage';
 import DocsPage from './pages/KeepIt/DocsPage';
 import SubmitDocPage from './pages/KeepIt/SubmitDocPage';
+import DetailDocPage from './pages/KeepIt/DetailDocPage';
 
 import { loginAddress, userInfo } from './util/restAddress';
 import { getUserInfo } from './util/restCall_users';
@@ -231,6 +232,18 @@ export default withRouter(function App() {
           exact
           render={(props) => (
             <SubmitDocPage
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+
+        <Route
+          path="/records/"
+          exact
+          render={(props) => (
+            <DetailDocPage
               {...props}
               onLogout={logoutHandler}
               userInfo={state.userInfo}

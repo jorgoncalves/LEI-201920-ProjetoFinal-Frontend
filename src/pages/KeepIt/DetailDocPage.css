@@ -1,0 +1,51 @@
+.detailBox{
+    width: 95%;
+    margin: auto;
+}
+.max-height{
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.leftBox{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 40%;
+    vertical-align: top;
+}
+.rightBox{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 60%;
+    vertical-align: top;
+}
+
+.spanText{
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+
+@media screen and (max-width: 800px) {
+    .detailBox{
+        width: 95%;
+        margin: auto;
+    }
+    
+    .leftBox{
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    .rightBox{
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+}

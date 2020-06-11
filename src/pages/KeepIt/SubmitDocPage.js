@@ -13,6 +13,7 @@ export default function LayoutPage(props) {
   const [loading, setLoading] = useState(true);
   const [clicks, setClicks] = useState(0);
   const [userInfo, setUserInfo] = useState();
+  const [approvingList, setApprovingList] = useState();
   const [selectedUsersEdit, selectUserEdit] = useState([]);
   const [selectedUsersRead, selectUserRead] = useState([]);
   const [departs, setDeparts] = useState();
@@ -27,10 +28,10 @@ export default function LayoutPage(props) {
     }else{ if(toUnFocus.length>0){setClicks(clicks+1);}}
   };
 
-  useEffect( async () => {
-
+  async function load(){
     const userID = localStorage.getItem('userID');
     let userTemp = await getAllUserInfo();
+    setApprovingList(userTemp);
     setUserInfo(userTemp.data.filter((u) => u.userID != userID));
 
     setDeparts([{
@@ -49,18 +50,25 @@ export default function LayoutPage(props) {
       departmentID:5,
       name:"testesE"
     }]);
+  }
 
+  async function caller(){
+    await load();
     setLoading(false);
+  }
+
+  useEffect(() => {
+    caller();
   }, []);
 
   return (
     <>
       <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
-      <div className="profileBox">
+      <div className="submitBox">
         <h2 className="uk-heading-divider uk-margin-medium-bottom">
           Submit new File
         </h2>
-        <div className="profileBox" onClick={unfoc}>
+        <div className="submitBox" onClick={unfoc}>
           <form>
             <Input
               id="name"
@@ -80,7 +88,7 @@ export default function LayoutPage(props) {
                   disabled
                 />
               </div>
-              <label><input class="uk-checkbox uk-margin-medium-left" type="checkbox"/> This document has a model document</label>
+              <label><input className="uk-checkbox uk-margin-medium-left" type="checkbox"/> This is a model document</label>
             </div>
             <UserSelect
               title="Select Users to Edit the Document"
@@ -103,9 +111,9 @@ export default function LayoutPage(props) {
               setUnFocus={setUnFocus}
             />
             <div>
-              <label><input class="uk-checkbox uk-margin-small-left" type="checkbox"/> Public</label>
-              <label><input class="uk-checkbox uk-margin-medium-left" type="checkbox"/> External</label>
-              <label><input class="uk-checkbox uk-margin-medium-left" type="checkbox" checked="true"/> This document will have records</label>
+              <label><input className="uk-checkbox uk-margin-small-left" type="checkbox"/> Public</label>
+              <label><input className="uk-checkbox uk-margin-medium-left" type="checkbox"/> External</label>
+              <label><input className="uk-checkbox uk-margin-medium-left" type="checkbox" checked="true"/> This document will have records</label>
             </div>
             <UserSelect
               title="Select a/multiple Departments to associate the Document"
@@ -126,7 +134,16 @@ export default function LayoutPage(props) {
               newInputClasses="uk-form-width-large"
               required={true}
             />
-            FALTA O USER DE APROVAÇÃO!!!
+            EM FALTA APPROVING USER
+            {/* <Input
+              id="approvingUser"
+              type="select"
+              control="selectUser"
+              newDivClasses="inlineB5 usr_info_put uk-margin-remove-top"
+              placeholder="Select an Approving User for the document"
+              options={approvingList}
+            />
+            {console.log("approve",approvingList)} */}
             <Button
                 children="Save"
                 newClasses="uk-margin-small-top uk-margin-small-right uk-margin-small-left"
