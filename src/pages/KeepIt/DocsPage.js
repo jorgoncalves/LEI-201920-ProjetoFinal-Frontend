@@ -6,8 +6,10 @@ import Navbar from '../../components/Navbar/Navbar';
 import DocsShow from '../../components/DocsShow/DocsShow';
 
 import { getDocsUser } from '../../util/restCall_Docs';
+import Loading from '../../components/Loading/Loading';
 
 export default function useDocsPage(props) {
+  const [loading, setLoading] = useState(true);
   const [state, setState] = useState({
     use_files: [
       {
@@ -62,13 +64,15 @@ export default function useDocsPage(props) {
       },
     ],
   });
-
-  const fls = props.files == 'use' ? state.use_files : state.to_aprove_files;
+  const [docs, setDocs] = useState([]);
+  const fls = props.files === 'use' ? state.use_files : state.to_aprove_files;
 
   useEffect(() => {
     const userID = localStorage.getItem('userID');
     async function getInitialData() {
-      const documents = await getDocsUser(userID, props.docStatus);
+      const resp = await getDocsUser(userID, props.docStatus);
+      setDocs(resp.data.documents);
+      setLoading(false);
     }
     getInitialData();
   }, []);
@@ -76,28 +80,44 @@ export default function useDocsPage(props) {
   return (
     <>
       <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
-      <div className="DocsBox">
-        <h2 className="uk-heading-divider uk-margin-medium-bottom">
-          {props.title}
-        </h2>
+      {loading ? (
+        <Loading />
+      ) : (
         <div className="DocsBox">
-          <table className="uk-table uk-table-striped">
-            <thead>
-              <tr>
-                <th>Public</th>
-                <th>File Name</th>
-                <th>External</th>
-                <th>Size</th>
-              </tr>
-            </thead>
-            <tbody>
-              {fls.map((file, index) => {
-                return <DocsShow key={index} file={file} />;
+          <h2 className="uk-heading-divider uk-margin-medium-bottom">
+            {props.title}
+          </h2>
+          <div className="DocsBox">
+            {/* <ul className="uk-list uk-list-striped"> */}
+            {/* <li> */}
+            <div className="docsListContainer listHeaders">
+              <div className="docsListChild">Name</div>
+              <div className="docsListChild">Actions</div>
+              <div className="docsListChild">Public</div>
+              <div className="docsListChild">External</div>
+              <div className="docsListChild">Size</div>
+              <div className="docsListChild">Access type</div>
+              <div className=""></div>
+            </div>
+            {/* </li> */}
+            {/* </ul> */}
+            <ul
+              className="uk-list uk-list-striped  uk-margin-remove-top"
+              uk-accordion="true"
+            >
+              {docs.map((file, index) => {
+                return (
+                  <DocsShow
+                    key={index}
+                    file={file}
+                    docStatus={props.docStatus}
+                  />
+                );
               })}
-            </tbody>
-          </table>
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

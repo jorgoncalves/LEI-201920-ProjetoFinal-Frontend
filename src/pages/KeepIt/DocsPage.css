@@ -1,4 +1,19 @@
-.DocsBox{
-    width: 95%;
-    margin: auto;
+.DocsBox {
+  width: 95%;
+  margin: auto;
+}
+
+.docsListContainer {
+  display: flex;
+}
+
+.docsListChild {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.listHeaders {
+  padding: 0 10px;
+  font-weight: 700;
+  font-size: calc(1rem + 0.08rem);
 }

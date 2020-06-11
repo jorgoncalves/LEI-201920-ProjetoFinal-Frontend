@@ -44,7 +44,7 @@ const input = (props) => (
     )}
     {props.control === "select" && (
       <select
-        class="uk-select"
+        className="uk-select"
         className={[
           "uk-input",
           !props.valid ? "invalid" : "valid",
@@ -52,14 +52,15 @@ const input = (props) => (
           props.newInputClasses,
         ].join(" ")}
         id={props.id}
-        {...(props.required ? `required=${props.required}` : "")}
+        required={props.required}
         placeholder={props.placeholder}
         onBlur={props.onBlur}
-        {...(props.disabled ? `disabled=${props.disabled}` : "")}
+        disabled={props.disabled}
+        defaultValue={props.value}
       >
         {props.options.map((option, index) => {
           return (
-            <option key={index} selected={props.value === option}>
+            <option key={index} >
               {option}
             </option>
           );

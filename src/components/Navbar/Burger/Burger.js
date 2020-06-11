@@ -28,9 +28,9 @@ export default function Burger() {
             <Link to="/penDocs">Documentos pendentes</Link>
           </li>
           <li
-            className={useLocation().pathname == '/notAprovDocs' ? 'actv' : ''}
+            className={useLocation().pathname == '/notApprovDocs' ? 'actv' : ''}
           >
-            <Link to="/notAprovDocs">Documentos reprovados</Link>
+            <Link to="/notApprovDocs">Documentos reprovados</Link>
           </li>
           <li className="uk-nav-divider"></li>
           <li className={useLocation().pathname == '/newDoc' ? 'actv' : ''}>

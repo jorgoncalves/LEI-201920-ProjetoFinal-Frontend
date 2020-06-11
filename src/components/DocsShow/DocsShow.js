@@ -1,22 +1,77 @@
 import React from 'react';
+import UIkit from 'uikit';
+import FileViewer from 'react-file-viewer';
 import { Link } from 'react-router-dom';
 
 import './DocsShow.css';
+
+import { geFile } from '../../util/restAddress';
+import Icon from '../Icon/Icon';
 // Exemplo de como chamar o componente no destino e passar as funcionalidades/aspecto
 // <Button design="raised" type="submit" loading={this.props.loading}>
 // Login
 // </Button>
 
-
 export default function DocsShow(props) {
   return (
-    <>
-      <tr>
-          <td>{props.file.is_public ? 'SIM' : 'NAO'}</td>
-          <td>{props.file.file_name}</td>
-          <td>{props.file.is_external ? 'SIM' : 'NAO'}</td>
-          <td>{props.file.size}</td>
-      </tr>
-    </>
+    <li className="listContainer">
+      <a className="docsListChild uk-accordion-title" href="#"></a>
+      <div className="docsListContainer">
+        <div className="docsListChild docNameContainer">
+          {props.docStatus === 'pending' ? (
+            <Link
+              to={{
+                pathname: '/newDoc',
+                state: {
+                  from: '/penDocs',
+                  file: props.file,
+                },
+              }}
+            >
+              {props.file.name}
+            </Link>
+          ) : (
+            props.file.name
+          )}
+        </div>
+        <div className="docsListChild">
+          {props.file.isModelFile && (
+            <Icon icon="download" link={`${geFile}?path=${props.file.path}`} />
+          )}
+          {props.file.has_records && (
+            <Icon icon="album" link={`/records/${props.file.documentID}`} />
+          )}
+        </div>
+        <div className="docsListChild">
+          <Icon
+            type="span"
+            icon={props.file.is_public ? 'check' : 'close'}
+            class="uk-margin-left"
+          />
+        </div>
+        <div className="docsListChild">
+          <Icon
+            type="span"
+            icon={props.file.is_external ? 'check' : 'close'}
+            class="uk-margin-left"
+          />
+        </div>
+        <div className="docsListChild">{props.file.size}</div>
+        <div className="docsListChild">
+          {props.file.type_access === 1 ? 'Full access' : 'Read only'}
+        </div>
+      </div>
+      <div className="uk-accordion-content">
+        <div className="uk-text-bold">Description:</div>
+        {props.file.description}
+        <div>
+          {/* <object data="http://localhost:8080/filexplorer/getFile?path=FileStorage/Reclamações/1/IMG1.png" /> */}
+          <FileViewer
+            filePath={`${geFile}?path=FileStorage/Reclamações/3/Docx1.docx`}
+            fileType="docx"
+          />
+        </div>
+      </div>
+    </li>
   );
 }

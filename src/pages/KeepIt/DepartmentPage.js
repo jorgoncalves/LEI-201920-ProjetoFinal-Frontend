@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import UserCard from '../../components/UserCard/UserCard';
 import './DepartmentPage.css';
+import Loading from '../../components/Loading/Loading';
 
 const { getUserDepartColleagues } = require('../../util/restCall_departs');
 
@@ -28,9 +29,11 @@ export default function LayoutPage(props) {
 
   return (
     <>
-      {loading ? null : (
-        <>
-          <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
+      <>
+        <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
+        {loading ? (
+          <Loading />
+        ) : (
           <div className="profileBox">
             <ul uk-tab="true" uk-switcher="animation: uk-animation-fade">
               {departColleagues.map((depart, index) => {
@@ -65,8 +68,8 @@ export default function LayoutPage(props) {
               })}
             </div>
           </div>
-        </>
-      )}
+        )}
+      </>
     </>
   );
 }

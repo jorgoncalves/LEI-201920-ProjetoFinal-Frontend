@@ -13,7 +13,6 @@ export default function Profile(props) {
     async function userInform() {
       // const userID = localStorage.getItem('userID');
       // let userInfo = await getUserInfo(userID);
-      console.log(props.userInfo);
 
       setUserInfo(props.userInfo);
       setLoading(false);

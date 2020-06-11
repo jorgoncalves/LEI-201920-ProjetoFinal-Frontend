@@ -1,5 +1,22 @@
 import { userInfo, getCountries } from './restAddress';
 
+export const updateUserInfo = async (id, data) => {
+  console.log(data);
+  try {
+    const tempResp = await fetch(userInfo + id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return await tempResp.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 export const getUserInfo = async (id) => {
   const tempResp = await fetch(userInfo + id, {
     method: 'GET',
@@ -48,8 +65,6 @@ export const getCountriesList = async () => {
       console.log('Error!');
       throw new Error('Could request Countries List!');
     }
-    console.log(resp);
-
     return [...resp];
   } catch (error) {
     //   UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
