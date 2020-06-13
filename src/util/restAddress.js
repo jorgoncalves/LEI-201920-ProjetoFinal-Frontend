@@ -4,11 +4,14 @@ const base = 'http://localhost:8080';
 module.exports = Object.freeze({
   loginAddress: `${base}/auth/login`,
   userInfo: `${base}/user/`,
-  baseDocs: `${base}/docs`,
   getDocs: `${base}/docs/getDocs`,
+  getDocDepart: `${base}/docs/getDocDepart`,
+  getDocsPermissions: `${base}/docs/getDocsPermissions`,
   getDepartColleagues: `${base}/depart/userDepartColleagues/`,
   getDocumentForUser: `${base}/docs/:idUser/:stateDoc`,
   getCountries: `https://restcountries.eu/rest/v2/all`,
   geFile: `${base}/filexplorer/getFile`,
   getAllDeparts: `${base}/depart`,
+  insertDoc: `${base}/docs/insertDoc`,
+  updateDoc: `${base}/docs`
 });

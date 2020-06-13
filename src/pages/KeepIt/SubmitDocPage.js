@@ -14,28 +14,43 @@ import {
   getDocsUser,
   getAllDepartments,
   getDocDepartPermissions,
+  getDocsOnly,
+  insertDocument,
+  updateDocument,
 } from '../../util/restCall_Docs';
 
 import { required } from '../../util/validators';
 
-export default function LayoutPage(props) {
+export default function SubmitDocPage(props) {
   const [userID] = useState(localStorage.getItem('userID'));
   const [loading, setLoading] = useState(true);
+  const [respLoading, setRespLoading] = useState(false);
+  const [saveDisabled, setSaveDisabled] = useState(true);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [saveValidation, setSaveValidation] = useState({
+    documentName: false,
+    file: false,
+  });
+  const [submitValidation, setSubmitValidation] = useState({
+    documentName: false,
+    file: false,
+    description: false,
+    approvingUserList: false,
+    selectedUsersRead: false,
+    selectedUsersEdit: false,
+    selectedDeparts: false,
+  });
   const [clicks, setClicks] = useState(0);
   const [userInfo, setUserInfo] = useState();
   const [approvingUserList, setApprovingUserList] = useState([]);
-  const [departs, setDeparts] = useState();
+  const [departs, setDeparts] = useState([]);
   const [toUnFocus, setUnFocus] = useState([]);
   const [selectedUsersRead, setSelectUserRead] = useState([]);
   const [selectedUsersEdit, setSelectUserEdit] = useState([]);
   const [selectedDeparts, setSelectDepart] = useState([]);
   const [docApprovingUserID, setApprovingUserID] = useState({});
-  const [docName, setDocName] = useState({
-    value: '',
-    valid: false,
-    touched: false,
-    validators: [required],
-  });
+  const [docsNameList, setDocsNameList] = useState([]);
+  const [docName, setDocName] = useState({ name: '', userID: '' });
   const [docDescription, setDocDescription] = useState({
     value: '',
     valid: false,
@@ -44,8 +59,10 @@ export default function LayoutPage(props) {
   });
   const [docIsPublic, setDocIsPublic] = useState(false);
   const [docIsExternal, setDocIsExternal] = useState(false);
-  const [docHasRecords, setDocHasRecords] = useState(false);
+  const [docHasRecords, setDocHasRecords] = useState(true);
   const [docIsModel, setDocIsModel] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [addNew, setAddNew] = useState(false);
 
   const unfoc = () => {
     if (toUnFocus.length > 0 && clicks > 0) {
@@ -66,7 +83,8 @@ export default function LayoutPage(props) {
     let userTemp = await getAllUserInfo();
     console.log(userTemp);
     setApprovingUserList(userTemp.data);
-    setUserInfo(userTemp.data.filter((u) => u.userID != userID));
+    // setUserInfo(userTemp.data.filter((u) => u.userID != userID));
+    setUserInfo(userTemp.data);
   };
 
   const getAllDeparts = async () => {
@@ -75,37 +93,139 @@ export default function LayoutPage(props) {
     setDeparts([...allDepartments]);
   };
 
+  const getAllDocsInfo = async () => {
+    let allDocs = await getDocsOnly(null, ['pending', 'approving'], null);
+    allDocs = allDocs.data.documents;
+    console.log(allDocs);
+
+    setDocsNameList(allDocs);
+  };
+  const pendingAllUsersInfo = async () => {
+    let userTemp = await getAllUserInfo();
+    console.log(userTemp);
+    // setUserInfo(userTemp.data.filter((u) => u.userID != userID));
+    // setUserInfo(userTemp.data);
+    return userTemp.data;
+  };
+
+  const pendingAllDeparts = async () => {
+    let allDepartments = await getAllDepartments();
+    allDepartments = allDepartments.data.respFind;
+    return allDepartments;
+  };
+
+  const pendingAllDocsInfo = async () => {
+    let allDocs = await getDocsOnly(null, ['pending', 'approving'], null);
+    allDocs = allDocs.data.documents;
+    // console.log(allDocs);
+    return allDocs;
+    // setDocsNameList(allDocs);
+  };
+
   const pendingInfo = async () => {
     const documentID = props.location.state.file.documentID;
+    const documentName = props.location.state.file.name;
     let documentsPermissions = await getDocsUser(null, null, documentID);
     documentsPermissions = documentsPermissions.data.documents;
-    setApprovingUserID(...props.location.state.file.approving_userID);
+    let userInfo = await pendingAllUsersInfo();
+
+    let allDocs = await pendingAllDocsInfo();
+    setDocName((prevState) => {
+      const tempDoc = allDocs.find((doc) => doc.name === documentName);
+      setAddNew(true);
+      allDocs = allDocs.filter((doc) => doc.name !== documentName);
+      return tempDoc;
+    });
+    setDocsNameList(allDocs);
+    // selected={docName}
+    // select={setDocName}
+    // Info={docsNameList}
+    // setInfo={setDocsNameList}
+
+    let tempApprovingUserList = userInfo;
+    setApprovingUserID((prevState) => {
+      const approvID = props.location.state.file.approving_userID;
+      const approvUserData = userInfo.find((u) => u.userID === approvID);
+      console.log(approvUserData);
+      tempApprovingUserList = tempApprovingUserList.filter(
+        (u) => u.userID !== approvID
+      );
+      return approvUserData;
+    });
+    setApprovingUserList(tempApprovingUserList);
+    // selected={docApprovingUserID}
+    // select={setApprovingUserID}
+    // Info={approvingUserList}
+    // setInfo={setApprovingUserList}
+    userInfo = userInfo.filter((u) => u.userID !== userID);
+    const tempUserEditList = [];
+    const tempUserReadList = [];
     for (let i = 0; i < documentsPermissions.length; i++) {
       const element = documentsPermissions[i];
-      if (element.type_access === 1)
-        setSelectUserEdit((prevState) => [...prevState, element.userID]);
+      if (element.type_access === 1) {
+        console.log(element);
+        console.log(userInfo);
+
+        const userData = userInfo.find((u) => u.userID === element.userID);
+        console.log(userData);
+        if (userData !== undefined) tempUserEditList.push(userData);
+        if (userData !== undefined)
+          userInfo = userInfo.filter((u) => u.userID !== element.userID);
+      }
+
+      if (element.type_access === 2) {
+        const userData = userInfo.find((u) => u.userID === element.userID);
+        console.log(userData);
+        if (userData !== undefined) tempUserReadList.push(userData);
+        if (userData !== undefined)
+          userInfo = userInfo.filter((u) => u.userID !== element.userID);
+      }
+    }
+    setSelectUserEdit(tempUserEditList);
+    setSelectUserRead(tempUserReadList);
+    for (let i = 0; i < documentsPermissions.length; i++) {
+      const element = documentsPermissions[i];
+      if (element.type_access === 2)
+        setSelectUserRead((prevState) => {
+          console.log(prevState);
+          console.log(element);
+          console.log(userInfo);
+
+          const userData = userInfo.find((u) => u.userID === element.userID);
+          userInfo = userInfo.filter((u) => u.userID === element.userID);
+          return [...prevState, userData];
+        });
       if (
         element.type_access === 2 &&
         element.approving_userID !== element.userID
       )
-        setSelectUserRead((prevState) => [...prevState, element.userID]);
+        setSelectUserRead((prevState) => [...prevState, element]);
     }
+    console.log(userInfo.filter((u) => u.userID !== userID));
 
+    setUserInfo(userInfo.filter((u) => u.userID !== userID));
     let docDepartPermissions = await getDocDepartPermissions(documentID);
+    let allDeparts = await pendingAllDeparts();
     docDepartPermissions = docDepartPermissions.data.docPermisions;
-    setDeparts((prevState) => {
-      const oldSelectedDeparts = docDepartPermissions.map(
-        (perm) => perm.departmentID
-      );
-      console.log(oldSelectedDeparts);
+    setSelectDepart((prevState) => {
+      const oldSelectedDeparts = docDepartPermissions.map((perm) => perm);
+      const departsData = oldSelectedDeparts.map((department) => {
+        const temp = allDeparts.find(
+          (depart) => depart.departmentID === department.departmentID
+        );
+        allDeparts = allDeparts.filter(
+          (depart) => depart.departmentID !== department.departmentID
+        );
+        return temp;
+      });
 
-      console.log(prevState);
-
-      const updatedDeparts = [...prevState, ...oldSelectedDeparts];
+      const updatedDeparts = [...prevState, ...departsData];
       console.log(updatedDeparts);
-
       return updatedDeparts;
     });
+    console.log(allDeparts);
+
+    setDeparts(allDeparts);
     // clean up dos departamentos já selecionados
 
     console.log(props.location.state.file.description);
@@ -128,13 +248,16 @@ export default function LayoutPage(props) {
   };
 
   const functionsCallers = async () => {
-    await getAllDeparts();
-    await getAllUsersInfo();
     if (
       props.location.state !== undefined &&
       props.location.state.from === '/penDocs'
     )
       await pendingInfo();
+    else {
+      await getAllDeparts();
+      await getAllUsersInfo();
+      await getAllDocsInfo();
+    }
     setLoading(false);
   };
 
@@ -157,37 +280,83 @@ export default function LayoutPage(props) {
     if (input === 'isModel') setDocIsModel(e.target.checked);
   };
 
-  const inputChangeHandler = (input, value) => {
-    if (input === 'name')
+  const inputChangeHandler = (input, value, addNew) => {
+    console.log();
+
+    if (input === 'name' && !addNew) {
+      setDocName({ name: value });
+      let valide;
+      if (value !== '') valide = true;
+      else valide = false;
+      setSaveValidation((prevState) => {
+        return { ...prevState, documentName: valide };
+      });
+      setSubmitValidation((prevState) => {
+        return { ...prevState, documentName: valide };
+      });
+    } else if (input === 'name') {
       setDocName((prevState) => {
         // validação
-        return { ...prevState, value: value };
+        return { ...prevState, name: value };
       });
-
-    if (input === 'description')
+      let valide;
+      if (value !== '') valide = true;
+      else valide = false;
+      setSaveValidation((prevState) => {
+        return { ...prevState, documentName: valide };
+      });
+      setSubmitValidation((prevState) => {
+        return { ...prevState, documentName: valide };
+      });
+    }
+    if (input === 'description') {
       setDocDescription((prevState) => {
         // validação
         return { ...prevState, value: value };
       });
+      setSubmitValidation((prevState) => {
+        return { ...prevState, description: true };
+      });
+    }
   };
 
-  const submitHandler = () => {
+  const submitHandler = async (status) => {
     //verificar que o form está preenchido.
     const obj = {
-      name: docName.value,
+      name: docName.name,
       isModelFile: docIsModel,
-      has_record: docHasRecords,
-      status: 'pending', //depende do botão
-      approving_userID: docApprovingUserID.userID,
+      has_records: docHasRecords,
+      status: status, //depende do botão
+
       description: docDescription.value,
       is_public: docIsPublic,
       is_external: docIsExternal,
-      editUsersList: selectedUsersEdit.map((user) => user.userID),
-      consultUsersList: selectedUsersRead.map((user) => user.userID),
-      departmentList: selectedDeparts.map((depart) => depart.departmentID),
+      editUsersList: JSON.stringify(
+        selectedUsersEdit.map((user) => user.userID)
+      ),
+      consultUsersList: JSON.stringify(
+        selectedUsersRead.map((user) => user.userID)
+      ),
+      departmentList: JSON.stringify(
+        selectedDeparts.map((depart) => depart.departmentID)
+      ),
+      fileMulter: selectedFile,
     };
-    // não esquecer do ficheiro
-    console.log(obj);
+    if (docApprovingUserID.userID != undefined)
+      obj.approving_userID = docApprovingUserID.userID;
+    function getFormData(object) {
+      const formData = new FormData();
+      Object.keys(object).forEach((key) => formData.append(key, object[key]));
+      return formData;
+    }
+    let resp;
+    if (props.location.state.from === '/penDocs')
+      resp = await updateDocument(
+        props.location.state.file.documentID,
+        getFormData(obj)
+      );
+    else resp = await insertDocument(userID, getFormData(obj));
+    console.log(resp);
   };
 
   return (
@@ -201,8 +370,28 @@ export default function LayoutPage(props) {
             Submit new File
           </h2>
           <div className="profileBox" onClick={unfoc}>
-            <form>
-              <Input
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <UserSelectOne
+                title="Insert a Name for the Documentation"
+                id="name"
+                label="Document name"
+                selected={docName}
+                select={setDocName}
+                Info={docsNameList}
+                setInfo={setDocsNameList}
+                loading={loading}
+                onChange={inputChangeHandler}
+                toUnFocus={toUnFocus}
+                setUnFocus={setUnFocus}
+                addNew={addNew}
+                setAddNew={setAddNew}
+                value={docName.name}
+              />
+              {/* <Input
                 id="name"
                 type="text"
                 value={docName.value}
@@ -212,15 +401,38 @@ export default function LayoutPage(props) {
                 placeholder="Insert a Name for the Documentation"
                 newInputClasses="uk-form-width-large"
                 required={true}
-              />
+              /> */}
               <div className="uk-margin">
-                <div uk-form-custom="target: true">
-                  <input type="file" />
+                {/* <label
+                  className="uk-form-label uk-text-emphasis"
+                  htmlFor="file"
+                >
+                  Document
+                </label> */}
+                <div className="uk-form-controls" uk-form-custom="target: true">
+                  <input
+                    type="file"
+                    className="uk-input"
+                    id="file"
+                    disabled={
+                      props.location.state !== undefined &&
+                      props.location.state.from === '/penDocs'
+                    }
+                    onChange={(e) => {
+                      setSelectedFile(e.target.files[0]);
+                      setSaveValidation((prevState) => {
+                        return { ...prevState, file: true };
+                      });
+                    }}
+                  />
                   <input
                     className="uk-input uk-form-width-large"
                     type="text"
                     placeholder="Select file"
-                    disabled
+                    disabled={
+                      props.location.state !== undefined &&
+                      props.location.state.from === '/penDocs'
+                    }
                   />
                 </div>
                 <label>
@@ -244,10 +456,12 @@ export default function LayoutPage(props) {
                 loading={loading}
                 toUnFocus={toUnFocus}
                 setUnFocus={setUnFocus}
+                validationField={'setDeparts'}
+                setSubmitValidation={setSubmitValidation}
               />
               <UserSelectOne
                 title="Select the user who will approve the document"
-                id="associatedDeparts"
+                id="approvingUser"
                 label="Approving user"
                 selected={docApprovingUserID}
                 select={setApprovingUserID}
@@ -256,6 +470,8 @@ export default function LayoutPage(props) {
                 loading={loading}
                 toUnFocus={toUnFocus}
                 setUnFocus={setUnFocus}
+                validationField={'approvingUserList'}
+                setSubmitValidation={setSubmitValidation}
               />
               <UserSelect
                 title="Select Users to Edit the Document"
@@ -268,6 +484,8 @@ export default function LayoutPage(props) {
                 loading={loading}
                 toUnFocus={toUnFocus}
                 setUnFocus={setUnFocus}
+                validationField={'selectedUsersEdit'}
+                setSubmitValidation={setSubmitValidation}
               />
               <UserSelect
                 title="Select Users to Access the Document"
@@ -280,6 +498,8 @@ export default function LayoutPage(props) {
                 loading={loading}
                 toUnFocus={toUnFocus}
                 setUnFocus={setUnFocus}
+                validationField={'selectedUsersRead'}
+                setSubmitValidation={setSubmitValidation}
               />
               <Input
                 id="description"
@@ -325,9 +545,23 @@ export default function LayoutPage(props) {
               <Button
                 children="Save"
                 newClasses="uk-margin-small-right"
-                onClick={submitHandler}
+                onClick={submitHandler.bind(this, 'pending')}
+                loading={respLoading}
+                disabled={
+                  !Object.keys(saveValidation).every((el) => saveValidation[el])
+                }
               />
-              <Button children="Submit" newClasses="uk-margin-small-left" />
+              <Button
+                children="Submit"
+                newClasses="uk-margin-small-left"
+                onClick={submitHandler.bind(this, 'forapproval')}
+                loading={respLoading}
+                disabled={
+                  !Object.keys(submitValidation).every(
+                    (el) => submitValidation[el]
+                  )
+                }
+              />
             </form>
           </div>
         </div>

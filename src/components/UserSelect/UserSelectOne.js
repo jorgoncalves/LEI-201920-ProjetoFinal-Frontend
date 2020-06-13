@@ -4,18 +4,23 @@ import { Link, useLocation } from 'react-router-dom';
 import './UserSelect.css';
 import UserPopup from './UserPopup/UserPopup';
 
-export default function Profile(props) {
+export default function UserSelectOne(props) {
+  const [tempEl, setTempEl] = useState({ name: '', userID: '' });
   const addSelected = (user, event) => {
     event.target.parentElement.style.display = 'none';
+    console.log(user);
 
+    if (user.name !== 'Add new' && props.addNew !== undefined) changeAddNew();
+    // if (user.name === 'Add new') props.select({ name: '', userID: '' });
+    // else
     props.select(user);
-    console.log(props.selected.constructor);
-
-    console.log(Object.keys(props.selected).length === 0);
-    console.log(props.selected.constructor === Object);
-
+    setTempEl(user);
+    props.setSubmitValidation((prevState) => {
+      return { ...prevState, description: true };
+    });
     if (
-      Object.keys(props.selected).length === 0 &&
+      (Object.keys(props.selected).length === 0 ||
+        props.selected.name === '') &&
       props.selected.constructor === Object
     )
       props.setInfo([...props.Info.filter((u) => u.userID != user.userID)]);
@@ -27,13 +32,14 @@ export default function Profile(props) {
   };
 
   const removeSelected = (user, event) => {
-    console.log('info', event);
-
-    console.log(user.userID);
-    props.select({});
-    console.log(props.selected);
-
-    props.setInfo([...props.Info, user]);
+    console.log(user);
+    setTempEl({ name: '', userID: '' });
+    props.select({ name: '', userID: '' });
+    props.setSubmitValidation((prevState) => {
+      return { ...prevState, [props.validationField]: false };
+    });
+    if (props.addNew !== undefined) props.setAddNew(false);
+    if (user.name !== '') props.setInfo([...props.Info, user]);
   };
 
   const showList = (e) => {
@@ -42,6 +48,19 @@ export default function Profile(props) {
     // console.log(e.target.parentElement.children[1]);
     // console.log(props.toUnFocus);
   };
+  const changeAddNew = () => {
+    props.setAddNew(!props.addNew);
+  };
+
+  const inputChangeHandler = (id, value, addNew) => {
+    console.log(id, value, addNew);
+
+    props.onChange(id, value, addNew);
+  };
+  useEffect(() => {
+    // if (!props.addNew && props.addNew !== undefined)
+    //   props.setInfo([...props.Info, { name: 'Add new', userID: 'none' }]);
+  }, []);
   return (
     <>
       {props.loading ? null : (
@@ -56,8 +75,13 @@ export default function Profile(props) {
               className="uk-input uk-form-width-large textInput"
               type="text"
               id={props.id}
+              value={props.value}
               placeholder={props.title}
+              onChange={(e) =>
+                inputChangeHandler(props.id, e.target.value, props.addNew)
+              }
               onFocus={showList.bind(this)}
+              disabled={props.addNew}
             />
             <div className="userInputDropdown userSelect">
               {props.Info.map((user, index) => {
@@ -67,13 +91,19 @@ export default function Profile(props) {
                     key={index}
                     onClick={addSelected.bind(this, user)}
                   >
-                    {user.name}
+                    {!props.addNew && user.name === 'Add new' ? (
+                      <a>{user.name}</a>
+                    ) : (
+                      user.name
+                    )}
                   </div>
                 );
               })}
             </div>
-            {Object.keys(props.selected).length !== 0 &&
-              props.selected.constructor === Object && (
+
+            {Object.keys(props.selected).length >= 2 &&
+              props.selected.constructor === Object &&
+              props.selected.name !== '' && (
                 <UserPopup user={props.selected}>
                   <i
                     className="iconActUser"

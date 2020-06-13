@@ -67,8 +67,8 @@ export default function DocsShow(props) {
         <div>
           {/* <object data="http://localhost:8080/filexplorer/getFile?path=FileStorage/Reclamações/1/IMG1.png" /> */}
           <FileViewer
-            filePath={`${geFile}?path=FileStorage/Reclamações/3/Docx1.docx`}
-            fileType="docx"
+            filePath={`${geFile}?path=${props.file.path}`}
+            fileType={props.file.path.split(".")[1]}
           />
         </div>
       </div>
