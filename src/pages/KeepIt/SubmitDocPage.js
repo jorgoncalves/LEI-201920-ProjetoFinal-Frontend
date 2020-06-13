@@ -4,6 +4,7 @@ import './SubmitDocPage.css';
 
 import Navbar from '../../components/Navbar/Navbar';
 import UserSelect from '../../components/UserSelect/UserSelect';
+import UserSelectOne from '../../components/UserSelect/UserSelectOne';
 import Input from '../../components/Form/Input/Input';
 import Button from '../../components/Button/Button';
 import Loading from '../../components/Loading/Loading';
@@ -22,11 +23,13 @@ export default function LayoutPage(props) {
   const [loading, setLoading] = useState(true);
   const [clicks, setClicks] = useState(0);
   const [userInfo, setUserInfo] = useState();
+  const [approvingUserList, setApprovingUserList] = useState([]);
   const [departs, setDeparts] = useState();
   const [toUnFocus, setUnFocus] = useState([]);
   const [selectedUsersRead, setSelectUserRead] = useState([]);
   const [selectedUsersEdit, setSelectUserEdit] = useState([]);
   const [selectedDeparts, setSelectDepart] = useState([]);
+  const [docApprovingUserID, setApprovingUserID] = useState({});
   const [docName, setDocName] = useState({
     value: '',
     valid: false,
@@ -43,10 +46,12 @@ export default function LayoutPage(props) {
   const [docIsExternal, setDocIsExternal] = useState(false);
   const [docHasRecords, setDocHasRecords] = useState(false);
   const [docIsModel, setDocIsModel] = useState(false);
-  const [docApprovingUserID, setApprovingUserID] = useState();
 
   const unfoc = () => {
     if (toUnFocus.length > 0 && clicks > 0) {
+      // document
+      // .querySelectorAll('.userInputDropdown')
+      // .forEach((el) => (el.style.display = 'none'));
       toUnFocus[0].style.display = 'none';
       setUnFocus(toUnFocus.filter((f) => f != toUnFocus[0]));
       setClicks(0);
@@ -59,7 +64,8 @@ export default function LayoutPage(props) {
 
   const getAllUsersInfo = async () => {
     let userTemp = await getAllUserInfo();
-    setApprovingList(userTemp);
+    console.log(userTemp);
+    setApprovingUserList(userTemp.data);
     setUserInfo(userTemp.data.filter((u) => u.userID != userID));
   };
 
@@ -73,7 +79,7 @@ export default function LayoutPage(props) {
     const documentID = props.location.state.file.documentID;
     let documentsPermissions = await getDocsUser(null, null, documentID);
     documentsPermissions = documentsPermissions.data.documents;
-    setApprovingUserID(props.location.state.file.approving_userID);
+    setApprovingUserID(...props.location.state.file.approving_userID);
     for (let i = 0; i < documentsPermissions.length; i++) {
       const element = documentsPermissions[i];
       if (element.type_access === 1)
@@ -142,13 +148,46 @@ export default function LayoutPage(props) {
     };
   }, []);
 
-  const inputChangeHandler = (input, e) => {
+  const inputChangeHandlerBool = (input, e) => {
     console.log(input);
 
     if (input === 'isPublic') setDocIsPublic(e.target.checked);
     if (input === 'isExternal') setDocIsExternal(e.target.checked);
     if (input === 'isHasRecords') setDocHasRecords(e.target.checked);
     if (input === 'isModel') setDocIsModel(e.target.checked);
+  };
+
+  const inputChangeHandler = (input, value) => {
+    if (input === 'name')
+      setDocName((prevState) => {
+        // validação
+        return { ...prevState, value: value };
+      });
+
+    if (input === 'description')
+      setDocDescription((prevState) => {
+        // validação
+        return { ...prevState, value: value };
+      });
+  };
+
+  const submitHandler = () => {
+    //verificar que o form está preenchido.
+    const obj = {
+      name: docName.value,
+      isModelFile: docIsModel,
+      has_record: docHasRecords,
+      status: 'pending', //depende do botão
+      approving_userID: docApprovingUserID.userID,
+      description: docDescription.value,
+      is_public: docIsPublic,
+      is_external: docIsExternal,
+      editUsersList: selectedUsersEdit.map((user) => user.userID),
+      consultUsersList: selectedUsersRead.map((user) => user.userID),
+      departmentList: selectedDeparts.map((depart) => depart.departmentID),
+    };
+    // não esquecer do ficheiro
+    console.log(obj);
   };
 
   return (
@@ -168,6 +207,8 @@ export default function LayoutPage(props) {
                 type="text"
                 value={docName.value}
                 control="input"
+                label="Document name"
+                onChange={inputChangeHandler}
                 placeholder="Insert a Name for the Documentation"
                 newInputClasses="uk-form-width-large"
                 required={true}
@@ -187,13 +228,39 @@ export default function LayoutPage(props) {
                     className="uk-checkbox uk-margin-medium-left"
                     type="checkbox"
                     defaultChecked={docIsModel}
-                    onChange={inputChangeHandler.bind(this, 'isModel')}
+                    onChange={inputChangeHandlerBool.bind(this, 'isModel')}
                   />
                   This document has a model document
                 </label>
               </div>
               <UserSelect
+                title="Select a/multiple Departments to associate the Document"
+                id="associatedDeparts"
+                label="Departments associated"
+                selected={selectedDeparts}
+                select={setSelectDepart}
+                Info={departs}
+                setInfo={setDeparts}
+                loading={loading}
+                toUnFocus={toUnFocus}
+                setUnFocus={setUnFocus}
+              />
+              <UserSelectOne
+                title="Select the user who will approve the document"
+                id="associatedDeparts"
+                label="Approving user"
+                selected={docApprovingUserID}
+                select={setApprovingUserID}
+                Info={approvingUserList}
+                setInfo={setApprovingUserList}
+                loading={loading}
+                toUnFocus={toUnFocus}
+                setUnFocus={setUnFocus}
+              />
+              <UserSelect
                 title="Select Users to Edit the Document"
+                id="usersEdit"
+                label="Users with editing permission"
                 selected={selectedUsersEdit}
                 select={setSelectUserEdit}
                 Info={userInfo}
@@ -204,6 +271,8 @@ export default function LayoutPage(props) {
               />
               <UserSelect
                 title="Select Users to Access the Document"
+                id="accessEdit"
+                label="Users with access permission"
                 selected={selectedUsersRead}
                 select={setSelectUserRead}
                 Info={userInfo}
@@ -212,13 +281,25 @@ export default function LayoutPage(props) {
                 toUnFocus={toUnFocus}
                 setUnFocus={setUnFocus}
               />
-              <div>
+              <Input
+                id="description"
+                type="text"
+                label="Document description"
+                value={docDescription.value}
+                onChange={inputChangeHandler}
+                control="textarea"
+                rows="5"
+                placeholder="Insert a Description"
+                newInputClasses="uk-form-width-large"
+                required={true}
+              />
+              <div className="uk-margin">
                 <label>
                   <input
                     className="uk-checkbox uk-margin-small-left"
                     type="checkbox"
                     defaultChecked={docIsPublic}
-                    onChange={inputChangeHandler.bind(this, 'isPublic')}
+                    onChange={inputChangeHandlerBool.bind(this, 'isPublic')}
                   />
                   Public
                 </label>
@@ -227,7 +308,7 @@ export default function LayoutPage(props) {
                     className="uk-checkbox uk-margin-medium-left"
                     type="checkbox"
                     defaultChecked={docIsExternal}
-                    onChange={inputChangeHandler.bind(this, 'isExternal')}
+                    onChange={inputChangeHandlerBool.bind(this, 'isExternal')}
                   />
                   External
                 </label>
@@ -236,40 +317,17 @@ export default function LayoutPage(props) {
                     className="uk-checkbox uk-margin-medium-left"
                     type="checkbox"
                     defaultChecked={docHasRecords}
-                    onChange={inputChangeHandler.bind(this, 'isHasRecords')}
+                    onChange={inputChangeHandlerBool.bind(this, 'isHasRecords')}
                   />
                   This document will have records
                 </label>
               </div>
-              <UserSelect
-                title="Select a/multiple Departments to associate the Document"
-                selected={selectedDeparts}
-                select={setSelectDepart}
-                Info={departs}
-                setInfo={setDeparts}
-                loading={loading}
-                toUnFocus={toUnFocus}
-                setUnFocus={setUnFocus}
-              />
-              <Input
-                id="name"
-                type="text"
-                value={docDescription.value}
-                control="textarea"
-                rows="5"
-                placeholder="Insert a Description"
-                newInputClasses="uk-form-width-large"
-                required={true}
-              />
-              FALTA O USER DE APROVAÇÃO!!!
               <Button
                 children="Save"
-                newClasses="uk-margin-small-top uk-margin-small-right uk-margin-small-left"
+                newClasses="uk-margin-small-right"
+                onClick={submitHandler}
               />
-              <Button
-                children="Submit"
-                newClasses="uk-margin-small-top uk-margin-small-left"
-              />
+              <Button children="Submit" newClasses="uk-margin-small-left" />
             </form>
           </div>
         </div>

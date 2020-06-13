@@ -4,7 +4,7 @@ import "./Input.css";
 
 const input = (props) => (
   <div className={["input", props.newDivClasses].join(" ")}>
-    {props.label && <label htmlFor={props.id}>{props.label}</label>}
+    {props.label && <label className="uk-text-emphasis" htmlFor={props.id}>{props.label}</label>}
     {props.control === "input" && (
       <input
         className={[

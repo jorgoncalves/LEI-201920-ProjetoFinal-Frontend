@@ -5,7 +5,7 @@
 
 .input label {
   display: block;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   margin-bottom: 0.25rem;
 }
 

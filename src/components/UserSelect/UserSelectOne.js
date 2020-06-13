@@ -8,33 +8,39 @@ export default function Profile(props) {
   const addSelected = (user, event) => {
     event.target.parentElement.style.display = 'none';
 
-    props.select([...props.selected, user]);
+    props.select(user);
+    console.log(props.selected.constructor);
 
-    props.setInfo([...props.Info.filter((u) => u.userID != user.userID)]);
+    console.log(Object.keys(props.selected).length === 0);
+    console.log(props.selected.constructor === Object);
+
+    if (
+      Object.keys(props.selected).length === 0 &&
+      props.selected.constructor === Object
+    )
+      props.setInfo([...props.Info.filter((u) => u.userID != user.userID)]);
+    else
+      props.setInfo([
+        ...props.Info.filter((u) => u.userID != user.userID),
+        props.selected,
+      ]);
   };
 
   const removeSelected = (user, event) => {
     console.log('info', event);
 
     console.log(user.userID);
-    props.select([...props.selected.filter((u) => u.userID != user.userID)]);
+    props.select({});
     console.log(props.selected);
 
     props.setInfo([...props.Info, user]);
   };
 
-  const unShowList = (e) => {
-    // e.target.parentElement.children[1].style.display = 'none';
-    // props.setUnFocus([...props.toUnFocus, e.target.parentElement.children[1]]);
-    console.log(e.target.parentElement.children[1]);
-    console.log(props.toUnFocus);
-  };
-
   const showList = (e) => {
     e.target.parentElement.children[1].style.display = 'block';
     props.setUnFocus([...props.toUnFocus, e.target.parentElement.children[1]]);
-    console.log(e.target.parentElement.children[1]);
-    console.log(props.toUnFocus);
+    // console.log(e.target.parentElement.children[1]);
+    // console.log(props.toUnFocus);
   };
   return (
     <>
@@ -52,7 +58,6 @@ export default function Profile(props) {
               id={props.id}
               placeholder={props.title}
               onFocus={showList.bind(this)}
-              // onBlur={unShowList.bind(this)}
             />
             <div className="userInputDropdown userSelect">
               {props.Info.map((user, index) => {
@@ -67,17 +72,16 @@ export default function Profile(props) {
                 );
               })}
             </div>
-            {props.selected.map((user, index) => {
-              return (
-                <UserPopup key={index} user={user}>
+            {Object.keys(props.selected).length !== 0 &&
+              props.selected.constructor === Object && (
+                <UserPopup user={props.selected}>
                   <i
                     className="iconActUser"
                     uk-icon="icon: close;"
-                    onClick={removeSelected.bind(this, user)}
+                    onClick={removeSelected.bind(this, props.selected)}
                   ></i>
                 </UserPopup>
-              );
-            })}
+              )}
           </div>
         </div>
       )}
