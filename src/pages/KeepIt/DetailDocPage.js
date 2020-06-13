@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import {
+  useParams
+} from 'react-router-dom';
 
 import './DetailDocPage.css';
 
 import Navbar from '../../components/Navbar/Navbar';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Form/Input/Input';
+import RecsShow from '../../components/RecsShow/RecsShow'
 
 export default function DetailDocPage(props) {
+  let { id } = useParams();
+  const [documentID] = useState(id)
+
   const [tags, setTags] = useState([{
     id:null,
     name:"Not Selected"
@@ -23,8 +30,9 @@ export default function DetailDocPage(props) {
     id:3,
     name:"Category"
   },]);
+
   const [records, setRecord] = useState([{
-    description:"lorem ipsum qweqdasdasdaawdawdadsdasdqw",
+    description:"lorem ipsum qweqdasdasdaa dasdasdasdas dasdasdasdasdasdadasas sdasdasdasdasdasdasd asdwd\nssddfsdfsdfsdfsdfsdfs\nafadasdaasdasdadsdasdqw",
     tags:[2019,"Tomás","987654321","Fatura"],
     attachments:[],
     SubmitedDate:"2019-02-02",
@@ -54,27 +62,76 @@ export default function DetailDocPage(props) {
     SubmitedDate:"2020-02-01",
   },]);
 
+  const sortTags = (el,teste) => {
+    debugger
+  }
+
   return (
     <>
       <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
       <div className="submitBox">
         <h2 className="uk-heading-divider uk-margin-medium-bottom">
-          TESTE
+          DOCUMENT NAME - Records {documentID}
         </h2>
-        <div className="submitBox">
+        <div className="DocsBox">
           <div className="leftBox">
             <Button
               children="New Record"
-              newClasses="uk-margin-small-bottom"
+              newClasses="uk-margin-small-bottom inlineT"
             />
+          </div>
+          <div className="rightBox uk-width-large">
             <Input
               id="tag"
               type="select"
               control="selectOne"
-              newDivClasses="inlineB5 usr_info_put uk-margin-remove-top"
-              defaultValue="Year"
+              newDivClasses="usr_info_put uk-margin-remove-top uk-form-width-large inlineT"
+              newInputClasses="uk-form-width-large"
+              defaultValue="Not Selected"
               options={tags}
+              onChange={sortTags.bind(this,tags)}
             />
+          </div>
+          {/* <ul className="uk-list uk-list-striped"> */}
+          {/* <li> */}
+          <div className="grid-container listHeaders">
+            <div className="description">Description</div>
+            <div className="attachments">Attachments</div>
+            <div className=""></div>
+          </div>
+          {/* </li> */}
+          {/* </ul> */}
+          <ul
+            className="uk-list uk-list-striped  uk-margin-remove-top"
+            uk-accordion="true"
+          >
+            {
+              records.map((rec, index) => {
+                return(
+                  // <tr>
+                  //   <td className="uk-padding-small uk-width-medium"><span className="spanText"><span>{rec.description}</span></span></td>
+                  //   <td className="uk-padding-small">{rec.attachments.length}</td>
+                  // </tr>
+                  <RecsShow
+                    key={index}
+                    record={rec}
+                  />
+                )
+              })
+            }
+            {/* {docs.map((file, index) => {
+              return (
+                <DocsShow
+                  key={index}
+                  file={file}
+                  docStatus={props.docStatus}
+                />
+              );
+            })} */}
+          </ul>
+        </div>
+        {/* <div className="submitBox">
+          <div className="leftBox">
             <div className="max-height">
               <table className="uk-table uk-table-striped uk-table-divider uk-table-hover uk-margin-remove-right">
                 <thead>
@@ -103,7 +160,7 @@ export default function DetailDocPage(props) {
             //Show Tags of record
             //Add links to files
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

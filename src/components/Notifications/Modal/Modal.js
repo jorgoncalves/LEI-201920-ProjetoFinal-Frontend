@@ -54,7 +54,13 @@ export default function ModalNotification(props) {
             <Button
                 link="#"
                 border=""
-                children="Submit"
+                children="Check"
+                newClasses="uk-margin-small-top uk-margin-small-left"
+            />
+            <Button
+                link="#"
+                border=""
+                children="Deny"
                 newClasses="uk-margin-small-top uk-margin-small-left"
             />
             </div>

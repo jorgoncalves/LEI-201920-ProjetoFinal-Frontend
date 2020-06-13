@@ -11,23 +11,34 @@
     display: inline-block;
     margin: 0;
     padding: 0;
-    width: 40%;
+    text-align: left;
     vertical-align: top;
 }
 .rightBox{
     display: inline-block;
     margin: 0;
     padding: 0;
-    width: 60%;
+    text-align: right;
     vertical-align: top;
 }
 
-.spanText{
+.spanTextLess{
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 90%;
+    display: block;
+}
+.spanTextMore{
     flex: 0 1 auto;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre;
+    width: 90%;
+    display: block;
 }
 
 @media screen and (max-width: 800px) {
@@ -49,3 +60,15 @@
         width: 100%;
     }
 }
+
+/*HERE!!!*/
+.grid-container {
+    display: grid;
+    grid-template-columns: calc(100% - 150px) 150px;
+    gap: 0px 0px;
+    grid-template-areas: "description attachments";
+  }
+  
+  .description { grid-area: description; }
+  
+  .attachments { grid-area: attachments; }

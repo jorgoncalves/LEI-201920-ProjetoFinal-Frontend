@@ -214,7 +214,7 @@ export default function ProfilePage(props) {
 
                 <h4 className="uk-comment-title uk-margin-small-bottom uk-margin-remove-top">
                   <b>Department: </b>
-                  {userInfo.department}
+                  {userInfo.department.length>0 ? userInfo.department.join("") : 'You are not setup in a Department'}
                 </h4>
                 <br />
 

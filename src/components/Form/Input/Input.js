@@ -4,7 +4,11 @@ import "./Input.css";
 
 const input = (props) => (
   <div className={["input", props.newDivClasses].join(" ")}>
-    {props.label && <label className="uk-text-emphasis" htmlFor={props.id}>{props.label}</label>}
+    {props.label && (
+      <label className="uk-text-emphasis" htmlFor={props.id}>
+        {props.label}
+      </label>
+    )}
     {props.control === "input" && (
       <input
         className={[
@@ -59,11 +63,7 @@ const input = (props) => (
         defaultValue={props.value}
       >
         {props.options.map((option, index) => {
-          return (
-            <option key={index} >
-              {option}
-            </option>
-          );
+          return <option key={index}>{option}</option>;
         })}
       </select>
     )}
@@ -82,6 +82,10 @@ const input = (props) => (
         onBlur={props.onBlur}
         disabled={props.disabled}
         defaultValue={props.defaultValue}
+        onChange={(e) => {
+          props.onChange(props.id, e.target.value);
+          console.log("e",e)
+        }}
       >
         {props.options.map((option, index) => {
           return (
