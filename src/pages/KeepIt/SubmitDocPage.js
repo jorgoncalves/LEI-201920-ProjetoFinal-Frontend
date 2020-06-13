@@ -64,20 +64,20 @@ export default function SubmitDocPage(props) {
   const [selectedFile, setSelectedFile] = useState();
   const [addNew, setAddNew] = useState(false);
 
-  const unfoc = () => {
-    if (toUnFocus.length > 0 && clicks > 0) {
-      // document
-      // .querySelectorAll('.userInputDropdown')
-      // .forEach((el) => (el.style.display = 'none'));
-      toUnFocus[0].style.display = 'none';
-      setUnFocus(toUnFocus.filter((f) => f != toUnFocus[0]));
-      setClicks(0);
-    } else {
-      if (toUnFocus.length > 0) {
-        setClicks(clicks + 1);
-      }
-    }
-  };
+  // const unfoc = () => {
+  //   if (toUnFocus.length > 0 && clicks > 0) {
+  //     // document
+  //     // .querySelectorAll('.userInputDropdown')
+  //     // .forEach((el) => (el.style.display = 'none'));
+  //     toUnFocus[0].style.display = 'none';
+  //     setUnFocus(toUnFocus.filter((f) => f != toUnFocus[0]));
+  //     setClicks(0);
+  //   } else {
+  //     if (toUnFocus.length > 0) {
+  //       setClicks(clicks + 1);
+  //     }
+  //   }
+  // };
 
   const getAllUsersInfo = async () => {
     let userTemp = await getAllUserInfo();
@@ -369,7 +369,7 @@ export default function SubmitDocPage(props) {
           <h2 className="uk-heading-divider uk-margin-medium-bottom">
             Submit new File
           </h2>
-          <div className="profileBox" onClick={unfoc}>
+          <div className="profileBox">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -385,11 +385,12 @@ export default function SubmitDocPage(props) {
                 setInfo={setDocsNameList}
                 loading={loading}
                 onChange={inputChangeHandler}
-                toUnFocus={toUnFocus}
-                setUnFocus={setUnFocus}
+                // toUnFocus={toUnFocus}
+                // setUnFocus={setUnFocus}
                 addNew={addNew}
                 setAddNew={setAddNew}
                 value={docName.name}
+                setSubmitValidation={setSubmitValidation}
               />
               {/* <Input
                 id="name"
@@ -454,8 +455,8 @@ export default function SubmitDocPage(props) {
                 Info={departs}
                 setInfo={setDeparts}
                 loading={loading}
-                toUnFocus={toUnFocus}
-                setUnFocus={setUnFocus}
+                // toUnFocus={toUnFocus}
+                // setUnFocus={setUnFocus}
                 validationField={'setDeparts'}
                 setSubmitValidation={setSubmitValidation}
               />
@@ -468,8 +469,8 @@ export default function SubmitDocPage(props) {
                 Info={approvingUserList}
                 setInfo={setApprovingUserList}
                 loading={loading}
-                toUnFocus={toUnFocus}
-                setUnFocus={setUnFocus}
+                // toUnFocus={toUnFocus}
+                // setUnFocus={setUnFocus}
                 validationField={'approvingUserList'}
                 setSubmitValidation={setSubmitValidation}
               />
@@ -482,8 +483,8 @@ export default function SubmitDocPage(props) {
                 Info={userInfo}
                 setInfo={setUserInfo}
                 loading={loading}
-                toUnFocus={toUnFocus}
-                setUnFocus={setUnFocus}
+                // toUnFocus={toUnFocus}
+                // setUnFocus={setUnFocus}
                 validationField={'selectedUsersEdit'}
                 setSubmitValidation={setSubmitValidation}
               />
@@ -496,8 +497,8 @@ export default function SubmitDocPage(props) {
                 Info={userInfo}
                 setInfo={setUserInfo}
                 loading={loading}
-                toUnFocus={toUnFocus}
-                setUnFocus={setUnFocus}
+                // toUnFocus={toUnFocus}
+                // setUnFocus={setUnFocus}
                 validationField={'selectedUsersRead'}
                 setSubmitValidation={setSubmitValidation}
               />

@@ -5,6 +5,7 @@ import {
   Redirect,
   withRouter,
   useHistory,
+  useParams
 } from 'react-router-dom';
 
 import UIkit from 'uikit';
@@ -240,7 +241,7 @@ export default withRouter(function App() {
         />
 
         <Route
-          path="/records/"
+          path="/records/:id"
           exact
           render={(props) => (
             <DetailDocPage

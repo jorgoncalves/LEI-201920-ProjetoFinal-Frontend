@@ -42,9 +42,21 @@ export default function UserSelectOne(props) {
     if (user.name !== '') props.setInfo([...props.Info, user]);
   };
 
+  const unShowList = (e) => {
+    let temp = e.target.parentElement.children[1]
+    setTimeout(() => {
+      temp.style.display = 'none';
+    }, 100);
+    
+    // props.setUnFocus([...props.toUnFocus, e.target.parentElement.children[1]]);
+
+    console.log(e.target.parentElement.children[1]);
+    console.log(props.toUnFocus);
+  };
+
   const showList = (e) => {
     e.target.parentElement.children[1].style.display = 'block';
-    props.setUnFocus([...props.toUnFocus, e.target.parentElement.children[1]]);
+    //props.setUnFocus([...props.toUnFocus, e.target.parentElement.children[1]]);
     // console.log(e.target.parentElement.children[1]);
     // console.log(props.toUnFocus);
   };
@@ -70,7 +82,7 @@ export default function UserSelectOne(props) {
               {props.label}
             </label>
           )}
-          <div className="userInput">
+          <div className="userInput" onBlur={unShowList.bind(this)}>
             <input
               className="uk-input uk-form-width-large textInput"
               type="text"
