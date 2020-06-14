@@ -69,7 +69,7 @@ const input = (props) => (
     )}
     {props.control === "selectOne" && (
       <select
-        class="uk-select"
+        className="uk-select"
         className={[
           "uk-input",
           !props.valid ? "invalid" : "valid",
@@ -82,10 +82,7 @@ const input = (props) => (
         onBlur={props.onBlur}
         disabled={props.disabled}
         defaultValue={props.defaultValue}
-        onChange={(e) => {
-          props.onChange(props.id, e.target.value);
-          console.log("e",e)
-        }}
+        onChange={props.onChange}
       >
         {props.options.map((option, index) => {
           return (
