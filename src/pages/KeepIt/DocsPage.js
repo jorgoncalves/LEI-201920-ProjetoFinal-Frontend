@@ -8,64 +8,10 @@ import DocsShow from '../../components/DocsShow/DocsShow';
 import { getDocsUser } from '../../util/restCall_Docs';
 import Loading from '../../components/Loading/Loading';
 
-export default function useDocsPage(props) {
+export default function DocsPage(props) {
   const [loading, setLoading] = useState(true);
-  const [state, setState] = useState({
-    use_files: [
-      {
-        file_name: 'Tomas.jpg',
-        is_public: true,
-        is_external: true,
-        size: '1234B',
-      },
-      {
-        file_name: 'Jorge.txt',
-        is_public: false,
-        is_external: true,
-        size: '1124B',
-      },
-      {
-        file_name: 'Tiago.docx',
-        is_public: false,
-        is_external: false,
-        size: '1324B',
-      },
-      {
-        file_name: 'Tomas.jpg',
-        is_public: true,
-        is_external: false,
-        size: '12234B',
-      },
-    ],
-    to_aprove_files: [
-      {
-        file_name: 'Tomasaaa.jpg',
-        is_public: true,
-        is_external: true,
-        size: '1234B',
-      },
-      {
-        file_name: 'Jorgeaaa.txt',
-        is_public: false,
-        is_external: true,
-        size: '1124B',
-      },
-      {
-        file_name: 'Tiagaaao.docx',
-        is_public: false,
-        is_external: false,
-        size: '1324B',
-      },
-      {
-        file_name: 'Tomaaaas.jpg',
-        is_public: true,
-        is_external: false,
-        size: '12234B',
-      },
-    ],
-  });
+
   const [docs, setDocs] = useState([]);
-  const fls = props.files === 'use' ? state.use_files : state.to_aprove_files;
 
   useEffect(() => {
     const userID = localStorage.getItem('userID');

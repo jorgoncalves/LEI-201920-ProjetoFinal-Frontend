@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
 
-import "./Input.css";
+import './Input.css';
 
 const input = (props) => (
-  <div className={["input", props.newDivClasses].join(" ")}>
+  <div className={['input', props.newDivClasses].join(' ')}>
     {props.label && (
       <label className="uk-text-emphasis" htmlFor={props.id}>
         {props.label}
       </label>
     )}
-    {props.control === "input" && (
+    {props.control === 'input' && (
       <input
         className={[
-          "uk-input",
-          !props.valid ? "invalid" : "valid",
-          props.touched ? "touched" : "untouched",
+          'uk-input',
+          !props.valid ? 'invalid' : 'valid',
+          props.touched ? 'touched' : 'untouched',
           props.newInputClasses,
-        ].join(" ")}
+        ].join(' ')}
         type={props.type}
         id={props.id}
         required={props.required}
@@ -29,14 +29,14 @@ const input = (props) => (
         disabled={props.disabled}
       />
     )}
-    {props.control === "textarea" && (
+    {props.control === 'textarea' && (
       <textarea
         className={[
-          "uk-textarea",
-          !props.valid ? "invalid" : "valid",
-          props.touched ? "touched" : "untouched",
+          'uk-textarea',
+          !props.valid ? 'invalid' : 'valid',
+          props.touched ? 'touched' : 'untouched',
           props.newInputClasses,
-        ].join(" ")}
+        ].join(' ')}
         id={props.id}
         rows={props.rows}
         required={props.required}
@@ -44,17 +44,18 @@ const input = (props) => (
         placeholder={props.placeholder}
         onChange={(e) => props.onChange(props.id, e.target.value)}
         onBlur={props.onBlur}
+        disabled={props.disabled}
       />
     )}
-    {props.control === "select" && (
+    {props.control === 'select' && (
       <select
         className="uk-select"
         className={[
-          "uk-input",
-          !props.valid ? "invalid" : "valid",
-          props.touched ? "touched" : "untouched",
+          'uk-input',
+          !props.valid ? 'invalid' : 'valid',
+          props.touched ? 'touched' : 'untouched',
           props.newInputClasses,
-        ].join(" ")}
+        ].join(' ')}
         id={props.id}
         required={props.required}
         placeholder={props.placeholder}
@@ -67,15 +68,14 @@ const input = (props) => (
         })}
       </select>
     )}
-    {props.control === "selectOne" && (
+    {props.control === 'selectOne' && (
       <select
-        className="uk-select"
-        className={[
-          "uk-input",
-          !props.valid ? "invalid" : "valid",
-          props.touched ? "touched" : "untouched",
+        className={['uk-select',
+          'uk-input',
+          !props.valid ? 'invalid' : 'valid',
+          props.touched ? 'touched' : 'untouched',
           props.newInputClasses,
-        ].join(" ")}
+        ].join(' ')}
         id={props.id}
         required={props.required}
         placeholder={props.placeholder}
@@ -86,7 +86,7 @@ const input = (props) => (
       >
         {props.options.map((option, index) => {
           return (
-            <option key={option.id ? option.id : index}>{option.name}</option>
+            <option key={index}>{option.name}</option>
           );
         })}
       </select>

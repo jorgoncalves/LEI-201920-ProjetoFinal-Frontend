@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import UIkit from 'uikit';
 
 import './SubmitDocPage.css';
 
@@ -25,8 +26,8 @@ export default function SubmitDocPage(props) {
   const [userID] = useState(localStorage.getItem('userID'));
   const [loading, setLoading] = useState(true);
   const [respLoading, setRespLoading] = useState(false);
-  const [saveDisabled, setSaveDisabled] = useState(true);
-  const [submitDisabled, setSubmitDisabled] = useState(true);
+  // const [saveDisabled, setSaveDisabled] = useState(true);
+  // const [submitDisabled, setSubmitDisabled] = useState(true);
   const [saveValidation, setSaveValidation] = useState({
     documentName: false,
     file: false,
@@ -40,11 +41,12 @@ export default function SubmitDocPage(props) {
     selectedUsersEdit: false,
     selectedDeparts: false,
   });
-  const [clicks, setClicks] = useState(0);
+  const [disabledSelected, setDisabledSelected] = useState(false);
+  // const [clicks, setClicks] = useState(0);
   const [userInfo, setUserInfo] = useState();
   const [approvingUserList, setApprovingUserList] = useState([]);
   const [departs, setDeparts] = useState([]);
-  const [toUnFocus, setUnFocus] = useState([]);
+  // const [toUnFocus, setUnFocus] = useState([]);
   const [selectedUsersRead, setSelectUserRead] = useState([]);
   const [selectedUsersEdit, setSelectUserEdit] = useState([]);
   const [selectedDeparts, setSelectDepart] = useState([]);
@@ -63,7 +65,7 @@ export default function SubmitDocPage(props) {
   const [docIsModel, setDocIsModel] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   const [addNew, setAddNew] = useState(false);
-
+  const [finalDisabled, setFinalDisabled] = useState(false);
   // const unfoc = () => {
   //   if (toUnFocus.length > 0 && clicks > 0) {
   //     // document
@@ -81,7 +83,7 @@ export default function SubmitDocPage(props) {
 
   const getAllUsersInfo = async () => {
     let userTemp = await getAllUserInfo();
-    console.log(userTemp);
+
     setApprovingUserList(userTemp.data);
     // setUserInfo(userTemp.data.filter((u) => u.userID != userID));
     setUserInfo(userTemp.data);
@@ -96,13 +98,12 @@ export default function SubmitDocPage(props) {
   const getAllDocsInfo = async () => {
     let allDocs = await getDocsOnly(null, ['pending', 'approving'], null);
     allDocs = allDocs.data.documents;
-    console.log(allDocs);
 
     setDocsNameList(allDocs);
   };
   const pendingAllUsersInfo = async () => {
     let userTemp = await getAllUserInfo();
-    console.log(userTemp);
+
     // setUserInfo(userTemp.data.filter((u) => u.userID != userID));
     // setUserInfo(userTemp.data);
     return userTemp.data;
@@ -117,12 +118,16 @@ export default function SubmitDocPage(props) {
   const pendingAllDocsInfo = async () => {
     let allDocs = await getDocsOnly(null, ['pending', 'approving'], null);
     allDocs = allDocs.data.documents;
-    // console.log(allDocs);
+
     return allDocs;
-    // setDocsNameList(allDocs);
   };
 
   const pendingInfo = async () => {
+    let validApprovingUserID = false;
+    let validDescription = false;
+    let validSelectedDepart = false;
+    let validSelectedUsersEdit = false;
+    let validSelectedUsersRead = false;
     const documentID = props.location.state.file.documentID;
     const documentName = props.location.state.file.name;
     let documentsPermissions = await getDocsUser(null, null, documentID);
@@ -137,22 +142,31 @@ export default function SubmitDocPage(props) {
       return tempDoc;
     });
     setDocsNameList(allDocs);
+    setDisabledSelected(true);
+    // setDocName((prevState) => {
+    //   return {
+    //     ...prevState,
+    //     value: props.location.state.file.name,
+    //   };
+    // });
     // selected={docName}
     // select={setDocName}
     // Info={docsNameList}
     // setInfo={setDocsNameList}
 
     let tempApprovingUserList = userInfo;
+    const approvID = props.location.state.file.approving_userID;
     setApprovingUserID((prevState) => {
-      const approvID = props.location.state.file.approving_userID;
       const approvUserData = userInfo.find((u) => u.userID === approvID);
-      console.log(approvUserData);
+
       tempApprovingUserList = tempApprovingUserList.filter(
         (u) => u.userID !== approvID
       );
-      return approvUserData;
+
+      return { ...approvUserData };
     });
     setApprovingUserList(tempApprovingUserList);
+    if (!approvID !== undefined) validApprovingUserID = true;
     // selected={docApprovingUserID}
     // select={setApprovingUserID}
     // Info={approvingUserList}
@@ -163,11 +177,8 @@ export default function SubmitDocPage(props) {
     for (let i = 0; i < documentsPermissions.length; i++) {
       const element = documentsPermissions[i];
       if (element.type_access === 1) {
-        console.log(element);
-        console.log(userInfo);
-
         const userData = userInfo.find((u) => u.userID === element.userID);
-        console.log(userData);
+
         if (userData !== undefined) tempUserEditList.push(userData);
         if (userData !== undefined)
           userInfo = userInfo.filter((u) => u.userID !== element.userID);
@@ -175,7 +186,7 @@ export default function SubmitDocPage(props) {
 
       if (element.type_access === 2) {
         const userData = userInfo.find((u) => u.userID === element.userID);
-        console.log(userData);
+
         if (userData !== undefined) tempUserReadList.push(userData);
         if (userData !== undefined)
           userInfo = userInfo.filter((u) => u.userID !== element.userID);
@@ -183,25 +194,8 @@ export default function SubmitDocPage(props) {
     }
     setSelectUserEdit(tempUserEditList);
     setSelectUserRead(tempUserReadList);
-    for (let i = 0; i < documentsPermissions.length; i++) {
-      const element = documentsPermissions[i];
-      if (element.type_access === 2)
-        setSelectUserRead((prevState) => {
-          console.log(prevState);
-          console.log(element);
-          console.log(userInfo);
-
-          const userData = userInfo.find((u) => u.userID === element.userID);
-          userInfo = userInfo.filter((u) => u.userID === element.userID);
-          return [...prevState, userData];
-        });
-      if (
-        element.type_access === 2 &&
-        element.approving_userID !== element.userID
-      )
-        setSelectUserRead((prevState) => [...prevState, element]);
-    }
-    console.log(userInfo.filter((u) => u.userID !== userID));
+    if (tempUserEditList.length > 0) validSelectedUsersEdit = true;
+    if (tempUserReadList.length > 0) validSelectedUsersRead = true;
 
     setUserInfo(userInfo.filter((u) => u.userID !== userID));
     let docDepartPermissions = await getDocDepartPermissions(documentID);
@@ -220,29 +214,43 @@ export default function SubmitDocPage(props) {
       });
 
       const updatedDeparts = [...prevState, ...departsData];
-      console.log(updatedDeparts);
+
       return updatedDeparts;
     });
-    console.log(allDeparts);
 
+    if (docDepartPermissions.length > 0) validSelectedDepart = true;
     setDeparts(allDeparts);
     // clean up dos departamentos já selecionados
 
-    console.log(props.location.state.file.description);
     setDocIsPublic(props.location.state.file.is_public);
     setDocIsExternal(props.location.state.file.is_external);
     setDocHasRecords(props.location.state.file.has_records);
     setDocIsModel(props.location.state.file.isModelFile);
-    setDocName((prevState) => {
-      return {
-        ...prevState,
-        value: props.location.state.file.name,
-      };
-    });
+
     setDocDescription((prevState) => {
       return {
         ...prevState,
         value: props.location.state.file.description,
+      };
+    });
+    if (
+      props.location.state.file.description !== undefined &&
+      props.location.state.file.description !== ''
+    )
+      validDescription = true;
+    setSaveValidation({
+      documentName: true,
+      file: true,
+    });
+    setSubmitValidation((prevState) => {
+      return {
+        documentName: true,
+        file: true,
+        description: validDescription,
+        approvingUserList: validApprovingUserID,
+        selectedUsersRead: validSelectedUsersRead,
+        selectedUsersEdit: validSelectedUsersEdit,
+        selectedDeparts: validSelectedDepart,
       };
     });
   };
@@ -262,8 +270,6 @@ export default function SubmitDocPage(props) {
   };
 
   useEffect(() => {
-    console.log(props);
-
     functionsCallers();
 
     return () => {
@@ -272,8 +278,6 @@ export default function SubmitDocPage(props) {
   }, []);
 
   const inputChangeHandlerBool = (input, e) => {
-    console.log(input);
-
     if (input === 'isPublic') setDocIsPublic(e.target.checked);
     if (input === 'isExternal') setDocIsExternal(e.target.checked);
     if (input === 'isHasRecords') setDocHasRecords(e.target.checked);
@@ -285,9 +289,9 @@ export default function SubmitDocPage(props) {
 
     if (input === 'name' && !addNew) {
       setDocName({ name: value });
-      let valide;
+      let valide = false;
       if (value !== '') valide = true;
-      else valide = false;
+
       setSaveValidation((prevState) => {
         return { ...prevState, documentName: valide };
       });
@@ -299,9 +303,8 @@ export default function SubmitDocPage(props) {
         // validação
         return { ...prevState, name: value };
       });
-      let valide;
+      let valide = false;
       if (value !== '') valide = true;
-      else valide = false;
       setSaveValidation((prevState) => {
         return { ...prevState, documentName: valide };
       });
@@ -314,10 +317,22 @@ export default function SubmitDocPage(props) {
         // validação
         return { ...prevState, value: value };
       });
+      let valide = false;
+      if (value !== '') valide = true;
       setSubmitValidation((prevState) => {
-        return { ...prevState, description: true };
+        return { ...prevState, description: valide };
       });
     }
+  };
+
+  const inputFileHandler = (e) => {
+    setSelectedFile(e.target.files[0]);
+    setSaveValidation((prevState) => {
+      return { ...prevState, file: true };
+    });
+    setSubmitValidation((prevState) => {
+      return { ...prevState, file: true };
+    });
   };
 
   const submitHandler = async (status) => {
@@ -326,8 +341,7 @@ export default function SubmitDocPage(props) {
       name: docName.name,
       isModelFile: docIsModel,
       has_records: docHasRecords,
-      status: status, //depende do botão
-
+      status: status, 
       description: docDescription.value,
       is_public: docIsPublic,
       is_external: docIsExternal,
@@ -342,21 +356,28 @@ export default function SubmitDocPage(props) {
       ),
       fileMulter: selectedFile,
     };
-    if (docApprovingUserID.userID != undefined)
+    if (docApprovingUserID.userID !== undefined)
       obj.approving_userID = docApprovingUserID.userID;
     function getFormData(object) {
       const formData = new FormData();
       Object.keys(object).forEach((key) => formData.append(key, object[key]));
       return formData;
     }
+    setRespLoading(true);
     let resp;
-    if (props.location.state.from === '/penDocs')
+    if (
+      props.location.state !== undefined &&
+      props.location.state.from === '/penDocs'
+    )
       resp = await updateDocument(
         props.location.state.file.documentID,
         getFormData(obj)
       );
     else resp = await insertDocument(userID, getFormData(obj));
     console.log(resp);
+    UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
+    setRespLoading(false);
+    if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);
   };
 
   return (
@@ -370,11 +391,7 @@ export default function SubmitDocPage(props) {
             Submit new File
           </h2>
           <div className="profileBox">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
+            <form onSubmit={(e) => e.preventDefault()}>
               <UserSelectOne
                 title="Insert a Name for the Documentation"
                 id="name"
@@ -383,14 +400,17 @@ export default function SubmitDocPage(props) {
                 select={setDocName}
                 Info={docsNameList}
                 setInfo={setDocsNameList}
-                loading={loading}
                 onChange={inputChangeHandler}
                 // toUnFocus={toUnFocus}
                 // setUnFocus={setUnFocus}
                 addNew={addNew}
                 setAddNew={setAddNew}
                 value={docName.name}
+                validationField="documentName"
+                setSaveValidation={setSaveValidation}
                 setSubmitValidation={setSubmitValidation}
+                disabledSelected={disabledSelected}
+                finalDisabled={finalDisabled}
               />
               {/* <Input
                 id="name"
@@ -416,23 +436,20 @@ export default function SubmitDocPage(props) {
                     className="uk-input"
                     id="file"
                     disabled={
-                      props.location.state !== undefined &&
-                      props.location.state.from === '/penDocs'
+                      (props.location.state !== undefined &&
+                        props.location.state.from === '/penDocs') ||
+                      finalDisabled
                     }
-                    onChange={(e) => {
-                      setSelectedFile(e.target.files[0]);
-                      setSaveValidation((prevState) => {
-                        return { ...prevState, file: true };
-                      });
-                    }}
+                    onChange={inputFileHandler.bind(this)}
                   />
                   <input
                     className="uk-input uk-form-width-large"
                     type="text"
                     placeholder="Select file"
                     disabled={
-                      props.location.state !== undefined &&
-                      props.location.state.from === '/penDocs'
+                      (props.location.state !== undefined &&
+                        props.location.state.from === '/penDocs') ||
+                      finalDisabled
                     }
                   />
                 </div>
@@ -442,6 +459,7 @@ export default function SubmitDocPage(props) {
                     type="checkbox"
                     defaultChecked={docIsModel}
                     onChange={inputChangeHandlerBool.bind(this, 'isModel')}
+                    disabled={finalDisabled}
                   />
                   This document has a model document
                 </label>
@@ -454,11 +472,11 @@ export default function SubmitDocPage(props) {
                 select={setSelectDepart}
                 Info={departs}
                 setInfo={setDeparts}
-                loading={loading}
                 // toUnFocus={toUnFocus}
                 // setUnFocus={setUnFocus}
-                validationField={'setDeparts'}
+                validationField={'selectedDeparts'}
                 setSubmitValidation={setSubmitValidation}
+                disabled={finalDisabled}
               />
               <UserSelectOne
                 title="Select the user who will approve the document"
@@ -468,11 +486,12 @@ export default function SubmitDocPage(props) {
                 select={setApprovingUserID}
                 Info={approvingUserList}
                 setInfo={setApprovingUserList}
-                loading={loading}
                 // toUnFocus={toUnFocus}
                 // setUnFocus={setUnFocus}
                 validationField={'approvingUserList'}
+                setSaveValidation={setSaveValidation}
                 setSubmitValidation={setSubmitValidation}
+                disabled={finalDisabled}
               />
               <UserSelect
                 title="Select Users to Edit the Document"
@@ -482,11 +501,11 @@ export default function SubmitDocPage(props) {
                 select={setSelectUserEdit}
                 Info={userInfo}
                 setInfo={setUserInfo}
-                loading={loading}
                 // toUnFocus={toUnFocus}
                 // setUnFocus={setUnFocus}
                 validationField={'selectedUsersEdit'}
                 setSubmitValidation={setSubmitValidation}
+                disabled={finalDisabled}
               />
               <UserSelect
                 title="Select Users to Access the Document"
@@ -496,11 +515,11 @@ export default function SubmitDocPage(props) {
                 select={setSelectUserRead}
                 Info={userInfo}
                 setInfo={setUserInfo}
-                loading={loading}
                 // toUnFocus={toUnFocus}
                 // setUnFocus={setUnFocus}
                 validationField={'selectedUsersRead'}
                 setSubmitValidation={setSubmitValidation}
+                disabled={finalDisabled}
               />
               <Input
                 id="description"
@@ -513,6 +532,7 @@ export default function SubmitDocPage(props) {
                 placeholder="Insert a Description"
                 newInputClasses="uk-form-width-large"
                 required={true}
+                disabled={finalDisabled}
               />
               <div className="uk-margin">
                 <label>
@@ -521,6 +541,7 @@ export default function SubmitDocPage(props) {
                     type="checkbox"
                     defaultChecked={docIsPublic}
                     onChange={inputChangeHandlerBool.bind(this, 'isPublic')}
+                    disabled={finalDisabled}
                   />
                   Public
                 </label>
@@ -530,6 +551,7 @@ export default function SubmitDocPage(props) {
                     type="checkbox"
                     defaultChecked={docIsExternal}
                     onChange={inputChangeHandlerBool.bind(this, 'isExternal')}
+                    disabled={finalDisabled}
                   />
                   External
                 </label>
@@ -539,6 +561,7 @@ export default function SubmitDocPage(props) {
                     type="checkbox"
                     defaultChecked={docHasRecords}
                     onChange={inputChangeHandlerBool.bind(this, 'isHasRecords')}
+                    disabled={finalDisabled}
                   />
                   This document will have records
                 </label>
@@ -549,7 +572,9 @@ export default function SubmitDocPage(props) {
                 onClick={submitHandler.bind(this, 'pending')}
                 loading={respLoading}
                 disabled={
-                  !Object.keys(saveValidation).every((el) => saveValidation[el])
+                  !Object.keys(saveValidation).every(
+                    (el) => saveValidation[el]
+                  ) || finalDisabled
                 }
               />
               <Button
@@ -560,7 +585,7 @@ export default function SubmitDocPage(props) {
                 disabled={
                   !Object.keys(submitValidation).every(
                     (el) => submitValidation[el]
-                  )
+                  ) || finalDisabled
                 }
               />
             </form>

@@ -10,7 +10,7 @@ import './Home.css';
 function Home(props) {
   console.log(props);
 
-  const [state, setState] = useState({
+  const [state] = useState({
     notifications: [
       {
         title: 'Notif 1',

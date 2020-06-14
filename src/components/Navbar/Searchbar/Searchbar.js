@@ -7,7 +7,7 @@ export default function Searchbar() {
     <>
       <div className="searchBarContainer">
         <form className="uk-search uk-search-default">
-          <a href="" className="uk-search-icon-flip" uk-search-icon="true"></a>
+          <span href="#" className="uk-search-icon-flip" uk-search-icon="true"></span>
           <input
             className="uk-search-input"
             type="search"

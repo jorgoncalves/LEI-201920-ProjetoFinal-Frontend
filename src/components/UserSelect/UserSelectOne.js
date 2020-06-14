@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+// import { Link, useLocation } from 'react-router-dom';
 
-import './UserSelect.css';
+import './Select.css';
 import UserPopup from './UserPopup/UserPopup';
 
-export default function UserSelectOne(props) {
+export default function SelectOne(props) {
   const [tempEl, setTempEl] = useState({ name: '', userID: '' });
   const addSelected = (user, event) => {
     event.target.parentElement.style.display = 'none';
-    console.log(user);
-
     if (user.name !== 'Add new' && props.addNew !== undefined) changeAddNew();
-    // if (user.name === 'Add new') props.select({ name: '', userID: '' });
-    // else
+
     props.select(user);
     setTempEl(user);
     props.setSubmitValidation((prevState) => {
-      return { ...prevState, description: true };
+      return { ...prevState, [props.validationField]: true };
     });
+    if (props.validationField === 'documentName')
+      props.setSaveValidation((prevState) => {
+        return { ...prevState, [props.validationField]: true };
+      });
     if (
       (Object.keys(props.selected).length === 0 ||
         props.selected.name === '') &&
       props.selected.constructor === Object
     )
-      props.setInfo([...props.Info.filter((u) => u.userID != user.userID)]);
+      props.setInfo([...props.Info.filter((u) => u.userID !== user.userID)]);
     else
       props.setInfo([
-        ...props.Info.filter((u) => u.userID != user.userID),
+        ...props.Info.filter((u) => u.userID !== user.userID),
         props.selected,
       ]);
   };
@@ -38,41 +39,31 @@ export default function UserSelectOne(props) {
     props.setSubmitValidation((prevState) => {
       return { ...prevState, [props.validationField]: false };
     });
+    if (props.validationField === 'documentName')
+      props.setSaveValidation((prevState) => {
+        return { ...prevState, [props.validationField]: false };
+      });
     if (props.addNew !== undefined) props.setAddNew(false);
     if (user.name !== '') props.setInfo([...props.Info, user]);
   };
 
   const unShowList = (e) => {
-    let temp = e.target.parentElement.children[1]
+    let temp = e.target.parentElement.children[1];
     setTimeout(() => {
       temp.style.display = 'none';
     }, 100);
-    
-    // props.setUnFocus([...props.toUnFocus, e.target.parentElement.children[1]]);
-
-    console.log(e.target.parentElement.children[1]);
-    console.log(props.toUnFocus);
   };
 
   const showList = (e) => {
     e.target.parentElement.children[1].style.display = 'block';
-    //props.setUnFocus([...props.toUnFocus, e.target.parentElement.children[1]]);
-    // console.log(e.target.parentElement.children[1]);
-    // console.log(props.toUnFocus);
   };
   const changeAddNew = () => {
     props.setAddNew(!props.addNew);
   };
 
   const inputChangeHandler = (id, value, addNew) => {
-    console.log(id, value, addNew);
-
     props.onChange(id, value, addNew);
   };
-  useEffect(() => {
-    // if (!props.addNew && props.addNew !== undefined)
-    //   props.setInfo([...props.Info, { name: 'Add new', userID: 'none' }]);
-  }, []);
   return (
     <>
       {props.loading ? null : (
@@ -93,7 +84,7 @@ export default function UserSelectOne(props) {
                 inputChangeHandler(props.id, e.target.value, props.addNew)
               }
               onFocus={showList.bind(this)}
-              disabled={props.addNew}
+              disabled={props.addNew || props.disabled}
             />
             <div className="userInputDropdown userSelect">
               {props.Info.map((user, index) => {
@@ -117,11 +108,14 @@ export default function UserSelectOne(props) {
               props.selected.constructor === Object &&
               props.selected.name !== '' && (
                 <UserPopup user={props.selected}>
-                  <i
-                    className="iconActUser"
-                    uk-icon="icon: close;"
-                    onClick={removeSelected.bind(this, props.selected)}
-                  ></i>
+                  {props.disabledSelected ||
+                    (!props.disabled && (
+                      <i
+                        className="iconActUser"
+                        uk-icon="icon: close;"
+                        onClick={removeSelected.bind(this, props.selected)}
+                      ></i>
+                    ))}
                 </UserPopup>
               )}
           </div>
