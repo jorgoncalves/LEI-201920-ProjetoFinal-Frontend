@@ -1,70 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import {
-  useParams
-} from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import './DetailDocPage.css';
 
 import Navbar from '../../components/Navbar/Navbar';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Form/Input/Input';
-import RecsShow from '../../components/RecsShow/RecsShow'
+import RecsShow from '../../components/RecsShow/RecsShow';
 
 export default function DetailDocPage(props) {
   let { id } = useParams();
-  const [documentID] = useState(id)
+  const [documentID] = useState(id);
 
-  const [tags, setTags] = useState([{
-    id:null,
-    name:"Not Selected"
-  },{
-    id:0,
-    name:"Year"
-  },{
-    id:1,
-    name:"Name"
-  },{
-    id:2,
-    name:"Tax Reg. Number"
-  },{
-    id:3,
-    name:"Category"
-  },]);
+  const [tags] = useState([
+    {
+      id: null,
+      name: 'Not Selected',
+    },
+    {
+      id: 0,
+      name: 'Year',
+    },
+    {
+      id: 1,
+      name: 'Name',
+    },
+    {
+      id: 2,
+      name: 'Tax Reg. Number',
+    },
+    {
+      id: 3,
+      name: 'Category',
+    },
+  ]);
 
-  const [records, setRecord] = useState([{
-    description:"lorem ipsum qweqdasdasdaa dasdasdasdas dasdasdasdasdasdadasas sdasdasdasdasdasdasd asdwd\nssddfsdfsdfsdfsdfsdfs\nafadasdaasdasdadsdasdqw",
-    tags:[2019,"Tomás","987654321","Fatura"],
-    attachments:[],
-    SubmitedDate:"2019-02-02",
-  },{
-    description:"lorem ipsum qweqdasdasdaawdawdadsdasdqw",
-    tags:[2019,"Tomás","987654321","Fatura"],
-    attachments:[{
-      id:"12342",
-      file:"asdasd/asdasdas/asdassdasdasda.txt"
-    },{
-      id:"12342",
-      file:"asdasd/asdasdas/asdassdasdasda.txt"
-    }],
-    SubmitedDate:"2019-02-01",
-  },{
-    description:"lorem ipsum qweqdasdasdaawdawdadsdasdqw",
-    tags:[2019,"Tomás","987654321","Fatura"],
-    attachments:[],
-    SubmitedDate:"2019-02-01",
-  },{
-    description:"lorem ipsum qweqdasdasdaawdawdadsdasdqw",
-    tags:[2020,"Tomás","987654321","Fatura"],
-    attachments:[{
-      id:"12342",
-      file:"asdasd/asdasdas/asdassdasdasda.txt"
-    }],
-    SubmitedDate:"2020-02-01",
-  },]);
+  const [records] = useState([
+    {
+      description:
+        'lorem ipsum qweqdasdasdaa dasdasdasdas dasdasdasdasdasdadasas sdasdasdasdasdasdasd asdwd\nssddfsdfsdfsdfsdfsdfs\nafadasdaasdasdadsdasdqw',
+      tags: [2019, 'Tomás', '987654321', 'Fatura'],
+      attachments: [],
+      SubmitedDate: '2019-02-02',
+    },
+    {
+      description: 'lorem ipsum qweqdasdasdaawdawdadsdasdqw',
+      tags: [2019, 'Tomás', '987654321', 'Fatura'],
+      attachments: [
+        {
+          id: '12342',
+          file: 'asdasd/asdasdas/asdassdasdasda.txt',
+        },
+        {
+          id: '12342',
+          file: 'asdasd/asdasdas/asdassdasdasda.txt',
+        },
+      ],
+      SubmitedDate: '2019-02-01',
+    },
+    {
+      description: 'lorem ipsum qweqdasdasdaawdawdadsdasdqw',
+      tags: [2019, 'Tomás', '987654321', 'Fatura'],
+      attachments: [],
+      SubmitedDate: '2019-02-01',
+    },
+    {
+      description: 'lorem ipsum qweqdasdasdaawdawdadsdasdqw',
+      tags: [2020, 'Tomás', '987654321', 'Fatura'],
+      attachments: [
+        {
+          id: '12342',
+          file: 'asdasd/asdasdas/asdassdasdasda.txt',
+        },
+      ],
+      SubmitedDate: '2020-02-01',
+    },
+  ]);
 
-  const sortTags = (el,teste) => {
-    debugger
-  }
+  const sortTags = (el, teste) => {
+    debugger;
+  };
 
   return (
     <>
@@ -89,7 +104,7 @@ export default function DetailDocPage(props) {
               newInputClasses="uk-form-width-large"
               defaultValue="Not Selected"
               options={tags}
-              onChange={sortTags.bind(this,tags)}
+              onChange={sortTags.bind(this, tags)}
             />
           </div>
           {/* <ul className="uk-list uk-list-striped"> */}
@@ -105,20 +120,15 @@ export default function DetailDocPage(props) {
             className="uk-list uk-list-striped  uk-margin-remove-top"
             uk-accordion="true"
           >
-            {
-              records.map((rec, index) => {
-                return(
-                  // <tr>
-                  //   <td className="uk-padding-small uk-width-medium"><span className="spanText"><span>{rec.description}</span></span></td>
-                  //   <td className="uk-padding-small">{rec.attachments.length}</td>
-                  // </tr>
-                  <RecsShow
-                    key={index}
-                    record={rec}
-                  />
-                )
-              })
-            }
+            {records.map((rec, index) => {
+              return (
+                // <tr>
+                //   <td className="uk-padding-small uk-width-medium"><span className="spanText"><span>{rec.description}</span></span></td>
+                //   <td className="uk-padding-small">{rec.attachments.length}</td>
+                // </tr>
+                <RecsShow key={index} record={rec} />
+              );
+            })}
             {/* {docs.map((file, index) => {
               return (
                 <DocsShow

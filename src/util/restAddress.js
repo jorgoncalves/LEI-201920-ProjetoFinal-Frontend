@@ -1,5 +1,5 @@
-// const base = 'http://localhost:8080';
-const base = 'http://192.168.1.39:8080';
+const base = 'http://localhost:8080';
+// const base = 'http://192.168.1.39:8080';
 
 module.exports = Object.freeze({
   loginAddress: `${base}/auth/login`,
@@ -13,5 +13,5 @@ module.exports = Object.freeze({
   geFile: `${base}/filexplorer/getFile`,
   getAllDeparts: `${base}/depart`,
   insertDoc: `${base}/docs/insertDoc`,
-  updateDoc: `${base}/docs`
+  updateDoc: `${base}/docs`,
 });

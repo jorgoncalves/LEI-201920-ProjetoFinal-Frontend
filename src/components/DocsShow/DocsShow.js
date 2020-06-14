@@ -1,5 +1,5 @@
 import React from 'react';
-import UIkit from 'uikit';
+// import UIkit from 'uikit';
 import FileViewer from 'react-file-viewer';
 import { Link } from 'react-router-dom';
 
@@ -7,12 +7,11 @@ import './DocsShow.css';
 
 import { geFile } from '../../util/restAddress';
 import Icon from '../Icon/Icon';
-// Exemplo de como chamar o componente no destino e passar as funcionalidades/aspecto
-// <Button design="raised" type="submit" loading={this.props.loading}>
-// Login
-// </Button>
 
 export default function DocsShow(props) {
+  const onError = (e) => {
+    console.log(e, 'error in file-viewer');
+  };
   return (
     <li className="listContainer">
       <a className="docsListChild uk-accordion-title" href="#"></a>
@@ -64,11 +63,13 @@ export default function DocsShow(props) {
       <div className="uk-accordion-content">
         <div className="uk-text-bold">Description:</div>
         {props.file.description}
-        <div>
-          {/* <object data="http://localhost:8080/filexplorer/getFile?path=FileStorage/Reclamações/1/IMG1.png" /> */}
+        <div key={props.file.ID}>
           <FileViewer
             filePath={`${geFile}?path=${props.file.path}`}
-            fileType={props.file.path.split(".")[1]}
+            fileType={props.file.path.split('.')[1]}
+            key={props.file.documentID}
+            id={props.file.documentID}
+            onError={onError}
           />
         </div>
       </div>

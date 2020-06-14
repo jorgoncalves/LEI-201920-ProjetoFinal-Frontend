@@ -1,45 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
+// import { Link, useLocation } from 'react-router-dom';
 
-import './UserSelect.css';
+import './Select.css';
 import UserPopup from './UserPopup/UserPopup';
 
-export default function Profile(props) {
+export default function Select(props) {
   const addSelected = (user, event) => {
     event.target.parentElement.style.display = 'none';
 
     props.select([...props.selected, user]);
 
-    props.setInfo([...props.Info.filter((u) => u.userID != user.userID)]);
+    props.setInfo([...props.Info.filter((u) => u.userID !== user.userID)]);
+    props.setSubmitValidation((prevState) => {
+      return { ...prevState, [props.validationField]: true };
+    });
   };
 
   const removeSelected = (user, event) => {
-    console.log('info', event);
-
-    console.log(user.userID);
-    props.select([...props.selected.filter((u) => u.userID != user.userID)]);
-    console.log(props.selected);
+    props.select([...props.selected.filter((u) => u.userID !== user.userID)]);
 
     props.setInfo([...props.Info, user]);
+
+    if (props.selected.length <= 1)
+      props.setSubmitValidation((prevState) => {
+        return { ...prevState, [props.validationField]: false };
+      });
   };
 
   const unShowList = (e) => {
-    let temp = e.target.parentElement.children[1]
+    let temp = e.target.parentElement.children[1];
     setTimeout(() => {
       temp.style.display = 'none';
     }, 100);
-    
-    // props.setUnFocus([...props.toUnFocus, e.target.parentElement.children[1]]);
-
-    console.log(e.target.parentElement.children[1]);
-    console.log(props.toUnFocus);
   };
 
   const showList = (e) => {
     e.target.parentElement.children[1].style.display = 'block';
-    //props.setUnFocus([...props.toUnFocus, e.target.parentElement.children[1]]);
-    console.log(e.target.parentElement.children[1]);
-    console.log(props.toUnFocus);
   };
   return (
     <>
@@ -58,6 +54,7 @@ export default function Profile(props) {
               placeholder={props.title}
               onFocus={showList.bind(this)}
               // onBlur={unShowList.bind(this)}
+              disabled={props.disabled}
             />
             <div className="userInputDropdown userSelect">
               {props.Info.map((user, index) => {
@@ -75,11 +72,13 @@ export default function Profile(props) {
             {props.selected.map((user, index) => {
               return (
                 <UserPopup key={index} user={user}>
+                  {!props.disabled &&
                   <i
-                    className="iconActUser"
-                    uk-icon="icon: close;"
-                    onClick={removeSelected.bind(this, user)}
+                  className="iconActUser"
+                  uk-icon="icon: close;"
+                  onClick={removeSelected.bind(this, user)}
                   ></i>
+                }
                 </UserPopup>
               );
             })}
