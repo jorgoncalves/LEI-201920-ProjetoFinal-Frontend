@@ -47,12 +47,14 @@ export default function Notification(props) {
           <ul
             className="uk-pagination uk-flex-right uk-margin-medium-top"
             uk-margin="true"
+            uk-switcher="animation: uk-animation-fade"
           >
             <li>
               <a href="#">
                 <span
                   uk-pagination-previous="true"
                   onClick={handleNavigation.bind(this, 'previous')}
+                  uk-switcher="animation: uk-animation-fade"
                 ></span>
               </a>
             </li>
@@ -72,6 +74,7 @@ export default function Notification(props) {
                 <span
                   uk-pagination-next="true"
                   onClick={handleNavigation.bind(this, 'next')}
+                  uk-switcher="animation: uk-animation-fade"
                 ></span>
               </a>
             </li>
@@ -87,7 +90,7 @@ export default function Notification(props) {
               return (
                 <div
                   key={index}
-                  className="uk-card uk-card-default uk-card-body notification-card"
+                  className="uk-card uk-card-default uk-card-small uk-card-body notification-card"
                   onClick={showModalNotif.bind(this, notification)}
                 >
                   <h3 className="uk-card-title">

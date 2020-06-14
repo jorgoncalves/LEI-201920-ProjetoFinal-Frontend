@@ -47,7 +47,7 @@ export default function ModalNotification(props) {
       <div className="uk-card uk-card-default uk-modal-body uk-width-1-2@m">
         <div className="uk-card-body">
           {console.log(props.notifShow)}
-          <h2 class="uk-modal-title">
+          <h2 className="uk-modal-title">
             {props.notifShow.notification.title}
             {props.notifShow.notification.user
               ? ` - ${props.notifShow.notification.user}`
@@ -55,18 +55,18 @@ export default function ModalNotification(props) {
           </h2>
           <p>{props.notifShow.notification.description}</p>
         </div>
-        <div className="uk-card-footer">
+        <div className="uk-card-footer buttonContainer">
           <Button
             link="#"
             border=""
-            children="Check"
-            newClasses="uk-margin-small-top uk-margin-small-left"
+            children="Access Document"
+            newClasses="uk-margin-small-top uk-margin-small-left modalButton"
           />
           <Button
             link="#"
             border=""
-            children="Deny"
-            newClasses="uk-margin-small-top uk-margin-small-left"
+            children="Dismiss"
+            newClasses="uk-margin-small-top uk-margin-small-left modalButton"
           />
         </div>
       </div>

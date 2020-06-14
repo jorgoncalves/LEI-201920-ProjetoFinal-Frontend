@@ -32,6 +32,11 @@ export default function Burger() {
           >
             <Link to="/notApprovDocs">Documentos reprovados</Link>
           </li>
+          <li
+            className={useLocation().pathname == '/obsoleteDocs' ? 'actv' : ''}
+          >
+            <Link to="/obsoleteDocs">Documentos obsoletos</Link>
+          </li>
           <li className="uk-nav-divider"></li>
           <li className={useLocation().pathname == '/newDoc' ? 'actv' : ''}>
             <Link to="/newDoc">Submeter Novo Documento</Link>

@@ -10,6 +10,14 @@ import RecsShow from "../../components/RecsShow/RecsShow";
 import RecsShowSort from "../../components/RecsShow/RecsShowSorted";
 import Loading from "../../components/Loading/Loading";
 
+import {
+  getRecs
+} from '../../util/restCall_records';
+
+import {
+  getDocsOnly
+} from '../../util/restCall_Docs'
+
 export default function DetailDocPage(props) {
   let { id } = useParams();
   const [documentID] = useState(id);
@@ -30,7 +38,7 @@ export default function DetailDocPage(props) {
     },
     {
       id: 3,
-      name: "Tax Reg. Number",
+      name: "Tax Reg. Number (NIF)",
     },
     {
       id: 4,
@@ -39,54 +47,35 @@ export default function DetailDocPage(props) {
   ]);
   const [titles, setTitles] = useState(["Description","Attachments"]);
   const [records, setRecord] = useState([]);
+  const [documentInfo, setDocumentInfo] = useState([]);
   const [sortedRecords, setSortedRecords] = useState([]);
   const [sort, setSort] = useState(false);
 
-  const functionCaller = () => {
-    setRecord(() => {
-      return [
-        {
-          description:
-            "lorem ipsum qweqd2asdasdaa dasdasdasdas dasdasdasdasdasdadasas sdasdasdasdasdasdasd asdwd\nssddfsdfsdfsdfsdfsdfs\nafadasdaasdasdadsdasdqw",
-          tags: [2019, "Tomás", "987234321", "Fatura"],
-          attachments: [],
-          SubmitedDate: "2019-02-02",
-        },
-        {
-          description: "lorem ipsum qwe1qdasdasdaawdawdadsdasdqw",
-          tags: [2020, "Tomás", "342654321", "Fatura"],
-          attachments: [
-            {
-              id: "12342",
-              file: "asdasd/asdasdas/asdassdasdasda.txt",
-            },
-            {
-              id: "12342",
-              file: "asdasd/asdasdas/asdassdasdasda.txt",
-            },
-          ],
-          SubmitedDate: "2019-02-01",
-        },
-        {
-          description: "lorem ipsum qw3eqdasdasdaawdawdadsdasdqw",
-          tags: [2019, "Jorge", "984234321", "Fatura"],
-          attachments: [],
-          SubmitedDate: "2019-03-01",
-        },
-        {
-          description: "lorem ipsum qweqd5asdasdaawdawdadsdasdqw",
-          tags: [2020, "Miguel", "27654321", "Fatura"],
-          attachments: [
-            {
-              id: "12342",
-              file: "asdasd/asdasdas/asdassdasdasda.txt",
-            },
-          ],
-          SubmitedDate: "2020-02-04",
-        }
-      ];
-    });
+  const getRecords = async () => {
+    let resp = await getRecs(documentID);
+    if (resp.status != 500) {
+      if(resp.data)
+        setRecord(resp.data.records);
+
+    } else {
+      setRecord([`${resp.error}`]);
+    }
     setRecordsLoading(false);
+  };
+
+  const getDocumentInfo = async () => {
+    let resp = await getDocsOnly(null,null,documentID);
+    if (resp.status != 500) {
+      setDocumentInfo(resp.data.documents[0].name);
+
+    } else {
+      setDocumentInfo([`${resp.error}`]);
+    }
+  }
+
+  const functionCaller = async () => {
+    await getDocumentInfo();
+    await getRecords();
     setLoading(false);
   };
 
@@ -97,47 +86,6 @@ export default function DetailDocPage(props) {
 
     if (sortItem < 0) {
       await setSort(false);
-      await setRecord([
-        {
-          description:
-            "lorem ipsum qweqd2asdasdaa dasdasdasdas dasdasdasdasdasdadasas sdasdasdasdasdasdasd asdwd\nssddfsdfsdfsdfsdfsdfs\nafadasdaasdasdadsdasdqw",
-          tags: [2019, "Tomás", "987234321", "Fatura"],
-          attachments: [],
-          SubmitedDate: "2019-02-02",
-        },
-        {
-          description: "lorem ipsum qwe1qdasdasdaawdawdadsdasdqw",
-          tags: [2020, "Tomás", "342654321", "Fatura"],
-          attachments: [
-            {
-              id: "12342",
-              file: "asdasd/asdasdas/asdassdasdasda.txt",
-            },
-            {
-              id: "12342",
-              file: "asdasd/asdasdas/asdassdasdasda.txt",
-            },
-          ],
-          SubmitedDate: "2019-02-01",
-        },
-        {
-          description: "lorem ipsum qw3eqdasdasdaawdawdadsdasdqw",
-          tags: [2019, "Jorge", "984234321", "Fatura"],
-          attachments: [],
-          SubmitedDate: "2019-03-01",
-        },
-        {
-          description: "lorem ipsum qweqd5asdasdaawdawdadsdasdqw",
-          tags: [2020, "Miguel", "27654321", "Fatura"],
-          attachments: [
-            {
-              id: "12342",
-              file: "asdasd/asdasdas/asdassdasdasda.txt",
-            },
-          ],
-          SubmitedDate: "2020-02-04",
-        }
-      ]);
       await setTitles(["Description","Attachments"]);
     } else {
       await setSort(true);
@@ -181,7 +129,7 @@ export default function DetailDocPage(props) {
           <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
           <div className="submitBox">
             <h2 className="uk-heading-divider uk-margin-medium-bottom">
-              DOCUMENT NAME - Records {documentID}
+              {documentInfo}
             </h2>
             <div className="DocsBox">
               <div className="leftBox">
@@ -218,62 +166,26 @@ export default function DetailDocPage(props) {
                 {recordsLoading ? ( 
                   <Loading />
                 ) : (sort ? ( 
-                  sortedRecords.map((rec, index) => {
-                    return <RecsShowSort key={index} record={rec} />;
-                  })
+                  sortedRecords.length>0 ? (
+                    sortedRecords.map((rec, index) => {
+                      return <RecsShowSort key={index} record={rec} />;
+                    })
+                  ) : (
+                    <h4 className="uk-text-center uk-text-bold uk-margin-medium-top">THERE ARE NO RECORDS</h4>
+                  )
                 ) : (
-                  records.map((rec, index) => {
-                    return (
-                      // <tr>
-                      //   <td className="uk-padding-small uk-width-medium"><span className="spanText"><span>{rec.description}</span></span></td>
-                      //   <td className="uk-padding-small">{rec.attachments.length}</td>
-                      // </tr>
-                      <RecsShow key={index} record={rec} />
-                    );
-                  })
+                  records.length>0 ? (
+                    records.map((rec, index) => {
+                      return (
+                        <RecsShow key={index} record={rec} />
+                      );
+                    })
+                  ) : (
+                    <h4 className="uk-text-center uk-text-bold uk-margin-medium-top">THERE ARE NO RECORDS</h4>
+                  )
                 ))}
-                {/* {docs.map((file, index) => {
-                return (
-                  <DocsShow
-                    key={index}
-                    file={file}
-                    docStatus={props.docStatus}
-                  />
-                );
-              })} */}
               </ul>
             </div>
-            {/* <div className="submitBox">
-            <div className="leftBox">
-              <div className="max-height">
-                <table className="uk-table uk-table-striped uk-table-divider uk-table-hover uk-margin-remove-right">
-                  <thead>
-                    <tr>
-                      <th className="uk-padding-small uk-width-medium">Description</th>
-                      <th className="uk-width-small uk-padding-small">Attachments</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      records.map((rec, index) => {
-                        return(
-                          <tr>
-                            <td className="uk-padding-small uk-width-medium"><span className="spanText"><span>{rec.description}</span></span></td>
-                            <td className="uk-padding-small">{rec.attachments.length}</td>
-                          </tr>
-                        )
-                      })
-                    }
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className="rightBox">
-              RIGHT
-              //Show Tags of record
-              //Add links to files
-            </div>
-          </div> */}
           </div>
         </>
       )}

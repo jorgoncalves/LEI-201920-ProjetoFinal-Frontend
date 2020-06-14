@@ -233,6 +233,20 @@ export default withRouter(function App() {
           )}
         />
         <Route
+          path="/obsoleteDocs"
+          exact
+          render={(props) => (
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Not Approved Documents"
+              files="obsolete"
+              docStatus="obsolete"
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
           path="/newDoc"
           exact
           render={(props) => (

@@ -20,6 +20,8 @@
     padding: 0;
     text-align: right;
     vertical-align: top;
+    float: right;
+    margin-right: 5%;
 }
 
 .spanTextLess{
