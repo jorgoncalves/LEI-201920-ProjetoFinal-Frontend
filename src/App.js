@@ -5,7 +5,6 @@ import {
   Redirect,
   withRouter,
   useHistory,
-  useParams
 } from 'react-router-dom';
 
 import UIkit from 'uikit';
@@ -18,6 +17,11 @@ import DepartmentPage from './pages/KeepIt/DepartmentPage';
 import DocsPage from './pages/KeepIt/DocsPage';
 import SubmitDocPage from './pages/KeepIt/SubmitDocPage';
 import DetailDocPage from './pages/KeepIt/DetailDocPage';
+import AdminPanel from './pages/Admin/AdminPanel';
+import CreateUser from './pages/Admin/Users/CreateUser';
+import UpdateUser from './pages/Admin/Users/UpdateUser';
+import DepartmentsManagement from './pages/Admin/Departments/DepartmentsManagement';
+import UpdateDepartment from './pages/Admin/Departments/UpdateDepartment';
 
 import { loginAddress, userInfo } from './util/restAddress';
 import { getUserInfo } from './util/restCall_users';
@@ -239,12 +243,66 @@ export default withRouter(function App() {
             />
           )}
         />
-
         <Route
           path="/records/:id"
           exact
           render={(props) => (
             <DetailDocPage
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/adminPanel"
+          exact
+          render={(props) => (
+            <AdminPanel
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/createuser"
+          exact
+          render={(props) => (
+            <CreateUser
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/updateuser"
+          exact
+          render={(props) => (
+            <UpdateUser
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />{' '}
+        <Route
+          path="/departmentsmanagement"
+          exact
+          render={(props) => (
+            <DepartmentsManagement
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/updatedepartment"
+          exact
+          render={(props) => (
+            <UpdateDepartment
               {...props}
               onLogout={logoutHandler}
               userInfo={state.userInfo}

@@ -9,9 +9,6 @@ import { geFile } from '../../util/restAddress';
 import Icon from '../Icon/Icon';
 
 export default function DocsShow(props) {
-  const onError = (e) => {
-    console.log(e, 'error in file-viewer');
-  };
   return (
     <li className="listContainer">
       <a className="docsListChild uk-accordion-title" href="#"></a>
@@ -69,7 +66,6 @@ export default function DocsShow(props) {
             fileType={props.file.path.split('.')[1]}
             key={props.file.documentID}
             id={props.file.documentID}
-            onError={onError}
           />
         </div>
       </div>

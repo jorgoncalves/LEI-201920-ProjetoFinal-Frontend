@@ -12,6 +12,8 @@ module.exports = Object.freeze({
   getCountries: `https://restcountries.eu/rest/v2/all`,
   geFile: `${base}/filexplorer/getFile`,
   getAllDeparts: `${base}/depart`,
+  departs: `${base}/depart`,
   insertDoc: `${base}/docs/insertDoc`,
   updateDoc: `${base}/docs`,
+  createDepart: `${base}/depart/create`,
 });
