@@ -12,8 +12,8 @@ import './DepartmentsManagement.css';
 
 export default function UpdateDepartment(props) {
   const [loading, setLoading] = useState(true);
-  const [finalDisabled, setFinalDisabled] = useState(false);
-  const [respLoading, setRespLoading] = useState(false);
+  // const [finalDisabled, setFinalDisabled] = useState(false);
+  // const [respLoading, setRespLoading] = useState(false);
   const [addNew, setAddNew] = useState(false);
   const [departmentsList, setDepartmentsList] = useState([]);
   const [formDepartment, setFormDepartment] = useState({});
@@ -37,22 +37,22 @@ export default function UpdateDepartment(props) {
     setLoading(false);
   };
 
-  const submitHandler = async () => {
-    const tempObj = {
-      ...submitValidation,
-    };
-    const obj = {
-      departName: formDepartment.name,
-    };
-    console.log(tempObj);
-    console.log(obj);
-    setRespLoading(true);
-    // const resp = await createDepartment(obj);
-    // console.log(resp);
-    // UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
-    // setRespLoading(false);
-    // if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);
-  };
+  // const submitHandler = async () => {
+  // const tempObj = {
+  //   ...submitValidation,
+  // };
+  // const obj = {
+  //   departName: formDepartment.name,
+  // };
+  // console.log(tempObj);
+  // console.log(obj);
+  // setRespLoading(true);
+  // const resp = await createDepartment(obj);
+  // console.log(resp);
+  // UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
+  // setRespLoading(false);
+  // if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);
+  // };
 
   useEffect(() => {
     functionCaller();
@@ -80,23 +80,28 @@ export default function UpdateDepartment(props) {
               setSubmitValidation={setSubmitValidation}
               addNew={addNew}
               setAddNew={setAddNew}
-              disabled={finalDisabled}
+              // disabled={finalDisabled}
             />
-            <Button
-              children="Update"
-              newClasses="uk-margin-small-right"
-              // onClick={submitHandler}
-              // loading={respLoading}
-              link={{
-                pathname: '/departmentsmanagement',
-                state: { departmentID: formDepartment.departmentID },
-              }}
-              disabled={
-                !Object.keys(submitValidation).every(
-                  (el) => submitValidation[el]
-                ) || finalDisabled
-              }
-            />
+            {!Object.keys(submitValidation).every(
+              (el) => submitValidation[el]
+            ) ? (
+              <Button
+                children="Update"
+                newClasses="uk-margin-small-right"
+                disabled={true}
+              />
+            ) : (
+              <Button
+                children="Update"
+                newClasses="uk-margin-small-right"
+                // onClick={submitHandler}
+                // loading={respLoading}
+                link={{
+                  pathname: '/departmentsmanagement',
+                  state: { departmentID: formDepartment.departmentID },
+                }}
+              />
+            )}
           </div>
         </div>
       )}

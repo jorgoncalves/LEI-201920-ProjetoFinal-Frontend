@@ -3,7 +3,7 @@ import React from 'react';
 import './Input.css';
 
 const input = (props) => (
-  <div className={['input', props.newDivClasses].join(' ')}>
+  <div className={['input uk-margin', props.newDivClasses].join(' ')}>
     {props.label && (
       <label className="uk-text-emphasis" htmlFor={props.id}>
         {props.label}
@@ -61,6 +61,7 @@ const input = (props) => (
         placeholder={props.placeholder}
         onBlur={props.onBlur}
         disabled={props.disabled}
+        onChange={(e) => props.onChange(props.id, e.target.value)}
         defaultValue={props.value}
       >
         {props.options.map((option, index) => {
@@ -70,7 +71,8 @@ const input = (props) => (
     )}
     {props.control === 'selectOne' && (
       <select
-        className={['uk-select',
+        className={[
+          'uk-select',
           'uk-input',
           !props.valid ? 'invalid' : 'valid',
           props.touched ? 'touched' : 'untouched',
@@ -85,9 +87,7 @@ const input = (props) => (
         onChange={props.onChange}
       >
         {props.options.map((option, index) => {
-          return (
-            <option key={index}>{option.name}</option>
-          );
+          return <option key={index}>{option.name}</option>;
         })}
       </select>
     )}

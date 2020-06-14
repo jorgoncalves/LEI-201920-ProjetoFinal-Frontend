@@ -18,7 +18,7 @@ import DocsPage from './pages/KeepIt/DocsPage';
 import SubmitDocPage from './pages/KeepIt/SubmitDocPage';
 import DetailDocPage from './pages/KeepIt/DetailDocPage';
 import AdminPanel from './pages/Admin/AdminPanel';
-import CreateUser from './pages/Admin/Users/CreateUser';
+import UsersManagement from './pages/Admin/Users/UsersManagement';
 import UpdateUser from './pages/Admin/Users/UpdateUser';
 import DepartmentsManagement from './pages/Admin/Departments/DepartmentsManagement';
 import UpdateDepartment from './pages/Admin/Departments/UpdateDepartment';
@@ -280,10 +280,10 @@ export default withRouter(function App() {
           )}
         />
         <Route
-          path="/createuser"
+          path="/usersmanagement"
           exact
           render={(props) => (
-            <CreateUser
+            <UsersManagement
               {...props}
               onLogout={logoutHandler}
               userInfo={state.userInfo}

@@ -35,6 +35,7 @@ const button = (props) =>
             props.newClasses,
           ].join(' ')}
           to={props.link}
+          disabled={props.disabled}
         >
           {props.children}
         </Link>
@@ -48,6 +49,7 @@ const button = (props) =>
             props.newClasses,
           ].join(' ')}
           to={props.link}
+          disabled={props.disabled}
         >
           {props.children}
         </Link>

@@ -32,7 +32,7 @@ export default function AdminPanel(props) {
             <h3 className="uk-link-heading">Users Managements</h3>
             {/* <div className="profileBox"> */}
             <Button
-              link="/createuser"
+              link="/usersmanagement"
               newClasses="uk-margin-small-right"
               children="Create User"
             />
