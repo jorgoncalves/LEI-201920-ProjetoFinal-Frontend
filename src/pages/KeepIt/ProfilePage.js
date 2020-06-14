@@ -72,13 +72,13 @@ export default function ProfilePage(props) {
 
   const getCountries = async () => {
     let resp = await getCountriesList();
-    if (resp.status != 500) {
+    if (resp.status !== 500) {
       let countries = [];
 
       await resp.forEach((element) => {
         countries.push(element.translations.pt);
       });
-      await setCountriesList(countries);
+      setCountriesList(countries);
     } else {
       setCountriesList([`${resp.error}`]);
     }

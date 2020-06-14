@@ -58,8 +58,6 @@ export const getCountriesList = async () => {
   });
 
   const resp = await tempResp.json();
-  console.log(tempResp);
-
   try {
     if (tempResp.status !== 200 && tempResp.status !== 201) {
       console.log('Error!');

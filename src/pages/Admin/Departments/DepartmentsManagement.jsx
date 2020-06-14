@@ -36,26 +36,19 @@ export default function DepartmentsManagement(props) {
   const inputChangeHandler = (input, value) => {
     if (input === 'DepartmentName') {
       setFormDepartmentName((prevState) => {
-        // validação
         return { ...prevState, value: value };
-      });
-      let valide = false;
-      if (value !== '') valide = true;
-      setSubmitValidation((prevState) => {
-        return { ...prevState, [input]: valide };
       });
     }
     if (input === 'Description') {
       setFormDescription((prevState) => {
-        // validação
         return { ...prevState, value: value };
       });
-      let valide = false;
-      if (value !== '') valide = true;
-      setSubmitValidation((prevState) => {
-        return { ...prevState, [input]: valide };
-      });
     }
+    let valide = false;
+    if (value !== '') valide = true;
+    setSubmitValidation((prevState) => {
+      return { ...prevState, [input]: valide };
+    });
   };
   const submitHandler = async () => {
     const tempObj = {

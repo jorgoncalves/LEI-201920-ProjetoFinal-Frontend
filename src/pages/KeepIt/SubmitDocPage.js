@@ -98,7 +98,11 @@ export default function SubmitDocPage(props) {
   const getAllDocsInfo = async () => {
     let allDocs = await getDocsOnly(null, ['pending', 'approving'], null);
     allDocs = allDocs.data.documents;
-
+    allDocs = await Promise.all(
+      allDocs.map((doc) => {
+        return { ...doc, userID: doc.documentID };
+      })
+    );
     setDocsNameList(allDocs);
   };
   const pendingAllUsersInfo = async () => {
@@ -118,7 +122,11 @@ export default function SubmitDocPage(props) {
   const pendingAllDocsInfo = async () => {
     let allDocs = await getDocsOnly(null, ['pending', 'approving'], null);
     allDocs = allDocs.data.documents;
-
+    allDocs = await Promise.all(
+      allDocs.map((doc) => {
+        return { ...doc, userID: doc.documentID };
+      })
+    );
     return allDocs;
   };
 
@@ -135,6 +143,7 @@ export default function SubmitDocPage(props) {
     let userInfo = await pendingAllUsersInfo();
 
     let allDocs = await pendingAllDocsInfo();
+
     setDocName((prevState) => {
       const tempDoc = allDocs.find((doc) => doc.name === documentName);
       setAddNew(true);
@@ -341,7 +350,7 @@ export default function SubmitDocPage(props) {
       name: docName.name,
       isModelFile: docIsModel,
       has_records: docHasRecords,
-      status: status, 
+      status: status,
       description: docDescription.value,
       is_public: docIsPublic,
       is_external: docIsExternal,
