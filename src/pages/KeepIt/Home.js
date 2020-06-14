@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import Loading from '../../components/Loading/Loading';
 import Navbar from '../../components/Navbar/Navbar';
 import QuickAccess from '../../components/QuickAccess/QuickAccess';
 import Notification from '../../components/Notifications/Notification';
@@ -7,9 +9,26 @@ import ModalNotif from '../../components/Notifications/Modal/Modal';
 
 import './Home.css';
 
-function Home(props) {
-  console.log(props);
+import { getDocsUser } from '../../util/restCall_Docs';
 
+export default function Home(props) {
+  const [userID] = useState(localStorage.getItem('userID'));
+  const [loading, setLoading] = useState(true);
+  const [pendingDocs, setPendingDocs] = useState([]);
+
+  const getPendingDocs = async () => {
+    const resp = await getDocsUser(userID, 'pending');
+    setPendingDocs(resp.data.documents);
+  };
+
+  const functionCaller = async () => {
+    await getPendingDocs();
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    functionCaller();
+  }, []);
   const [state] = useState({
     notifications: [
       {
@@ -93,23 +112,27 @@ function Home(props) {
   return (
     <>
       <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
-      <div className="uk-margin uk-flex uk-flex-around mainContainer">
-        <div className="homeLeftContainer">
-          <QuickAccess />
-        </div>
-        <div className="homeRightContainer">
-          <Notification
-            notifications={state.notifications}
-            setNotifShow={setNotifShow}
-          />
-          <PendingSection />
-        </div>
-      </div>
-      {notifShow.state ? (
-        <ModalNotif setNotifShow={setNotifShow} notifShow={notifShow} />
-      ) : null}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className="uk-margin uk-flex uk-flex-around mainContainer">
+            <div className="homeLeftContainer">
+              <QuickAccess />
+            </div>
+            <div className="homeRightContainer">
+              <Notification
+                notifications={state.notifications}
+                setNotifShow={setNotifShow}
+              />
+              <PendingSection pendingDocs={pendingDocs} />
+            </div>
+          </div>
+          {notifShow.state ? (
+            <ModalNotif setNotifShow={setNotifShow} notifShow={notifShow} />
+          ) : null}
+        </>
+      )}
     </>
   );
 }
-
-export default Home;

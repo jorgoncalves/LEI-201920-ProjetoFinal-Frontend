@@ -30,6 +30,12 @@ export default function Profile(props) {
               <li className="profInfo">{userInfo.email}</li>
               <li className="profInfo">{userInfo.department}</li>
               <li className="uk-nav-divider"></li>
+              <li className={LocationPath === '/adminPanel' ? 'uk-active' : ''}>
+                <Link to="/adminPanel" href="#">
+                  Admin Panel
+                </Link>
+              </li>
+              <li className="uk-nav-divider"></li>
               <li className={LocationPath === '/profile' ? 'uk-active' : ''}>
                 <Link to="/profile" href="#" className="fLeft">
                   Settings

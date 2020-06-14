@@ -1,4 +1,12 @@
-import { getDepartColleagues } from './restAddress';
+import axios from 'axios';
+import queryString from 'querystring';
+
+import {
+  getDepartColleagues,
+  createDepart,
+  getAllDeparts,
+  departs,
+} from './restAddress';
 
 export const getUserDepartColleagues = async (id) => {
   const tempResp = await fetch(getDepartColleagues + id, {
@@ -14,7 +22,7 @@ export const getUserDepartColleagues = async (id) => {
     console.log(resp);
 
     return {
-      resp
+      resp,
     };
   } catch (error) {
     //   UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
@@ -25,5 +33,52 @@ export const getUserDepartColleagues = async (id) => {
     //     error: error,
     //  });
     return error.message;
+  }
+};
+
+export const getDepartmentData = async (departmentID) => {
+  try {
+    const tempObj = {};
+    if (departmentID) tempObj.departmentID = departmentID;
+    const params = queryString.stringify(tempObj);
+    const resp = await axios(`${getAllDeparts}?${params}`, {
+      method: 'GET',
+    });
+    console.log(resp.data);
+
+    return resp.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createDepartment = async (obj) => {
+  try {
+    const resp = await axios(`${createDepart} `, {
+      method: 'POST',
+      data: obj,
+    });
+    console.log(resp.data);
+
+    return resp.data;
+  } catch (error) {
+    console.log(error);
+
+    return error;
+  }
+};
+
+export const updateDepart = async (id, obj) => {
+  try {
+    const resp = await axios(`${departs}/${id}`, {
+      method: 'PUT',
+      data: obj,
+    });
+    console.log(resp.data);
+    return resp.data;
+  } catch (error) {
+    console.log(error);
+
+    return error;
   }
 };

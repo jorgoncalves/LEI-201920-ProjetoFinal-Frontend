@@ -9,8 +9,6 @@ export default function Profile(props) {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState();
   useEffect(() => {
-      console.log("GONE")
-      console.log(props.user)
       setUserInfo(props.user);
       setLoading(false);
 
