@@ -17,7 +17,7 @@ import {
   getDocDepartPermissions,
   getDocsOnly,
   insertDocument,
-  updateDocument,
+  updateDocument
 } from '../../util/restCall_Docs';
 
 import { required } from '../../util/validators';
@@ -30,7 +30,7 @@ export default function SubmitDocPage(props) {
   // const [submitDisabled, setSubmitDisabled] = useState(true);
   const [saveValidation, setSaveValidation] = useState({
     documentName: false,
-    file: false,
+    file: false
   });
   const [submitValidation, setSubmitValidation] = useState({
     documentName: false,
@@ -39,7 +39,7 @@ export default function SubmitDocPage(props) {
     approvingUserList: false,
     selectedUsersRead: false,
     selectedUsersEdit: false,
-    selectedDeparts: false,
+    selectedDeparts: false
   });
   const [disabledSelected, setDisabledSelected] = useState(false);
   // const [clicks, setClicks] = useState(0);
@@ -57,7 +57,7 @@ export default function SubmitDocPage(props) {
     value: '',
     valid: false,
     touched: false,
-    validators: [required],
+    validators: [required]
   });
   const [docIsPublic, setDocIsPublic] = useState(false);
   const [docIsExternal, setDocIsExternal] = useState(false);
@@ -92,6 +92,11 @@ export default function SubmitDocPage(props) {
   const getAllDeparts = async () => {
     let allDepartments = await getAllDepartments();
     allDepartments = allDepartments.data.respFind;
+    allDepartments = await Promise.all(
+      allDepartments.map((depart) => {
+        return { ...depart, userID: depart.departmentID };
+      })
+    );
     setDeparts([...allDepartments]);
   };
 
@@ -116,6 +121,11 @@ export default function SubmitDocPage(props) {
   const pendingAllDeparts = async () => {
     let allDepartments = await getAllDepartments();
     allDepartments = allDepartments.data.respFind;
+    allDepartments = await Promise.all(
+      allDepartments.map((depart) => {
+        return { ...depart, userID: depart.departmentID };
+      })
+    );
     return allDepartments;
   };
 
@@ -239,7 +249,7 @@ export default function SubmitDocPage(props) {
     setDocDescription((prevState) => {
       return {
         ...prevState,
-        value: props.location.state.file.description,
+        value: props.location.state.file.description
       };
     });
     if (
@@ -249,7 +259,7 @@ export default function SubmitDocPage(props) {
       validDescription = true;
     setSaveValidation({
       documentName: true,
-      file: true,
+      file: true
     });
     setSubmitValidation((prevState) => {
       return {
@@ -259,7 +269,7 @@ export default function SubmitDocPage(props) {
         approvingUserList: validApprovingUserID,
         selectedUsersRead: validSelectedUsersRead,
         selectedUsersEdit: validSelectedUsersEdit,
-        selectedDeparts: validSelectedDepart,
+        selectedDeparts: validSelectedDepart
       };
     });
   };
@@ -363,7 +373,7 @@ export default function SubmitDocPage(props) {
       departmentList: JSON.stringify(
         selectedDeparts.map((depart) => depart.departmentID)
       ),
-      fileMulter: selectedFile,
+      fileMulter: selectedFile
     };
     if (docApprovingUserID.userID !== undefined)
       obj.approving_userID = docApprovingUserID.userID;

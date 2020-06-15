@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import UIkit from 'uikit';
 
 import Button from '../../../components/Button/Button';
 import Input from '../../../components/Form/Input/Input';
@@ -9,7 +10,12 @@ import UserSelect from '../../../components/UserSelect/UserSelect';
 import './UsersManagement.css';
 
 import { getAllDepartments } from '../../../util/restCall_Docs';
-import { getCountriesList, getUserInfo } from '../../../util/restCall_users';
+import {
+  getCountriesList,
+  getUserInfo,
+  updateClient,
+  createClient
+} from '../../../util/restCall_users';
 
 export default function UsersManagement(props) {
   const [userIDUpdate, setUserIDUpdate] = useState();
@@ -31,7 +37,7 @@ export default function UsersManagement(props) {
     Department: false,
     Country: false,
     CountryCode: false,
-    PhoneNumber: false,
+    PhoneNumber: false
   });
   const getAllDeparts = async () => {
     let allDepartments = await getAllDepartments();
@@ -62,16 +68,18 @@ export default function UsersManagement(props) {
     const id = props.location.state.userID;
     setUserIDUpdate(id);
     let resp = await getUserInfo(id);
+    console.log("fetch");
+    
     let userDepartList = resp.department.map((depart) => depart.trim());
     console.log(resp);
     setFormName((prevState) => {
       return {
-        value: resp.name,
+        value: resp.name
       };
     });
     setFormEmail((prevState) => {
       return {
-        value: resp.email,
+        value: resp.email
       };
     });
     setDisabled(true);
@@ -96,17 +104,17 @@ export default function UsersManagement(props) {
     });
     setFormCountry((prevState) => {
       return {
-        value: resp.country,
+        value: resp.country
       };
     });
     setFormCountryCode((prevState) => {
       return {
-        value: resp.country_code,
+        value: resp.country_code
       };
     });
     setFormPhoneNumber((prevState) => {
       return {
-        value: resp.phone_number,
+        value: resp.phone_number
       };
     });
     setSubmitValidation({
@@ -115,7 +123,7 @@ export default function UsersManagement(props) {
       Department: true,
       Country: true,
       CountryCode: true,
-      PhoneNumber: true,
+      PhoneNumber: true
     });
   };
 
@@ -159,26 +167,28 @@ export default function UsersManagement(props) {
     });
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     const obj = {
-      formName,
-      formEmail,
-      formDepartment,
-      formCountry,
-      formCountryCode,
-      formPhoneNumber,
+      name: formName.value,
+      email: formEmail.value, //apenas é relevante em caso de insert
+      departmentList: formDepartment,
+      deleteFromDepart: departmentsList,
+      country: formCountry.value,
+      country_code: formCountryCode.value,
+      phone_number: formPhoneNumber.value,
+      password: 12345
     };
     console.log(obj);
 
     setRespLoading(true);
-    // let resp;
-    // if (departmentID !== undefined)
-    // resp = await updateDepart(departmentID, obj);
-    // else resp = await createDepartment(obj);
-    // console.log(resp);
-    // UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
+    let resp;
+    if (userIDUpdate !== undefined)
+      resp = await updateClient(userIDUpdate, obj);
+    else resp = await createClient(obj);
+    console.log(resp);
+    UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
     setRespLoading(false);
-    // if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);
+    if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);
   };
   const functionCaller = async () => {
     await getCountries();
@@ -237,6 +247,7 @@ export default function UsersManagement(props) {
               validationField={'Department'}
               setSubmitValidation={setSubmitValidation}
               disabled={finalDisabled}
+              userIDUpdate={userIDUpdate}
             />
             <Input
               id="Country"

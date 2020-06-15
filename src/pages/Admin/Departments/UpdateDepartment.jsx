@@ -17,7 +17,6 @@ export default function UpdateDepartment(props) {
   const [addNew, setAddNew] = useState(false);
   const [departmentsList, setDepartmentsList] = useState([]);
   const [formDepartment, setFormDepartment] = useState({});
-
   const [submitValidation, setSubmitValidation] = useState({
     Department: false,
   });

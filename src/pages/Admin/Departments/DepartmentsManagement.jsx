@@ -11,7 +11,7 @@ import { getAllUserInfo } from '../../../util/restCall_users';
 import {
   createDepartment,
   getDepartmentData,
-  updateDepart,
+  updateDepart
 } from '../../../util/restCall_departs';
 
 import './DepartmentsManagement.css';
@@ -30,7 +30,7 @@ export default function DepartmentsManagement(props) {
   const [submitValidation, setSubmitValidation] = useState({
     DepartmentName: false,
     ApprovingUser: false,
-    Description: false,
+    Description: false
   });
 
   const inputChangeHandler = (input, value) => {
@@ -52,12 +52,12 @@ export default function DepartmentsManagement(props) {
   };
   const submitHandler = async () => {
     const tempObj = {
-      ...submitValidation,
+      ...submitValidation
     };
     const obj = {
       departName: formDepartmentName.value,
       chief_user: formApprovingUser.userID,
-      description: formDescription.value,
+      description: formDescription.value
     };
     console.log(tempObj);
     console.log(obj);
@@ -95,13 +95,13 @@ export default function DepartmentsManagement(props) {
     setUsersList(respUsers);
     setFormDescription((prevState) => {
       return {
-        value: resp.description,
+        value: resp.description
       };
     });
     setSubmitValidation({
       DepartmentName: true,
       ApprovingUser: true,
-      Description: true,
+      Description: true
     });
   };
 

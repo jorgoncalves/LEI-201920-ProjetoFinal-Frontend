@@ -72,13 +72,19 @@ export default function Select(props) {
             {props.selected.map((user, index) => {
               return (
                 <UserPopup key={index} user={user}>
-                  {!props.disabled &&
-                  <i
-                  className="iconActUser"
-                  uk-icon="icon: close;"
-                  onClick={removeSelected.bind(this, user)}
-                  ></i>
-                }
+                  {console.log(user.chief_userID, props.userIDUpdate)}
+                  {!props.disabled && (
+                    <>
+                      {props.userIDUpdate !== undefined &&
+                      user.chief_userID === props.userIDUpdate ? null : (
+                        <i
+                          className="iconActUser"
+                          uk-icon="icon: close;"
+                          onClick={removeSelected.bind(this, user)}
+                        ></i>
+                      )}
+                    </>
+                  )}
                 </UserPopup>
               );
             })}
