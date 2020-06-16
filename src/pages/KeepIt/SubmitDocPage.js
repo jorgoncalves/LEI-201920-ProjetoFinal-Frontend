@@ -91,24 +91,22 @@ export default function SubmitDocPage(props) {
 
   const getAllDeparts = async () => {
     let allDepartments = await getAllDepartments();
-    allDepartments = allDepartments.data.respFind;
-    allDepartments = await Promise.all(
-      allDepartments.map((depart) => {
-        return { ...depart, userID: depart.departmentID };
-      })
-    );
-    setDeparts([...allDepartments]);
+
+    const tempAllDepartments = [];
+    for await (const depart of allDepartments.data.respFind) {
+      tempAllDepartments.push({ ...depart, userID: depart.departmentID });
+    }
+    setDeparts(tempAllDepartments);
   };
 
   const getAllDocsInfo = async () => {
     let allDocs = await getDocsOnly(null, ['pending', 'approving'], null);
-    allDocs = allDocs.data.documents;
-    allDocs = await Promise.all(
-      allDocs.map((doc) => {
-        return { ...doc, userID: doc.documentID };
-      })
-    );
-    setDocsNameList(allDocs);
+
+    const tempAllDocs = [];
+    for await (const doc of allDocs.data.documents) {
+      tempAllDocs.push({ ...doc, userID: doc.documentID });
+    }
+    setDocsNameList(tempAllDocs);
   };
   const pendingAllUsersInfo = async () => {
     let userTemp = await getAllUserInfo();
@@ -120,24 +118,22 @@ export default function SubmitDocPage(props) {
 
   const pendingAllDeparts = async () => {
     let allDepartments = await getAllDepartments();
-    allDepartments = allDepartments.data.respFind;
-    allDepartments = await Promise.all(
-      allDepartments.map((depart) => {
-        return { ...depart, userID: depart.departmentID };
-      })
-    );
-    return allDepartments;
+
+    const tempAllDepartments = [];
+    for await (const depart of allDepartments.data.respFind) {
+      tempAllDepartments.push({ ...depart, userID: depart.departmentID });
+    }
+    return tempAllDepartments;
   };
 
   const pendingAllDocsInfo = async () => {
     let allDocs = await getDocsOnly(null, ['pending', 'approving'], null);
-    allDocs = allDocs.data.documents;
-    allDocs = await Promise.all(
-      allDocs.map((doc) => {
-        return { ...doc, userID: doc.documentID };
-      })
-    );
-    return allDocs;
+
+    const tempAllDocs = [];
+    for await (const doc of allDocs.data.documents) {
+      tempAllDocs.push({ ...doc, userID: doc.documentID });
+    }
+    return tempAllDocs;
   };
 
   const pendingInfo = async () => {
@@ -357,6 +353,7 @@ export default function SubmitDocPage(props) {
   const submitHandler = async (status) => {
     //verificar que o form está preenchido.
     const obj = {
+      userID: userID,
       name: docName.name,
       isModelFile: docIsModel,
       has_records: docHasRecords,

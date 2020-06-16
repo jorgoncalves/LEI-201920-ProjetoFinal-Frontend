@@ -16,6 +16,7 @@ import {
   updateClient,
   createClient
 } from '../../../util/restCall_users';
+import InputCheckOrRadio from '../../../components/Form/Input/InputCheckOrRadio';
 
 export default function UsersManagement(props) {
   const [userIDUpdate, setUserIDUpdate] = useState();
@@ -29,6 +30,7 @@ export default function UsersManagement(props) {
   const [formCountry, setFormCountry] = useState({ value: '' });
   const [formCountryCode, setFormCountryCode] = useState({ value: '' });
   const [formPhoneNumber, setFormPhoneNumber] = useState({ value: '' });
+  const [formIsActive, setFormIsActive] = useState(true);
   const [departmentsList, setDepartmentsList] = useState([]);
   const [countriesList, setCountriesList] = useState([]);
   const [submitValidation, setSubmitValidation] = useState({
@@ -41,12 +43,11 @@ export default function UsersManagement(props) {
   });
   const getAllDeparts = async () => {
     let allDepartments = await getAllDepartments();
-    allDepartments = await Promise.all(
-      allDepartments.data.respFind.map((depart) => {
-        return { ...depart, userID: depart.departmentID };
-      })
-    );
-    setDepartmentsList(allDepartments);
+    const tempAllDepartments = [];
+    for await (const depart of allDepartments.data.respFind) {
+      tempAllDepartments.push({ ...depart, userID: depart.departmentID });
+    }
+    setDepartmentsList(tempAllDepartments);
   };
 
   const getCountries = async () => {
@@ -68,13 +69,13 @@ export default function UsersManagement(props) {
     const id = props.location.state.userID;
     setUserIDUpdate(id);
     let resp = await getUserInfo(id);
-    console.log("fetch");
-    
+    console.log('fetch', resp);
+
     let userDepartList = resp.department.map((depart) => depart.trim());
     console.log(resp);
     setFormName((prevState) => {
       return {
-        value: resp.name
+        value: resp.name !== null ? resp.name : ''
       };
     });
     setFormEmail((prevState) => {
@@ -84,38 +85,41 @@ export default function UsersManagement(props) {
     });
     setDisabled(true);
     let allDepartments = await getAllDepartments();
-    allDepartments = await Promise.all(
-      allDepartments.data.respFind.map((depart) => {
-        return { ...depart, userID: depart.departmentID };
-      })
-    );
 
-    const userDepartmentList = allDepartments.filter((depart) =>
+    let tempAllDepartments = [];
+    for await (const depart of allDepartments.data.respFind) {
+      tempAllDepartments.push({ ...depart, userID: depart.departmentID });
+    }
+
+    const userDepartmentList = tempAllDepartments.filter((depart) =>
       userDepartList.includes(depart.name)
     );
 
-    allDepartments = allDepartments.filter(
+    tempAllDepartments = tempAllDepartments.filter(
       (depart) => !userDepartList.includes(depart.name)
     );
 
-    setDepartmentsList(allDepartments);
+    setDepartmentsList(tempAllDepartments);
     setFormDepartment((prevState) => {
       return userDepartmentList;
     });
     setFormCountry((prevState) => {
       return {
-        value: resp.country
+        value: resp.country !== null ? resp.country : ''
       };
     });
     setFormCountryCode((prevState) => {
       return {
-        value: resp.country_code
+        value: resp.country_code !== null ? resp.country_code : ''
       };
     });
     setFormPhoneNumber((prevState) => {
       return {
-        value: resp.phone_number
+        value: resp.phone_number !== null ? resp.phone_number : ''
       };
+    });
+    setFormIsActive((prevState) => {
+      return !resp.is_active;
     });
     setSubmitValidation({
       Name: true,
@@ -160,11 +164,19 @@ export default function UsersManagement(props) {
         return { ...prevState, value: value };
       });
     }
+    if (input === 'IsActive') {
+      setFormIsActive((prevState) => {
+        console.log(value);
+
+        return !value;
+      });
+    }
     let valide = false;
     if (value !== '') valide = true;
-    setSubmitValidation((prevState) => {
-      return { ...prevState, [input]: valide };
-    });
+    if (input !== 'IsActive')
+      setSubmitValidation((prevState) => {
+        return { ...prevState, [input]: valide };
+      });
   };
 
   const submitHandler = async () => {
@@ -176,7 +188,8 @@ export default function UsersManagement(props) {
       country: formCountry.value,
       country_code: formCountryCode.value,
       phone_number: formPhoneNumber.value,
-      password: 12345
+      password: 12345,
+      is_active: formIsActive
     };
     console.log(obj);
 
@@ -297,6 +310,13 @@ export default function UsersManagement(props) {
                 />
               </div>
             </div>
+            <InputCheckOrRadio
+              id="IsActive"
+              type="checkbox"
+              label=" Turn user inactive"
+              checked={formIsActive}
+              onChange={inputChangeHandler}
+            />
             <Button
               children="Save"
               newClasses=""

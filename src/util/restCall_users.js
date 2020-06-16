@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-import { userInfo, getCountries, signupAddress } from './restAddress';
+import {
+  userInfo,
+  getCountries,
+  signupAddress,
+  userNotification
+} from './restAddress';
 
 export const updateUserInfo = async (id, data) => {
   console.log(data);
@@ -11,6 +16,18 @@ export const updateUserInfo = async (id, data) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
+    });
+    return await tempResp.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getUserNotifications = async (userID) => {
+  try {
+    const tempResp = await fetch(`${userNotification}/${userID}`, {
+      method: 'GET'
     });
     return await tempResp.json();
   } catch (error) {
@@ -40,6 +57,7 @@ export const getUserInfo = async (id) => {
       phone_number: resp.data.respFind.phone_number,
       user_display: resp.data.respFind.user_display,
       department: resp.data.respFindDepart.map((depart) => `${depart.name} `),
+      is_active: resp.data.respFindAuth.is_active,
       profile_pic: resp.data.respFind.profile_img_path
     };
   } catch (error) {

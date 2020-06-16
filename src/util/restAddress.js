@@ -5,6 +5,7 @@ module.exports = Object.freeze({
   signupAddress: `${base}/auth/signup`,
   loginAddress: `${base}/auth/login`,
   userInfo: `${base}/user/`,
+  userNotification: `${base}/user/notification`,
   getDocs: `${base}/docs/getDocs`,
   getDocDepart: `${base}/docs/getDocDepart`,
   getDocsPermissions: `${base}/docs/getDocsPermissions`,

@@ -9,18 +9,19 @@ import { getDocsUser } from '../../util/restCall_Docs';
 import Loading from '../../components/Loading/Loading';
 
 export default function DocsPage(props) {
+  const [userID] = useState(localStorage.getItem('userID'));
   const [loading, setLoading] = useState(true);
 
   const [docs, setDocs] = useState([]);
 
+  const functionCaller = async () => {
+    const resp = await getDocsUser(userID, props.docStatus);
+    setDocs(resp.data.documents);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const userID = localStorage.getItem('userID');
-    async function getInitialData() {
-      const resp = await getDocsUser(userID, props.docStatus);
-      setDocs(resp.data.documents);
-      setLoading(false);
-    }
-    getInitialData();
+    functionCaller();
   }, []);
 
   return (
@@ -57,6 +58,9 @@ export default function DocsPage(props) {
                     key={index}
                     file={file}
                     docStatus={props.docStatus}
+                    userID={userID}
+                    setDocs={setDocs}
+                    docs={docs}
                   />
                 );
               })}

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 
 import './Notification.css';
 
 export default function Notification(props) {
   const [state, setState] = useState({
     pageNotification: 0,
-    notifications: props.notifications,
+    notifications: props.notifications
   });
 
   const handleNavigation = (operator) => {
@@ -27,7 +28,7 @@ export default function Notification(props) {
       console.log(newPageNotification);
       return {
         notifications: props.notifications,
-        pageNotification: newPageNotification,
+        pageNotification: newPageNotification
       };
     });
   };
@@ -35,7 +36,7 @@ export default function Notification(props) {
   const showModalNotif = (notifData) => {
     props.setNotifShow({
       state: true,
-      notification: notifData,
+      notification: notifData
     });
   };
 
@@ -94,15 +95,22 @@ export default function Notification(props) {
                   onClick={showModalNotif.bind(this, notification)}
                 >
                   <h3 className="uk-card-title">
-                    {notification.title}
-                    {notification.user ? ` - ${notification.user}` : ''}
+                    Notification {notification.notificationID} for documento
+                    {notification.documentID}
                   </h3>
+                  <p>Emitted by {notification.submittingUserID}</p>
+                  <p>
+                    On{' '}
+                    {moment(notification.created_on).format(
+                      'DD-MM-YYYY HH[h]MM'
+                    )}
+                  </p>
                   <p>{notification.description}</p>
                 </div>
               );
             })}
         </div>
-      </div>{' '}
+      </div>
     </>
   );
 }

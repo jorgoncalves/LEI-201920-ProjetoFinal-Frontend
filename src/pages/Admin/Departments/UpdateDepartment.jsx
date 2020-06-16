@@ -18,17 +18,17 @@ export default function UpdateDepartment(props) {
   const [departmentsList, setDepartmentsList] = useState([]);
   const [formDepartment, setFormDepartment] = useState({});
   const [submitValidation, setSubmitValidation] = useState({
-    Department: false,
+    Department: false
   });
 
   const getAllDeparts = async () => {
     let allDepartments = await getAllDepartments();
-    allDepartments = await Promise.all(
-      allDepartments.data.respFind.map((depart) => {
-        return { ...depart, userID: depart.departmentID };
-      })
-    );
-    setDepartmentsList(allDepartments);
+    const tempAllDepartments = [];
+    for await (const depart of allDepartments.data.respFind) {
+      tempAllDepartments.push({ ...depart, userID: depart.departmentID });
+    }
+
+    setDepartmentsList(tempAllDepartments);
   };
 
   const functionCaller = async () => {
@@ -97,7 +97,7 @@ export default function UpdateDepartment(props) {
                 // loading={respLoading}
                 link={{
                   pathname: '/departmentsmanagement',
-                  state: { departmentID: formDepartment.departmentID },
+                  state: { departmentID: formDepartment.departmentID }
                 }}
               />
             )}

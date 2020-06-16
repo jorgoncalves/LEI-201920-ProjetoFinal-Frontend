@@ -4,7 +4,7 @@ import {
   Switch,
   Redirect,
   withRouter,
-  useHistory,
+  useHistory
 } from 'react-router-dom';
 
 import UIkit from 'uikit';
@@ -34,7 +34,7 @@ export default withRouter(function App() {
       token: null,
       tokenInfo: null,
       authLoading: false,
-      error: null,
+      error: null
     });
     localStorage.removeItem('token');
     localStorage.removeItem('userID');
@@ -53,12 +53,12 @@ export default withRouter(function App() {
     const tempResp = await fetch(loginAddress, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         email: authData.email,
-        password: authData.password,
-      }),
+        password: authData.password
+      })
     });
     const resp = await tempResp.json();
     console.log();
@@ -77,7 +77,7 @@ export default withRouter(function App() {
         tokenInfo: tokenDecode,
         token: resp.data.token,
         authLoading: false,
-        userInfo,
+        userInfo
       });
       localStorage.setItem('token', resp.data.token);
       localStorage.setItem('userID', tokenDecode.userID);
@@ -93,7 +93,7 @@ export default withRouter(function App() {
         tokenInfo: null,
         authLoading: false,
         error: error,
-        userInfo: null,
+        userInfo: null
       });
     }
   };
@@ -116,7 +116,7 @@ export default withRouter(function App() {
       token: token,
       tokenInfo: tokenDecode,
       userInfo: JSON.parse(userInfo),
-      authLoading: false,
+      authLoading: false
     });
     setAutoLogout(remainingMilliseconds);
     return () => {};
@@ -227,7 +227,7 @@ export default withRouter(function App() {
               onLogout={logoutHandler}
               title="Not Approved Documents"
               files="notaprove"
-              docStatus="notapproved"
+              docStatus="repproved"
               userInfo={state.userInfo}
             />
           )}
@@ -239,7 +239,7 @@ export default withRouter(function App() {
             <DocsPage
               {...props}
               onLogout={logoutHandler}
-              title="Not Approved Documents"
+              title="Obsolete Documents"
               files="obsolete"
               docStatus="obsolete"
               userInfo={state.userInfo}
