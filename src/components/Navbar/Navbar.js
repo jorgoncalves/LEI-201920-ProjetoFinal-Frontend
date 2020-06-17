@@ -6,6 +6,7 @@ import Burger from './Burger/Burger';
 import Searchbar from './Searchbar/Searchbar';
 import Shortcut from './Shortcut/Shortcut';
 import Profile from './Profile/Profile';
+import DocSelectOne from '../DocsSelect/DocsSelectOne';
 
 export default function Navbar(props) {
   // const [state, setstate] = useState(0);
@@ -18,7 +19,10 @@ export default function Navbar(props) {
     <>
       <div className="navContainer">
         <Burger />
-        <Searchbar />
+        <DocSelectOne
+                title="Search"
+                id="searchBar"
+              />
         <div className="shortcutGroup">
           {userShortcuts.map((shortcut, index) => {
             return <Shortcut key={index} shortcut={shortcut} />;

@@ -1,25 +1,25 @@
-.userSelect{
+.docsSelect{
  width: min-content;
 }
 
-/* .userSelect:focus:focus-within .userInputDropdown  {
+/* .docsSelect:focus:focus-within .docsInputDropdown  {
   display: block;
 }*/
 
-/* .userInputDropdown:focus {
+/* .docsInputDropdown:focus {
   width: 500px;
   height:40px;
   display: block;
   transition: display 500ms;
 }*/
-/* .userInput:focus-within .userInputDropdown {
+/* .docsInput:focus-within .docsInputDropdown {
   width: 500px;
   height:40px;
   display: block;
   transition: display 500ms;
 } */
 
-.userInputDropdown{
+.docsInputDropdown{
   position: absolute;
   display: none;
   z-index:10;
@@ -45,4 +45,15 @@
   0% {}
   99%{opacity:0}
   100%   { display: none; }
+}
+
+.waitSelection{
+  width: 500px;
+  height: 60px;
+  padding: .5rem 0;
+  text-align: center;
+}
+
+.searchBar{
+  border: 1px solid #e5e5e5;
 }

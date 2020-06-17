@@ -66,7 +66,7 @@ export default function DetailDocPage(props) {
   const getDocumentInfo = async () => {
     let resp = await getDocsOnly(null,null,documentID);
     if (resp.status != 500) {
-      setDocumentInfo(resp.data.documents[0].name);
+      setDocumentInfo(resp.data.documents[0]);
 
     } else {
       setDocumentInfo([`${resp.error}`]);
@@ -129,16 +129,19 @@ export default function DetailDocPage(props) {
           <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
           <div className="submitBox">
             <h2 className="uk-heading-divider uk-margin-medium-bottom">
-              {documentInfo}
+              {documentInfo.name}{documentInfo.status == 'obsolete' ? (<span className="docStatus uk-margin-small-left">(Obsolete)</span>):("")}
             </h2>
             <div className="DocsBox">
               <div className="leftBox">
-                <Button
-                  children="New Record"
-                  newClasses="uk-margin-small-bottom inlineT"
-                />
+                {documentInfo.status == 'approved' ? (
+                  <Button
+                    children="New Record"
+                    newClasses="uk-margin-small-bottom inlineT"
+                  />
+                ):("")}
+                
               </div>
-              <div className="rightBox uk-width-large">
+              <div className="rightBox">
                 <Input
                   id="tag"
                   type="select"
@@ -152,39 +155,41 @@ export default function DetailDocPage(props) {
               </div>
               {/* <ul className="uk-list uk-list-striped"> */}
               {/* <li> */}
-              <div className="grid-container listHeaders">
-                <div className="description">{titles[0]}</div>
-                <div className="attachments">{titles[1]}</div>
-                <div className=""></div>
+              <div>
+                <div className="grid-container listHeaders">
+                  <div className="description">{titles[0]}</div>
+                  <div className="attachments">{titles[1]}</div>
+                  <div className=""></div>
+                </div>
+                {/* </li> */}
+                {/* </ul> */}
+                <ul
+                  className="uk-list uk-list-striped  uk-margin-remove-top"
+                  uk-accordion="true"
+                >
+                  {recordsLoading ? ( 
+                    <Loading />
+                  ) : (sort ? ( 
+                    sortedRecords.length>0 ? (
+                      sortedRecords.map((rec, index) => {
+                        return <RecsShowSort key={index} record={rec} />;
+                      })
+                    ) : (
+                      <h4 className="uk-text-center uk-text-bold uk-margin-medium-top">THERE ARE NO RECORDS</h4>
+                    )
+                  ) : (
+                    records.length>0 ? (
+                      records.map((rec, index) => {
+                        return (
+                          <RecsShow key={index} record={rec} />
+                        );
+                      })
+                    ) : (
+                      <h4 className="uk-text-center uk-text-bold uk-margin-medium-top">THERE ARE NO RECORDS</h4>
+                    )
+                  ))}
+                </ul>
               </div>
-              {/* </li> */}
-              {/* </ul> */}
-              <ul
-                className="uk-list uk-list-striped  uk-margin-remove-top"
-                uk-accordion="true"
-              >
-                {recordsLoading ? ( 
-                  <Loading />
-                ) : (sort ? ( 
-                  sortedRecords.length>0 ? (
-                    sortedRecords.map((rec, index) => {
-                      return <RecsShowSort key={index} record={rec} />;
-                    })
-                  ) : (
-                    <h4 className="uk-text-center uk-text-bold uk-margin-medium-top">THERE ARE NO RECORDS</h4>
-                  )
-                ) : (
-                  records.length>0 ? (
-                    records.map((rec, index) => {
-                      return (
-                        <RecsShow key={index} record={rec} />
-                      );
-                    })
-                  ) : (
-                    <h4 className="uk-text-center uk-text-bold uk-margin-medium-top">THERE ARE NO RECORDS</h4>
-                  )
-                ))}
-              </ul>
             </div>
           </div>
         </>

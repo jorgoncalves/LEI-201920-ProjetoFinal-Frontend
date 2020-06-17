@@ -1,72 +1,100 @@
-import React from 'react';
-import UIkit from 'uikit';
-import FileViewer from 'react-file-viewer';
-import { Link } from 'react-router-dom';
+import React from "react";
+import UIkit from "uikit";
+import FileViewer from "react-file-viewer";
+import { Link } from "react-router-dom";
 
-import './RecsShow.css';
+import "./RecsShow.css";
 
-import { geFile } from '../../util/restAddress';
-import Icon from '../Icon/Icon';
+import { geFile } from "../../util/restAddress";
+import Icon from "../Icon/Icon";
 // Exemplo de como chamar o componente no destino e passar as funcionalidades/aspecto
 // <Button design="raised" type="submit" loading={this.props.loading}>
 // Login
 // </Button>
 
 export default function RecsShow(props) {
-
   const showMore = (el) => {
-    const temp = el.target.parentElement.children[1].firstElementChild.firstElementChild
-    
-    if(temp.className=="spanTextLess"){
-      temp.className="spanTextMore";
-    }else{
-      temp.className="spanTextLess";
+    const temp =
+      el.target.parentElement.children[1].firstElementChild.firstElementChild;
+
+    if (temp.className == "spanTextLess") {
+      temp.className = "spanTextMore";
+    } else {
+      temp.className = "spanTextLess";
     }
-  }
+  };
 
   return (
     <li className="listContainer">
-      <a className="docsListChild uk-accordion-title" href="#" onClick={showMore.bind(this)}></a>
+      <a
+        className="docsListChild uk-accordion-title"
+        href="#"
+        onClick={showMore.bind(this)}
+      ></a>
       <div className="grid-container">
         <div className="description">
-          {/* {props.docStatus === 'pending' ? (
-            <Link
-              to={{
-                pathname: '/newDoc',
-                state: {
-                  from: '/penDocs',
-                  file: props.file,
-                },
-              }}
-            >
-              {props.file.name}
-            </Link>
-          ) : (
-            props.file.name
-          )} */}
           <span className="spanTextLess">{props.record.description}</span>
         </div>
-        <div className="attachments">
-          {/* {props.file.isModelFile && (
-            <Icon icon="download" link={`${geFile}?path=${props.file.path}`} />
-          )}
-          {props.file.has_records && (
-            <Icon icon="album" link={`/records/${props.file.documentID}`} />
-          )} */}
-          {props.record.attachments.length}
-        </div>
+        <div className="attachments">{props.record.attachments.length}</div>
       </div>
       <div className="uk-accordion-content">
-        {/* <div className="uk-text-bold">Description:</div>
-        {props.file.description}
-        <div>
-          {// <object data="http://localhost:8080/filexplorer/getFile?path=FileStorage/Reclamações/1/IMG1.png" />}
-          <FileViewer
-            filePath={`${geFile}?path=FileStorage/Reclamações/3/Docx1.docx`}
-            fileType="docx"
-          />
-        </div> */}
-        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxx
+        <div className="moreInfo7">
+          {props.record.attachments.map((attachment, index) => {
+            const ext = attachment.name.split(".")[
+              attachment.name.split(".").length - 1
+            ];
+            let iconAnchor;
+            if (ext === "pdf") iconAnchor = "file-pdf";
+            else if (
+              ext === "jpeg" ||
+              ext === "jpg" ||
+              ext === "png" ||
+              ext === "gif" ||
+              ext === "bmp"
+            )
+              iconAnchor = "image";
+            else if (
+              ext === "mp4" ||
+              ext === "avi" ||
+              ext === "mpg" ||
+              ext === "mkv" ||
+              ext === "flv" ||
+              ext === "wmv" ||
+              ext === "mov"
+            )
+              iconAnchor = "playcircle";
+            else if (
+              ext === "mp3" ||
+              ext === "aac" ||
+              ext === "m4a" ||
+              ext === "wma"
+            )
+              iconAnchor = "play";
+            else iconAnchor = "file-text";
+
+            return(
+              <>
+                <a href={`${geFile}?path=${attachment.path}`} className="uk-margin-right uk-margin-small-bottom attachments" key={index}>
+                  <Icon icon={iconAnchor} tooltip="Download" />
+                  {attachment.name}
+                </a>
+              </>
+            )
+            
+          })}
+        </div>
+        <div className="moreInfo3">
+          {props.record.tags.map((tag, index) => {
+            const Labels = ["Year", "Name", "NIF", "Category"]
+            return(tag ? (
+              <>
+                <b>{Labels[index]}:</b> {tag}<br/>
+              </>
+            ) : (
+              ""
+            ))
+          })}
+        </div>
       </div>
     </li>
   );
