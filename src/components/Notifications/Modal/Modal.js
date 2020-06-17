@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import moment from 'moment';
+import UIkit from 'uikit';
 
 import './Modal.css';
 
 import Button from '../../Button/Button';
 
+import { updateNotification } from '../../../util/restCall_users';
+
 export default function ModalNotification(props) {
+  const [respLoading, setRespLoading] = useState(false);
+  const [finalDisabled, setFinalDisabled] = useState(false);
   //   const [state, setState] = useState({
   //     pageNotification: 0,
   //     notifications: props.notifications,
@@ -37,8 +43,38 @@ export default function ModalNotification(props) {
   const showModalNotif = () => {
     props.setNotifShow({
       state: false,
-      notification: undefined,
+      notification: undefined
     });
+  };
+
+  const markWasSeenNotification = async () => {
+    const notificationID = props.notifShow.notification.notificationID;
+    const obj = {
+      was_seen: true
+    };
+    let resp;
+    try {
+      setRespLoading(true);
+      resp = await updateNotification(notificationID, obj);
+      console.log(resp);
+
+      // UIkit.modal.dialog(`<p class="uk-modal-body">Updated!</p>`);
+      if (resp.status === 201 || resp.status === 200) {
+        props.setNotificationList((prevState) => {
+          const newNotificationList = props.notificationList.filter(
+            (notification) => notification.notificationID !== notificationID
+          );
+          return newNotificationList;
+        });
+        setFinalDisabled(true);
+        setRespLoading(false);
+        showModalNotif();
+      }
+    } catch (error) {
+      console.log(error);
+      UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
+      setRespLoading(false);
+    }
   };
 
   return (
@@ -46,27 +82,38 @@ export default function ModalNotification(props) {
       <div className="background" onClick={showModalNotif}></div>
       <div className="uk-card uk-card-default uk-modal-body uk-width-1-2@m">
         <div className="uk-card-body">
-          {console.log(props.notifShow)}
-          <h2 className="uk-modal-title">
-            {props.notifShow.notification.title}
-            {props.notifShow.notification.user
-              ? ` - ${props.notifShow.notification.user}`
-              : ''}
-          </h2>
+          <h3 className="uk-card-title">
+            Notification {props.notifShow.notification.notificationID} for
+            documento
+            {props.notifShow.notification.documentID}
+          </h3>
+          <p>Emitted by {props.notifShow.notification.submittingUserID}</p>
+          <p>
+            On{' '}
+            {moment(props.notifShow.notification.created_on).format(
+              'DD-MM-YYYY HH[h]MM'
+            )}
+          </p>
           <p>{props.notifShow.notification.description}</p>
         </div>
         <div className="uk-card-footer buttonContainer">
           <Button
-            link="#"
+            // link="#"
             border=""
             children="Access Document"
             newClasses="uk-margin-small-top uk-margin-small-left modalButton"
+            loading={respLoading}
+            disabled={finalDisabled}
+            onClick={markWasSeenNotification}
           />
           <Button
-            link="#"
+            // link="#"
             border=""
             children="Dismiss"
             newClasses="uk-margin-small-top uk-margin-small-left modalButton"
+            loading={respLoading}
+            disabled={finalDisabled}
+            onClick={markWasSeenNotification}
           />
         </div>
       </div>

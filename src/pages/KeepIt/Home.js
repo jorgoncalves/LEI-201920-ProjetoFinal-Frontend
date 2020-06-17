@@ -37,80 +37,6 @@ export default function Home(props) {
   useEffect(() => {
     functionCaller();
   }, []);
-  const [state] = useState({
-    notifications: [
-      {
-        title: 'Notif 1',
-        user: 'Utilizador 1',
-        description: 'Necessita de Aprovar o Documento DF1'
-      },
-      {
-        title: 'Notif 2',
-        user: '',
-        description: 'Tem um documento ???por elaborar???'
-      },
-      {
-        title: 'Notif 3',
-        user: 'Utilizador 4',
-        description: 'Pedido de revisão concluido (Aprovado)'
-      },
-      {
-        title: 'Notif 3',
-        user: 'Utilizador 4',
-        description: 'Pedido de revisão concluido (Aprovado)'
-      },
-      {
-        title: 'Notif 3',
-        user: 'Utilizador 4',
-        description: 'Pedido de revisão concluido (Aprovado)'
-      },
-      {
-        title: 'Notif 1',
-        user: 'Utilizador 1',
-        description: 'Necessita de Aprovar o Documento DF1'
-      },
-      {
-        title: 'Notif 2',
-        user: '',
-        description: 'Tem um documento ???por elaborar???'
-      },
-      {
-        title: 'Notif 3',
-        user: 'Utilizador 4',
-        description: 'Pedido de revisão concluido (Aprovado)'
-      },
-      {
-        title: 'Notif 3',
-        user: 'Utilizador 4',
-        description: 'Pedido de revisão concluido (Aprovado)'
-      },
-      {
-        title: 'Notif 3',
-        user: 'Utilizador 4',
-        description: 'Pedido de revisão concluido (Aprovado)'
-      },
-      {
-        title: 'Notif 1',
-        user: 'Utilizador 1',
-        description: 'Necessita de Aprovar o Documento DF1'
-      },
-      {
-        title: 'Notif 2',
-        user: '',
-        description: 'Tem um documento ???por elaborar???'
-      },
-      {
-        title: 'Notif 3',
-        user: 'Utilizador 4',
-        description: 'Pedido de revisão concluido (Aprovado)'
-      },
-      {
-        title: 'Notif 3',
-        user: 'Utilizador 4',
-        description: 'Pedido de revisão concluido (Aprovado)'
-      }
-    ]
-  });
 
   const [notifShow, setNotifShow] = useState({
     state: false,
@@ -137,7 +63,12 @@ export default function Home(props) {
             </div>
           </div>
           {notifShow.state ? (
-            <ModalNotif setNotifShow={setNotifShow} notifShow={notifShow} />
+            <ModalNotif
+              setNotifShow={setNotifShow}
+              notifShow={notifShow}
+              setNotificationList={setNotificationList}
+              notificationList={notificationList}
+            />
           ) : null}
         </>
       )}

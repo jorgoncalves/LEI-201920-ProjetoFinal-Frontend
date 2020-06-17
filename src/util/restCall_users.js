@@ -36,6 +36,22 @@ export const getUserNotifications = async (userID) => {
   }
 };
 
+export const updateNotification = async (notificationID, data) => {
+  try {
+    const tempResp = await fetch(`${userNotification}/${notificationID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    return await tempResp.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 export const getUserInfo = async (id) => {
   const tempResp = await fetch(userInfo + id, {
     method: 'GET'

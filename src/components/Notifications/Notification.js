@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 
+import Modal from '../../components/Notifications/Modal/Modal'
+
 import './Notification.css';
 
 export default function Notification(props) {

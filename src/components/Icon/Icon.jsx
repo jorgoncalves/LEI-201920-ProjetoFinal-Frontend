@@ -19,9 +19,11 @@ export default function Icon(props) {
               uk-icon={`icon: ${props.icon}`}
               className={[props.class, 'iconFormat'].join(' ')}
               download
+              uk-tooltip={props.tooltip}
             ></a>
           ) : (
             <Link
+              uk-tooltip={props.tooltip}
               to={`${props.link}`}
               uk-icon={`icon: ${props.icon}`}
               className={[props.class, 'iconFormat'].join(' ')}
