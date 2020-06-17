@@ -6,6 +6,7 @@ import Input from '../../../components/Form/Input/Input';
 import Navbar from '../../../components/Navbar/Navbar';
 import Loading from '../../../components/Loading/Loading';
 import UserSelect from '../../../components/UserSelect/UserSelect';
+import InputCheckOrRadio from '../../../components/Form/Input/InputCheckOrRadio';
 
 import './UsersManagement.css';
 
@@ -16,7 +17,6 @@ import {
   updateClient,
   createClient
 } from '../../../util/restCall_users';
-import InputCheckOrRadio from '../../../components/Form/Input/InputCheckOrRadio';
 
 export default function UsersManagement(props) {
   const [userIDUpdate, setUserIDUpdate] = useState();
@@ -30,7 +30,7 @@ export default function UsersManagement(props) {
   const [formCountry, setFormCountry] = useState({ value: '' });
   const [formCountryCode, setFormCountryCode] = useState({ value: '' });
   const [formPhoneNumber, setFormPhoneNumber] = useState({ value: '' });
-  const [formIsActive, setFormIsActive] = useState(true);
+  const [formIsActive, setFormIsActive] = useState(false);
   const [departmentsList, setDepartmentsList] = useState([]);
   const [countriesList, setCountriesList] = useState([]);
   const [submitValidation, setSubmitValidation] = useState({
@@ -42,7 +42,10 @@ export default function UsersManagement(props) {
     PhoneNumber: false
   });
   const getAllDeparts = async () => {
-    let allDepartments = await getAllDepartments();
+    const obj = {
+      is_active: true
+    };
+    let allDepartments = await getAllDepartments(obj);
     const tempAllDepartments = [];
     for await (const depart of allDepartments.data.respFind) {
       tempAllDepartments.push({ ...depart, userID: depart.departmentID });
@@ -84,7 +87,10 @@ export default function UsersManagement(props) {
       };
     });
     setDisabled(true);
-    let allDepartments = await getAllDepartments();
+    const obj = {
+      is_active: true
+    };
+    let allDepartments = await getAllDepartments(obj);
 
     let tempAllDepartments = [];
     for await (const depart of allDepartments.data.respFind) {
@@ -132,7 +138,7 @@ export default function UsersManagement(props) {
   };
 
   const inputChangeHandler = (input, value) => {
-    console.log(input, value);
+    // console.log(input, value);
 
     if (input === 'Name') {
       setFormName((prevState) => {
@@ -165,11 +171,7 @@ export default function UsersManagement(props) {
       });
     }
     if (input === 'IsActive') {
-      setFormIsActive((prevState) => {
-        console.log(value);
-
-        return !value;
-      });
+      setFormIsActive(!formIsActive);
     }
     let valide = false;
     if (value !== '') valide = true;
@@ -189,16 +191,13 @@ export default function UsersManagement(props) {
       country_code: formCountryCode.value,
       phone_number: formPhoneNumber.value,
       password: 12345,
-      is_active: formIsActive
+      is_active: !formIsActive
     };
-    console.log(obj);
-
     setRespLoading(true);
     let resp;
     if (userIDUpdate !== undefined)
       resp = await updateClient(userIDUpdate, obj);
     else resp = await createClient(obj);
-    console.log(resp);
     UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
     setRespLoading(false);
     if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);
@@ -316,6 +315,7 @@ export default function UsersManagement(props) {
               label=" Turn user inactive"
               checked={formIsActive}
               onChange={inputChangeHandler}
+              disabled={finalDisabled}
             />
             <Button
               children="Save"

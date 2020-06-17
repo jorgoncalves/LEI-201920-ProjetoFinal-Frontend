@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 
-import Modal from '../../components/Notifications/Modal/Modal'
+// import Modal from '../../components/Notifications/Modal/Modal'
 
 import './Notification.css';
 
@@ -44,11 +44,11 @@ export default function Notification(props) {
 
   return (
     <>
-      <div>
+      <div className="notificationContainer">
         <div className="uk-flex uk-flex-between">
           <h1 className="uk-heading-small">Notifications</h1>
           <ul
-            className="uk-pagination uk-flex-right uk-margin-medium-top"
+            className="uk-pagination uk-flex-right customPagination"
             uk-margin="true"
             uk-switcher="animation: uk-animation-fade"
           >
@@ -96,18 +96,20 @@ export default function Notification(props) {
                   className="uk-card uk-card-default uk-card-small uk-card-body notification-card"
                   onClick={showModalNotif.bind(this, notification)}
                 >
-                  <h3 className="uk-card-title">
-                    Notification {notification.notificationID} for documento
-                    {notification.documentID}
-                  </h3>
-                  <p>Emitted by {notification.submittingUserID}</p>
-                  <p>
-                    On{' '}
-                    {moment(notification.created_on).format(
-                      'DD-MM-YYYY HH[h]MM'
-                    )}
-                  </p>
-                  <p>{notification.description}</p>
+                  <span className="uk-card-title">
+                    Document {notification.documentData.name}
+                  </span>
+                  <dl className="uk-description-list">
+                    <dd>Is on status: {notification.documentData.status}</dd>
+                    <dd>{notification.description}</dd>
+                    <dd>
+                      Notification emmitted by{' '}
+                      {notification.submittingUserData.name} On
+                      {moment(notification.created_on).format(
+                        'DD-MM-YYYY HH[h]MM'
+                      )}
+                    </dd>
+                  </dl>
                 </div>
               );
             })}

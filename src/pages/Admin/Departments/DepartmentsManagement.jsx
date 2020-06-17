@@ -6,6 +6,7 @@ import Input from '../../../components/Form/Input/Input';
 import Navbar from '../../../components/Navbar/Navbar';
 import Loading from '../../../components/Loading/Loading';
 import UserSelectOne from '../../../components/UserSelect/UserSelectOne';
+import InputCheckOrRadio from '../../../components/Form/Input/InputCheckOrRadio';
 
 import { getAllUserInfo } from '../../../util/restCall_users';
 import {
@@ -17,7 +18,6 @@ import {
 import './DepartmentsManagement.css';
 
 export default function DepartmentsManagement(props) {
-  console.log(props);
   const [departmentID, setDepartmentID] = useState();
   const [loading, setLoading] = useState(true);
   const [finalDisabled, setFinalDisabled] = useState(false);
@@ -26,7 +26,7 @@ export default function DepartmentsManagement(props) {
   const [formDepartmentName, setFormDepartmentName] = useState({ value: '' });
   const [formApprovingUser, setFormApprovingUser] = useState({});
   const [formDescription, setFormDescription] = useState({ value: '' });
-  // set[input]()
+  const [formIsActive, setFormIsActive] = useState(false);
   const [submitValidation, setSubmitValidation] = useState({
     DepartmentName: false,
     ApprovingUser: false,
@@ -44,11 +44,15 @@ export default function DepartmentsManagement(props) {
         return { ...prevState, value: value };
       });
     }
+    if (input === 'IsActive') {
+      setFormIsActive(!formIsActive);
+    }
     let valide = false;
     if (value !== '') valide = true;
-    setSubmitValidation((prevState) => {
-      return { ...prevState, [input]: valide };
-    });
+    if (input !== 'IsActive')
+      setSubmitValidation((prevState) => {
+        return { ...prevState, [input]: valide };
+      });
   };
   const submitHandler = async () => {
     const tempObj = {
@@ -57,22 +61,21 @@ export default function DepartmentsManagement(props) {
     const obj = {
       departName: formDepartmentName.value,
       chief_user: formApprovingUser.userID,
-      description: formDescription.value
+      description: formDescription.value,
+      is_active: !formIsActive
     };
-    console.log(tempObj);
     console.log(obj);
     setRespLoading(true);
     let resp;
     if (departmentID !== undefined)
       resp = await updateDepart(departmentID, obj);
     else resp = await createDepartment(obj);
-    console.log(resp);
     UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
     setRespLoading(false);
     if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);
   };
   const getAllUsers = async () => {
-    const resp = await getAllUserInfo();
+    const resp = await getAllUserInfo({});
     setUsersList(resp.data);
   };
 
@@ -84,7 +87,7 @@ export default function DepartmentsManagement(props) {
     setFormDepartmentName((prevState) => {
       return { value: resp.name };
     });
-    let respUsers = await getAllUserInfo();
+    let respUsers = await getAllUserInfo({});
     setFormApprovingUser((prevState) => {
       const approvingUserData = respUsers.data.find(
         (u) => u.userID === resp.chief_userID
@@ -98,6 +101,7 @@ export default function DepartmentsManagement(props) {
         value: resp.description
       };
     });
+    setFormIsActive(!resp.is_active);
     setSubmitValidation({
       DepartmentName: true,
       ApprovingUser: true,
@@ -164,6 +168,14 @@ export default function DepartmentsManagement(props) {
                 placeholder="Insert a description for the department"
                 newInputClasses="uk-form-width-large"
                 required={true}
+                disabled={finalDisabled}
+              />
+              <InputCheckOrRadio
+                id="IsActive"
+                type="checkbox"
+                label=" Turn deparetment inactive"
+                checked={formIsActive}
+                onChange={inputChangeHandler}
                 disabled={finalDisabled}
               />
               <Button

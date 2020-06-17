@@ -82,19 +82,23 @@ export default function ModalNotification(props) {
       <div className="background" onClick={showModalNotif}></div>
       <div className="uk-card uk-card-default uk-modal-body uk-width-1-2@m">
         <div className="uk-card-body">
-          <h3 className="uk-card-title">
-            Notification {props.notifShow.notification.notificationID} for
-            documento
-            {props.notifShow.notification.documentID}
-          </h3>
-          <p>Emitted by {props.notifShow.notification.submittingUserID}</p>
-          <p>
-            On{' '}
-            {moment(props.notifShow.notification.created_on).format(
-              'DD-MM-YYYY HH[h]MM'
-            )}
-          </p>
-          <p>{props.notifShow.notification.description}</p>
+          <span className="uk-card-title">
+            Document {props.notifShow.notification.documentData.name}
+          </span>
+          <dl className="uk-description-list">
+            <dd>
+              Is on status: {props.notifShow.notification.documentData.status}
+            </dd>
+            <dd>{props.notifShow.notification.description}</dd>
+            <dd>
+              Notification emmitted by
+              <dd>{props.notifShow.notification.submittingUserData.name}</dd>
+              On
+              {moment(props.notifShow.notification.created_on).format(
+                'DD-MM-YYYY HH[h]MM'
+              )}
+            </dd>
+          </dl>
         </div>
         <div className="uk-card-footer buttonContainer">
           <Button

@@ -11,7 +11,7 @@ import Loading from '../../components/Loading/Loading';
 import {
   getUserInfo,
   getCountriesList,
-  updateUserInfo,
+  updateUserInfo
 } from '../../util/restCall_users';
 
 export default function ProfilePage(props) {
@@ -35,13 +35,13 @@ export default function ProfilePage(props) {
             value: userInfo.name,
             valid: true,
             touched: false,
-            validators: [required],
+            validators: [required]
           },
           country: {
             value: userInfo.country,
             valid: true,
             touched: false,
-            validators: [required],
+            validators: [required]
           },
           country_code: {
             value:
@@ -50,7 +50,7 @@ export default function ProfilePage(props) {
                 : 'NA',
             valid: true,
             touched: false,
-            validators: [required],
+            validators: [required]
           },
           phone_number: {
             value:
@@ -59,10 +59,10 @@ export default function ProfilePage(props) {
                 : '',
             valid: true,
             touched: false,
-            validators: [required],
-          },
+            validators: [required]
+          }
         },
-        formIsValid: true,
+        formIsValid: true
       };
     });
 
@@ -117,7 +117,7 @@ export default function ProfilePage(props) {
       name: state.userInfo_form.name.value,
       country: state.userInfo_form.country.value,
       country_code: state.userInfo_form.country_code.value,
-      phone_number: state.userInfo_form.phone_number.value,
+      phone_number: state.userInfo_form.phone_number.value
     };
     console.log(obj);
     try {
@@ -125,6 +125,12 @@ export default function ProfilePage(props) {
       console.log(resp);
 
       UIkit.modal.dialog(`<p class="uk-modal-body">Updated!</p>`);
+      let userInfo = await getUserInfo(userID);
+      console.log(userInfo);
+
+      props.setState((prevState) => {
+        return { ...props.state, userInfo: userInfo };
+      });
     } catch (error) {
       console.log(error);
       UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
@@ -143,8 +149,8 @@ export default function ProfilePage(props) {
         [input]: {
           ...prevState.userInfo_form[input],
           valid: isValid,
-          value: value,
-        },
+          value: value
+        }
       };
       let formIsValid = true;
       // for (const inputName in updatedForm) {
@@ -152,7 +158,7 @@ export default function ProfilePage(props) {
       // }
       return {
         userInfo_form: updatedForm,
-        formIsValid: formIsValid,
+        formIsValid: formIsValid
       };
     });
   };
@@ -163,9 +169,9 @@ export default function ProfilePage(props) {
           ...prevState.userInfo_form,
           [input]: {
             ...prevState.userInfo_form[input],
-            touched: true,
-          },
-        },
+            touched: true
+          }
+        }
       };
     });
   };
@@ -186,7 +192,7 @@ export default function ProfilePage(props) {
                   name: state.loginForm.email.value,
                   country: state.loginForm.password.value,
                   country_code: '',
-                  phone_number: '',
+                  phone_number: ''
                 })
               }
             >
@@ -214,7 +220,9 @@ export default function ProfilePage(props) {
 
                 <h4 className="uk-comment-title uk-margin-small-bottom uk-margin-remove-top">
                   <b>Department: </b>
-                  {userInfo.department.length>0 ? userInfo.department.join("") : 'You are not setup in a Department'}
+                  {userInfo.department.length > 0
+                    ? userInfo.department.join('')
+                    : 'You are not setup in a Department'}
                 </h4>
                 <br />
 

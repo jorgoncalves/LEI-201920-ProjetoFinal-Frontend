@@ -1,0 +1,12 @@
+.uk-grid {
+  margin-left: 0;
+  justify-content: space-between;
+}
+
+.uk-grid>*{
+  padding: 0;
+}
+
+.customTag{
+  max-width: 47%;
+}

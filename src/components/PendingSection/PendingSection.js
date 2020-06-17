@@ -5,7 +5,7 @@ import './PendingSection.css';
 export default function PendingSection(props) {
   console.log('Pending Section', props);
   return (
-    <div>
+    <div className="pendingSectionContainer">
       <h2 className="uk-heading-small">Pending Section</h2>
       <div className="uk-card-default uk-card-body uk-card-small">
         <ul

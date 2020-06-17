@@ -5,16 +5,19 @@ import {
   getDepartColleagues,
   createDepart,
   getAllDeparts,
-  departs,
+  departs
 } from './restAddress';
 
-export const getUserDepartColleagues = async (id) => {
-  const tempResp = await fetch(getDepartColleagues + id, {
-    method: 'GET',
-  });
-
-  const resp = await tempResp.json();
+export const getUserDepartColleagues = async (id, obj) => {
   try {
+    const tempObj = {};
+    if (obj.is_active) tempObj.is_active = obj.is_active;
+    const params = queryString.stringify(tempObj);
+    const tempResp = await fetch(`${getDepartColleagues}${id}?${params}`, {
+      method: 'GET'
+    });
+
+    const resp = await tempResp.json();
     if (resp.status !== 200 && resp.status !== 201) {
       console.log('Error!');
       throw new Error('Could not find User with your ID!');
@@ -22,7 +25,7 @@ export const getUserDepartColleagues = async (id) => {
     console.log(resp);
 
     return {
-      resp,
+      resp
     };
   } catch (error) {
     //   UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
@@ -42,7 +45,7 @@ export const getDepartmentData = async (departmentID) => {
     if (departmentID) tempObj.departmentID = departmentID;
     const params = queryString.stringify(tempObj);
     const resp = await axios(`${getAllDeparts}?${params}`, {
-      method: 'GET',
+      method: 'GET'
     });
     console.log(resp.data);
 
@@ -56,7 +59,7 @@ export const createDepartment = async (obj) => {
   try {
     const resp = await axios(`${createDepart} `, {
       method: 'POST',
-      data: obj,
+      data: obj
     });
     console.log(resp.data);
 
@@ -72,7 +75,7 @@ export const updateDepart = async (id, obj) => {
   try {
     const resp = await axios(`${departs}/${id}`, {
       method: 'PUT',
-      data: obj,
+      data: obj
     });
     console.log(resp.data);
     return resp.data;

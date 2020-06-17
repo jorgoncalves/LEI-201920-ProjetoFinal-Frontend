@@ -66,31 +66,21 @@ export default function SubmitDocPage(props) {
   const [selectedFile, setSelectedFile] = useState();
   const [addNew, setAddNew] = useState(false);
   const [finalDisabled, setFinalDisabled] = useState(false);
-  // const unfoc = () => {
-  //   if (toUnFocus.length > 0 && clicks > 0) {
-  //     // document
-  //     // .querySelectorAll('.userInputDropdown')
-  //     // .forEach((el) => (el.style.display = 'none'));
-  //     toUnFocus[0].style.display = 'none';
-  //     setUnFocus(toUnFocus.filter((f) => f != toUnFocus[0]));
-  //     setClicks(0);
-  //   } else {
-  //     if (toUnFocus.length > 0) {
-  //       setClicks(clicks + 1);
-  //     }
-  //   }
-  // };
 
   const getAllUsersInfo = async () => {
-    let userTemp = await getAllUserInfo();
-
+    const obj = {
+      is_active: true
+    };
+    let userTemp = await getAllUserInfo(obj);
+    // const userID = localStorage.getItem('userID');
     setApprovingUserList(userTemp.data);
-    // setUserInfo(userTemp.data.filter((u) => u.userID != userID));
-    setUserInfo(userTemp.data);
+    setUserInfo(userTemp.data.filter((u) => u.userID != userID));
+    // setUserInfo(userTemp.data);
   };
 
   const getAllDeparts = async () => {
-    let allDepartments = await getAllDepartments();
+    const obj = { is_active: true };
+    let allDepartments = await getAllDepartments(obj);
 
     const tempAllDepartments = [];
     for await (const depart of allDepartments.data.respFind) {
@@ -109,7 +99,10 @@ export default function SubmitDocPage(props) {
     setDocsNameList(tempAllDocs);
   };
   const pendingAllUsersInfo = async () => {
-    let userTemp = await getAllUserInfo();
+    const obj = {
+      is_active: true
+    };
+    let userTemp = await getAllUserInfo(obj);
 
     // setUserInfo(userTemp.data.filter((u) => u.userID != userID));
     // setUserInfo(userTemp.data);
@@ -117,7 +110,8 @@ export default function SubmitDocPage(props) {
   };
 
   const pendingAllDeparts = async () => {
-    let allDepartments = await getAllDepartments();
+    const obj = { is_active: true };
+    let allDepartments = await getAllDepartments(obj);
 
     const tempAllDepartments = [];
     for await (const depart of allDepartments.data.respFind) {
@@ -158,16 +152,6 @@ export default function SubmitDocPage(props) {
     });
     setDocsNameList(allDocs);
     setDisabledSelected(true);
-    // setDocName((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     value: props.location.state.file.name,
-    //   };
-    // });
-    // selected={docName}
-    // select={setDocName}
-    // Info={docsNameList}
-    // setInfo={setDocsNameList}
 
     let tempApprovingUserList = userInfo;
     const approvID = props.location.state.file.approving_userID;
@@ -300,8 +284,6 @@ export default function SubmitDocPage(props) {
   };
 
   const inputChangeHandler = (input, value, addNew) => {
-    console.log();
-
     if (input === 'name' && !addNew) {
       setDocName({ name: value });
       let valide = false;

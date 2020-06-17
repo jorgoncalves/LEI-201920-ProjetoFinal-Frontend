@@ -22,6 +22,7 @@ import UsersManagement from './pages/Admin/Users/UsersManagement';
 import UpdateUser from './pages/Admin/Users/UpdateUser';
 import DepartmentsManagement from './pages/Admin/Departments/DepartmentsManagement';
 import UpdateDepartment from './pages/Admin/Departments/UpdateDepartment';
+import SubmitRecord from './pages/KeepIt/SubmitRecord';
 
 import { loginAddress, userInfo } from './util/restAddress';
 import { getUserInfo } from './util/restCall_users';
@@ -162,6 +163,8 @@ export default withRouter(function App() {
               {...props}
               onLogout={logoutHandler}
               userInfo={state.userInfo}
+              state={state}
+              setState={setState}
             />
           )}
         />
@@ -323,13 +326,20 @@ export default withRouter(function App() {
             />
           )}
         />
+        <Route
+          path="/submitrecord"
+          exact
+          render={(props) => (
+            <SubmitRecord
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        {/* <Route render={() => <Redirect to="/" />} /> */}
       </>
     );
   }
-  return (
-    <Switch>
-      {routes}
-      <Redirect to="/" />
-    </Switch>
-  );
+  return <Switch>{routes}</Switch>;
 });

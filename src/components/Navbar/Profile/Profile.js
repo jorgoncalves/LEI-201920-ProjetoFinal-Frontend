@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 import './Profile.css';
 
-const { getUserInfo } = require('../../../util/restCall_users');
+// const { getUserInfo } = require('../../../util/restCall_users');
 
 export default function Profile(props) {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState();
-  const [LocationPath, setUseLocation] = useState(useLocation().pathname);
+  const [LocationPath] = useState(useLocation().pathname);
   useEffect(() => {
     async function userInform() {
       // const userID = localStorage.getItem('userID');
       // let userInfo = await getUserInfo(userID);
+      // console.log(jwtDecode(localStorage.getItem('token')));
 
       setUserInfo(props.userInfo);
       setLoading(false);

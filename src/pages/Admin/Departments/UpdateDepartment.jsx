@@ -22,7 +22,8 @@ export default function UpdateDepartment(props) {
   });
 
   const getAllDeparts = async () => {
-    let allDepartments = await getAllDepartments();
+    const obj = {};
+    let allDepartments = await getAllDepartments(obj);
     const tempAllDepartments = [];
     for await (const depart of allDepartments.data.respFind) {
       tempAllDepartments.push({ ...depart, userID: depart.departmentID });

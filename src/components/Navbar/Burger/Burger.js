@@ -41,6 +41,11 @@ export default function Burger() {
           <li className={useLocation().pathname == '/newDoc' ? 'actv' : ''}>
             <Link to="/newDoc">Submeter Novo Documento</Link>
           </li>
+          <li
+            className={useLocation().pathname == '/submitrecord' ? 'actv' : ''}
+          >
+            <Link to="/submitrecord">Submit record</Link>
+          </li>
         </ul>
       </div>
     </div>

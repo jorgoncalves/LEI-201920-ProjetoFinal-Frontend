@@ -1,4 +1,4 @@
-import axios from 'axios';
+import queryString from 'querystring';
 
 import {
   userInfo,
@@ -173,13 +173,16 @@ export const createClient = async (data) => {
   }
 };
 
-export const getAllUserInfo = async () => {
-  const tempResp = await fetch(userInfo, {
-    method: 'GET'
-  });
-
-  const resp = await tempResp.json();
+export const getAllUserInfo = async (obj) => {
   try {
+    const tempObj = {};
+    if (obj.is_active) tempObj.is_active = obj.is_active;
+    const params = queryString.stringify(tempObj);
+    const tempResp = await fetch(`${userInfo}?${params}`, {
+      method: 'GET'
+    });
+
+    const resp = await tempResp.json();
     if (resp.status !== 200 && resp.status !== 201) {
       console.log('Error!');
       throw new Error('Could not find User with your ID!');

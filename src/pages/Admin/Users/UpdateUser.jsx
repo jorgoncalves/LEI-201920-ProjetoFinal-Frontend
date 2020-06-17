@@ -16,11 +16,12 @@ export default function UpdateUser(props) {
   const [usersList, setUsersList] = useState([]);
   const [formUser, setFormUser] = useState({});
   const [submitValidation, setSubmitValidation] = useState({
-    User: false,
+    User: false
   });
 
   const getAllUserData = async () => {
-    let allUsers = await getAllUserInfo();
+    const obj = {};
+    let allUsers = await getAllUserInfo(obj);
     allUsers = allUsers.data;
     console.log(allUsers);
     setUsersList(allUsers);
@@ -75,7 +76,7 @@ export default function UpdateUser(props) {
                 // loading={respLoading}
                 link={{
                   pathname: '/usersmanagement',
-                  state: { userID: formUser.userID },
+                  state: { userID: formUser.userID }
                 }}
               />
             )}

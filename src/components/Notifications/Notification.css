@@ -1,9 +1,22 @@
 .notifications {
   /* flex: 1 0 25%; */
   /* flex-wrap: wrap; */
+  display: flex;
+  flex-basis: 100%;
 }
 
 .notification-card {
   width: calc(50% - 15px);
   margin-bottom: 30px;
+}
+
+.notificationContainer{
+  display: flex;
+  flex-direction: column;
+  flex-basis: 65%;
+}
+
+.customPagination{
+  align-items: flex-end;
+  margin-bottom: 10px;
 }

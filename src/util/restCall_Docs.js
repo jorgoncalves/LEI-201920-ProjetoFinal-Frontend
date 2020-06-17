@@ -6,7 +6,7 @@ import {
   getDocs,
   getDocDepart,
   insertDoc,
-  updateDoc,
+  updateDoc
 } from './restAddress';
 
 export const getDocsUser = async (userID, status, documentID) => {
@@ -17,7 +17,7 @@ export const getDocsUser = async (userID, status, documentID) => {
     if (documentID) tempObj.documentID = documentID;
     const params = queryString.stringify(tempObj);
     const resp = await axios(`${getDocsPermissions}?${params}`, {
-      method: 'GET',
+      method: 'GET'
     });
     console.log(resp.data);
 
@@ -37,7 +37,7 @@ export const getDocsOnly = async (userID, status, documentID) => {
     console.log(params);
 
     const resp = await axios(`${getDocs}?${params}`, {
-      method: 'GET',
+      method: 'GET'
     });
     console.log(resp.data);
 
@@ -49,9 +49,12 @@ export const getDocsOnly = async (userID, status, documentID) => {
   }
 };
 
-export const getAllDepartments = async () => {
+export const getAllDepartments = async (obj) => {
   try {
-    const resp = await axios(getAllDeparts);
+    const tempObj = {};
+    if (obj.is_active) tempObj.is_active = obj.is_active;
+    const params = queryString.stringify(tempObj);
+    const resp = await axios(`${getAllDeparts}?${params}`);
     console.log(resp);
 
     return resp.data;
@@ -82,7 +85,7 @@ export const insertDocument = async (userID, data) => {
   try {
     const resp = await axios(`${insertDoc}/${userID} `, {
       method: 'POST',
-      data: data,
+      data: data
     });
     console.log(resp.data);
 
@@ -98,7 +101,7 @@ export const updateDocument = async (documentID, data) => {
   try {
     const resp = await axios(`${updateDoc}/${documentID} `, {
       method: 'PUT',
-      data: data,
+      data: data
     });
     console.log(resp.data);
 

@@ -67,8 +67,8 @@ export default function DocsShow(props) {
           {props.file.isModelFile && (
             <Icon icon="download" tooltip="Download" link={`${geFile}?path=${props.file.path}`} />
           )}
-          {props.docStatus === 'approved' ||
-            (props.docStatus === 'obsolete' && (
+          {(props.docStatus === 'approved' ||
+            props.docStatus === 'obsolete') && (
               <>
                 {props.file.has_records && (
                   <Icon
@@ -78,7 +78,7 @@ export default function DocsShow(props) {
                   />
                 )}{' '}
               </>
-            ))}
+            )}
         </div>
         <div className="docsListChild">
           <Icon

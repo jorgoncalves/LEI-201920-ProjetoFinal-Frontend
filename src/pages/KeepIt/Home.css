@@ -1,27 +1,28 @@
-.mainContainer {
-  min-height: calc(100% - 1rem - 83px - 20px);
-  margin-bottom: 0;
-}
-
 .homeLeftContainer {
-  width: 25%;
+  width: 30%;
 }
 
 .homeRightContainer {
-  width: 65%;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
 }
 
 .homeRightContainer div:nth-child(1),
 .homeRightContainer div:nth-child(2) {
-  min-height: calc(50% - 30px);
+  /* min-height: calc(50% - 30px); */
+  /* max-height: calc(50% - 30px); */
+  /* flex-shrink: 1;
+  flex-grow: 0;
+  flex-basis: 100px; */
 }
 
-.uk-heading-small{
+.uk-heading-small {
   font-size: 3rem;
 }
 
-@media screen and (max-width:960px){
-  .uk-heading-small{
+@media screen and (max-width:960px) {
+  .uk-heading-small {
     font-size: 2.6rem;
   }
 }

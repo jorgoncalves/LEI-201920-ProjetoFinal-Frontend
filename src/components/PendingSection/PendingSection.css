@@ -1,15 +1,25 @@
-.pendingContainer{
+.pendingSectionContainer {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 45%;
+  flex-grow: 1;
+}
+#root > div.uk-margin.uk-flex.uk-flex-around.mainContainer > div.homeRightContainer > div.pendingSectionContainer > div{
+  flex-basis: 100%;
+}
+
+.pendingContainer {
   text-align: center;
 }
 
-.sectHalf{
+.sectHalf {
   display: inline-block;
   margin: 0;
   padding: 0;
   width: 50%;
 }
 
-.uk-subnav{
+.uk-subnav {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
@@ -17,14 +27,15 @@
   justify-content: space-evenly;
   list-style: none;
 }
-.uk-subnav>*{
+
+.uk-subnav>* {
   flex: none;
   padding-bottom: 10px;
   padding-left: 0;
   position: relative;
 }
 
-.uk-subnav li::after{
+.uk-subnav li::after {
   content: '';
   flex-grow: 10000000000;
 }

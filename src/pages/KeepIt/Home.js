@@ -24,7 +24,9 @@ export default function Home(props) {
   };
 
   const getUserNotificationsList = async () => {
+    const userID = localStorage.getItem('userID');
     const resp = await getUserNotifications(userID, 'pending');
+    console.log(resp);
     setNotificationList(resp.data.respFind);
   };
 

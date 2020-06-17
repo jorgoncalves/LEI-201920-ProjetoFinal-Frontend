@@ -8,8 +8,10 @@ export default function InputCheckOrRadio(props) {
           <input
             className={`uk-${props.type}`}
             type={props.type}
+            id={props.id}
             checked={props.checked}
-            onChange={(e) => props.onChange(props.id, e.target.checked)}
+            disabled={props.disabled}
+            onChange={(e) => props.onChange(props.id, e.target.value)}
           />
           {props.label}
         </label>
