@@ -9,7 +9,7 @@ import './UserCard.css';
 export default function userCard(props) {
   return (
     <div>
-      <div className="uk-card uk-card-default uk-card-body">
+      <div className="uk-card uk-card-default uk-card-body uk-margin-small-left uk-margin-small-right">
         <h3 className="uk-card-title uk-margin-small-bottom">
           {props.userInfo.userInfo.name}{' '}
           {props.departChief === props.userInfo.userInfo.userID ? '(Chief)' : ''}{' '}

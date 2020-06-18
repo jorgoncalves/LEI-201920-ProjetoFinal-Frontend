@@ -73,18 +73,18 @@ export default function SelectOne(props) {
   };
   
   const filterDocs = (el) => {
-    const elemValue= el.target.value;
+    let temparray = [];
+    const elemValue= el.target.value.toLowerCase();
     if (elemValue==""){
       setFilteredDocs(docs)
     }else{
-      //FINISH FILTER!!!
-      setFilteredDocs([
-        docs.map((doc,index)=>{
+      docs.map((doc,index)=>{
         console.log(doc.name.toLowerCase().includes(elemValue), doc.name);
         if(doc.name.toLowerCase().includes(elemValue)){
-          return doc
+          temparray.push(doc);
         }
-      })]);
+      });
+      setFilteredDocs(temparray);
     }
   };
 
@@ -98,13 +98,14 @@ export default function SelectOne(props) {
         )}
         <div className="docsInput" onBlur={unShowList.bind(this)}>
           <form className="uk-search uk-form-width-large">
-            <span className="uk-search-icon-flip" uk-search-icon={true}></span>
+            <span className="uk-search-icon-flip uk-margin-small-right" uk-search-icon="true"></span>
             <input
               className="uk-input textInput uk-form-width-large uk-search-input searchBar"
               type="search"
               placeholder={props.title}
               onFocus={showList.bind(this)}
               onKeyUp={filterDocs.bind(this)}
+              autoComplete="off"
             />
           </form>
           <div className="docsInputDropdown docsSelect">
@@ -113,17 +114,23 @@ export default function SelectOne(props) {
                 <div uk-spinner="ratio: 1"></div>
               </div>
             ) : (
-              filteredDocs.map((doc, index) => {
-                return (
-                  <a
-                    className="uk-input uk-form-width-large selection"
-                    key={index}
-                    href={`/records/${doc.documentID}`}
-                  >
-                    {doc.name}
-                  </a>
-                );
-              })
+              filteredDocs.lenght > 0 ? (
+                filteredDocs.map((doc, index) => {
+                  return (
+                    <a
+                      className="uk-input uk-form-width-large selection"
+                      key={index}
+                      href={`/records/${doc.documentID}`}
+                    >
+                      {doc.name}
+                    </a>
+                  );
+                })
+              ) : (
+                <div className="uk-input uk-form-width-large selection">
+                  There are no Documents
+                </div>
+              )
             )}
           </div>
           {/* 

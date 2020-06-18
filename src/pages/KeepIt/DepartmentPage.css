@@ -7,6 +7,9 @@
     display: flex;
     flex-wrap: wrap;
     flex-flow: row wrap;
+    margin: 0 !important;
+    justify-content: space-evenly;
+    width: 100%;
 }
 
 .departTitle{
@@ -17,4 +20,12 @@
 
 .uk-tab>.uk-active>a{
     border-bottom: 3px solid #1e87f0;
+}
+
+.inside-card-cont>*{
+    min-width: 250px;
+}
+
+.card-flex {
+    flex-grow: 1;
 }
