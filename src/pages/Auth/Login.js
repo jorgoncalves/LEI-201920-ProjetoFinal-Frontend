@@ -131,7 +131,7 @@ function Login(props) {
         >
           <Input
             id="email"
-            label="Your E-Mail"
+            label="E-Mail"
             type="email"
             control="input"
             newDivClasses="uk-margin"

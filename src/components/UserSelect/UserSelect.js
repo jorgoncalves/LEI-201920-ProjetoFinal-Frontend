@@ -55,6 +55,7 @@ export default function Select(props) {
               onFocus={showList.bind(this)}
               // onBlur={unShowList.bind(this)}
               disabled={props.disabled}
+              autoComplete="false"
             />
             <div className="userInputDropdown userSelect">
               {props.Info.map((user, index) => {

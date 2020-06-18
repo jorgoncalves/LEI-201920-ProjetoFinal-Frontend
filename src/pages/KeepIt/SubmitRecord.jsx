@@ -10,6 +10,7 @@ import UserSelectOne from '../../components/UserSelect/UserSelectOne';
 import './SubmitRecord.css';
 
 import { getDocsOnly } from '../../util/restCall_Docs';
+import { postRecordData } from '../../util/restCall_records';
 
 export default function SubmitRecord(props) {
   const [userID, setUserID] = useState(localStorage.getItem('userID'));
@@ -18,7 +19,10 @@ export default function SubmitRecord(props) {
   const [disabled, setDisabled] = useState(false);
   const [addNew, setAddNew] = useState(false);
   const [respLoading, setRespLoading] = useState(false);
-  const [formDocumentName, setFormDocumentName] = useState({ value: '' });
+  const [formDocumentName, setFormDocumentName] = useState({
+    name: '',
+    userID: ''
+  });
   const [formDescription, setFormDescription] = useState({ value: '' });
   const [formSelectedFile, setFormSelectedFile] = useState();
   // const [formTagAno, setFormTagAno] = useState({ value: '' });
@@ -29,7 +33,7 @@ export default function SubmitRecord(props) {
   const [submitValidation, setSubmitValidation] = useState({
     DocumentName: false,
     Description: false,
-    File: false
+    Files: false
   });
   const getAllDocs = async () => {
     // const userID = localStorage.getItem('userID');
@@ -41,12 +45,12 @@ export default function SubmitRecord(props) {
     setDocumentsList(tempAllDocs);
   };
 
-  const inputFileHandler = (e) => {
+  const inputFileHandler = async (e) => {
     console.log(e.target.files);
 
-    setFormSelectedFile([...e.target.files]);
+    setFormSelectedFile(e.target.files);
     setSubmitValidation((prevState) => {
-      return { ...prevState, File: true };
+      return { ...prevState, Files: true };
     });
   };
 
@@ -91,25 +95,32 @@ export default function SubmitRecord(props) {
   };
 
   const saveHandler = async () => {
-    // const obj = {
-    //   name: formName.value,
-    //   email: formEmail.value, //apenas é relevante em caso de insert
-    //   departmentList: formDepartment,
-    //   deleteFromDepart: departmentsList,
-    //   country: formCountry.value,
-    //   country_code: formCountryCode.value,
-    //   phone_number: formPhoneNumber.value,
-    //   password: 12345,
-    //   is_active: !formIsActive
-    // };
-    // setRespLoading(true);
-    // let resp;
-    // if (userIDUpdate !== undefined)
-    //   resp = await updateClient(userIDUpdate, obj);
-    // else resp = await createClient(obj);
-    // UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
-    // setRespLoading(false);
-    // if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);
+    const obj = {
+      documentID: formDocumentName.documentID,
+      submitted_by_UserID: userID,
+      // tagAno,
+      tagCliente: formTagCliente.value,
+      tagNIF: formTagNIF.value,
+      tagCategoria: formTagCategoria.value,
+      description: formDescription.value
+    };
+
+    const getFormData = (object) => {
+      const formData = new FormData();
+
+      for (const key of Object.keys(formSelectedFile)) {
+        formData.append('fileArrMulter', formSelectedFile[key]);
+      }
+
+      Object.keys(object).forEach((key) => formData.append(key, object[key]));
+      return formData;
+    };
+
+    setRespLoading(true);
+    let resp = await postRecordData(getFormData(obj));
+    UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
+    setRespLoading(false);
+    if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);
   };
   const functionCaller = async () => {
     await getAllDocs(); //getdocs
@@ -133,7 +144,6 @@ export default function SubmitRecord(props) {
               title="Select the document name"
               id="DocumentName"
               label="Document name"
-              value={formDocumentName.value}
               selected={formDocumentName}
               select={setFormDocumentName}
               Info={documentsList}
@@ -143,13 +153,13 @@ export default function SubmitRecord(props) {
               setAddNew={setAddNew}
               validationField="DocumentName"
               setSubmitValidation={setSubmitValidation}
-              finalDisabled={finalDisabled}
+              disabled={finalDisabled}
             />
             <div className="uk-form-controls" uk-form-custom="target: true">
               <input
                 type="file"
                 className="uk-input"
-                id="file"
+                id="Files"
                 disabled={finalDisabled}
                 multiple
                 onChange={inputFileHandler.bind(this)}
@@ -161,10 +171,7 @@ export default function SubmitRecord(props) {
                 disabled
               />
             </div>
-            <div
-              className="uk-margin uk-form-width-large"
-              uk-grid="true"
-            >
+            <div className="uk-margin uk-form-width-large" uk-grid="true">
               {/* <div className="uk-width-1-4@s">
                 <Input
                   id="TagAno"
