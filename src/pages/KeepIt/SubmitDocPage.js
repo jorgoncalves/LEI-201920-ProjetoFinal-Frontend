@@ -90,7 +90,7 @@ export default function SubmitDocPage(props) {
   };
 
   const getAllDocsInfo = async () => {
-    let allDocs = await getDocsOnly(null, ['pending', 'approving'], null);
+    let allDocs = await getDocsOnly(null, ['pending', 'approved'], null);
 
     const tempAllDocs = [];
     for await (const doc of allDocs.data.documents) {
@@ -356,11 +356,11 @@ export default function SubmitDocPage(props) {
     };
     if (docApprovingUserID.userID !== undefined)
       obj.approving_userID = docApprovingUserID.userID;
-    function getFormData(object) {
+    const getFormData = (object) => {
       const formData = new FormData();
       Object.keys(object).forEach((key) => formData.append(key, object[key]));
       return formData;
-    }
+    };
     setRespLoading(true);
     let resp;
     if (
@@ -444,11 +444,6 @@ export default function SubmitDocPage(props) {
                     className="uk-input uk-form-width-large"
                     type="text"
                     placeholder="Select file"
-                    disabled={
-                      (props.location.state !== undefined &&
-                        props.location.state.from === '/penDocs') ||
-                      finalDisabled
-                    }
                   />
                 </div>
                 <label>
@@ -484,6 +479,7 @@ export default function SubmitDocPage(props) {
                 select={setApprovingUserID}
                 Info={approvingUserList}
                 setInfo={setApprovingUserList}
+                onChange={() => {}}
                 // toUnFocus={toUnFocus}
                 // setUnFocus={setUnFocus}
                 validationField={'approvingUserList'}

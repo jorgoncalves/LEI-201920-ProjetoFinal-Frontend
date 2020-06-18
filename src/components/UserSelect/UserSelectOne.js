@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // import { Link, useLocation } from 'react-router-dom';
 
 import './Select.css';
@@ -7,13 +7,13 @@ import UserPopup from './UserPopup/UserPopup';
 export default function SelectOne(props) {
   const [filteredUsers, setFilteredUsers] = useState(props.Info);
 
-  const [tempEl, setTempEl] = useState({ name: '', userID: '' });
+  // const [tempEl, setTempEl] = useState({ name: '', userID: '' });
   const addSelected = (user, event) => {
     event.target.parentElement.style.display = 'none';
     if (user.name !== 'Add new' && props.addNew !== undefined) changeAddNew();
 
     props.select(user);
-    setTempEl(user);
+    // setTempEl(user);
     props.setSubmitValidation((prevState) => {
       return { ...prevState, [props.validationField]: true };
     });
@@ -30,13 +30,13 @@ export default function SelectOne(props) {
     else
       props.setInfo([
         ...props.Info.filter((u) => u.userID !== user.userID),
-        props.selected,
+        props.selected
       ]);
   };
 
   const removeSelected = (user, event) => {
     console.log(user);
-    setTempEl({ name: '', userID: '' });
+    // setTempEl({ name: '', userID: '' });
     props.select({ name: '', userID: '' });
     props.setSubmitValidation((prevState) => {
       return { ...prevState, [props.validationField]: false };
@@ -100,8 +100,9 @@ export default function SelectOne(props) {
               id={props.id}
               value={props.value}
               placeholder={props.title}
+              autoComplete="false"
               onChange={(e) =>
-                inputChangeHandler(props.id, e.target.value, props.addNew)
+                props.onChange(props.id, e.target.value, props.addNew)
               }
               onFocus={showList.bind(this)}
               disabled={props.addNew || props.disabled}
@@ -130,14 +131,13 @@ export default function SelectOne(props) {
               props.selected.constructor === Object &&
               props.selected.name !== '' && (
                 <UserPopup user={props.selected}>
-                  {props.disabledSelected ||
-                    (!props.disabled && (
-                      <i
-                        className="iconActUser"
-                        uk-icon="icon: close;"
-                        onClick={removeSelected.bind(this, props.selected)}
-                      ></i>
-                    ))}
+                  {(props.disabledSelected || !props.disabled) && (
+                    <i
+                      className="iconActUser"
+                      uk-icon="icon: close;"
+                      onClick={removeSelected.bind(this, props.selected)}
+                    ></i>
+                  )}
                 </UserPopup>
               )}
           </div>
