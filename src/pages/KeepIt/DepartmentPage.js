@@ -52,7 +52,7 @@ export default function LayoutPage(props) {
                     return (
                       <div
                         key={index}
-                        className="profileBox parentFlex uk-child-width-1-5@m uk-grid-small uk-grid-match"
+                        className="parentFlex uk-grid-small uk-grid-match inside-card-cont"
                         uk-grid="true"
                       >
                         {depart.departInfo.userInDepartInfo.map((user, idx) => {
@@ -66,6 +66,7 @@ export default function LayoutPage(props) {
                             />
                           );
                         })}
+                        <div className="card-flex"></div>
                       </div>
                     );
                   })}

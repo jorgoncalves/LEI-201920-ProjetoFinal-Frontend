@@ -7,6 +7,11 @@
     overflow-y: auto;
 }
 
+.flexBox{
+    width: 100%;
+    display: flex;
+}
+
 .leftBox{
     display: inline-block;
     margin: 0;
@@ -21,7 +26,6 @@
     text-align: right;
     vertical-align: top;
     flex-grow: 1;
-    margin-right: 5%;
 }
 
 .spanTextLess{

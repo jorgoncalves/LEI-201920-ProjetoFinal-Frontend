@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 // import { Link, useLocation } from 'react-router-dom';
 
 import './Select.css';
 import UserPopup from './UserPopup/UserPopup';
 
 export default function Select(props) {
+  const [filteredUsers, setFilteredUsers] = useState(props.Info);
+
   const addSelected = (user, event) => {
     event.target.parentElement.style.display = 'none';
 
@@ -35,8 +37,26 @@ export default function Select(props) {
   };
 
   const showList = (e) => {
+    setFilteredUsers(props.Info)
     e.target.parentElement.children[1].style.display = 'block';
   };
+
+  const filterUser = async (el) => {
+    let temparray = [];
+    const elemValue= el.target.value.toLowerCase();
+    if (elemValue==""){
+      setFilteredUsers(props.Info)
+    }else{
+      filteredUsers.map((user,index)=>{
+        console.log(user.name.toLowerCase().includes(elemValue), user.name);
+        if(user.name.toLowerCase().includes(elemValue)){
+          temparray.push(user);
+        }
+      });
+      setFilteredUsers(temparray);
+    }
+  };
+  
   return (
     <>
       {props.loading ? null : (
@@ -55,10 +75,11 @@ export default function Select(props) {
               onFocus={showList.bind(this)}
               // onBlur={unShowList.bind(this)}
               disabled={props.disabled}
-              autoComplete="false"
+              onKeyUp={filterUser.bind(this)}
+              autoComplete="off"
             />
             <div className="userInputDropdown userSelect">
-              {props.Info.map((user, index) => {
+              {filteredUsers.map((user, index) => {
                 return (
                   <div
                     className="uk-input uk-form-width-large selection"

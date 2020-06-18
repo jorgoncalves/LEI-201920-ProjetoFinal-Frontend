@@ -9,6 +9,9 @@ import Input from "../../components/Form/Input/Input";
 import RecsShow from "../../components/RecsShow/RecsShow";
 import RecsShowSort from "../../components/RecsShow/RecsShowSorted";
 import Loading from "../../components/Loading/Loading";
+import Icon from '../../components/Icon/Icon';
+
+import { geFile } from '../../util/restAddress';
 
 import {
   getRecs
@@ -93,13 +96,14 @@ export default function DetailDocPage(props) {
       let arrayTemp= []
       for (var [key, valueRec] of Object.entries(records)) {
         if(valueRec){
-          var Indexing = arrayTemp.findIndex(x => Object.entries(x)[0][0]==valueRec.tags[sortItem])
+          let tempValue = (valueRec.tags[sortItem]==undefined || valueRec.tags[sortItem]=="") ? ("#") : (valueRec.tags[sortItem]);
+          var Indexing = arrayTemp.findIndex(x => Object.entries(x)[0][0] == tempValue)
           if(Indexing<0){
-            arrayTemp.push(JSON.parse(`{"${valueRec.tags[sortItem]}":[]}`))
-            await arrayTemp[arrayTemp.findIndex(x => Object.entries(x)[0][0]==valueRec.tags[sortItem])][valueRec.tags[sortItem]].push(JSON.parse(JSON.stringify(valueRec)))
+            arrayTemp.push(JSON.parse(`{"${tempValue}":[]}`))
+            await arrayTemp[arrayTemp.findIndex(x => Object.entries(x)[0][0]==tempValue)][tempValue].push(JSON.parse(JSON.stringify(valueRec)))
           }
           else{
-            await arrayTemp[Indexing][valueRec.tags[sortItem]].push(JSON.parse(JSON.stringify(valueRec)))
+            await arrayTemp[Indexing][tempValue].push(JSON.parse(JSON.stringify(valueRec)))
           }
         }
         console.log("arrayTemp",arrayTemp)
@@ -132,26 +136,30 @@ export default function DetailDocPage(props) {
               {documentInfo.name}{documentInfo.status == 'obsolete' ? (<span className="docStatus uk-margin-small-left">(Obsolete)</span>):("")}
             </h2>
             <div className="DocsBox">
-              <div className="leftBox">
-                {documentInfo.status == 'approved' ? (
-                  <Button
-                    children="New Record"
-                    newClasses="uk-margin-small-bottom inlineT"
+              <div className="flexBox">
+                <div className="leftBox">
+                  {documentInfo.status == 'approved' ? (
+                    <Button
+                      children="New Record"
+                      newClasses="uk-margin-small-bottom inlineT"
+                    />
+                  ):("")}
+                  {documentInfo.isModelFile && (
+                    <Icon icon="download" tooltip="Download" link={`${geFile}?path=${documentInfo.path}`} />
+                  )}
+                </div>
+                <div className="rightBox">
+                  <Input
+                    id="tag"
+                    type="select"
+                    control="selectOne"
+                    newDivClasses="usr_info_put uk-margin-remove-top uk-form-width-large inlineT"
+                    newInputClasses="uk-form-width-large"
+                    defaultValue="Not Selected"
+                    options={tags}
+                    onChange={sortTags.bind(this)}
                   />
-                ):("")}
-                
-              </div>
-              <div className="rightBox">
-                <Input
-                  id="tag"
-                  type="select"
-                  control="selectOne"
-                  newDivClasses="usr_info_put uk-margin-remove-top uk-form-width-large inlineT"
-                  newInputClasses="uk-form-width-large"
-                  defaultValue="Not Selected"
-                  options={tags}
-                  onChange={sortTags.bind(this)}
-                />
+                </div>
               </div>
               {/* <ul className="uk-list uk-list-striped"> */}
               {/* <li> */}
@@ -179,9 +187,9 @@ export default function DetailDocPage(props) {
                     )
                   ) : (
                     records.length>0 ? (
-                      records.map((rec, index) => {
+                      records.map((rec, i) => {
                         return (
-                          <RecsShow key={index} record={rec} />
+                          <RecsShow key={i} record={rec} />
                         );
                       })
                     ) : (

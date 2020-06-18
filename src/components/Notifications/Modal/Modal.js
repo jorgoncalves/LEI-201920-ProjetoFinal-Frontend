@@ -47,7 +47,7 @@ export default function ModalNotification(props) {
     });
   };
 
-  const markWasSeenNotification = async () => {
+  const markWasSeenNotification = async (docID, elem) => {
     const notificationID = props.notifShow.notification.notificationID;
     const obj = {
       was_seen: true
@@ -69,6 +69,8 @@ export default function ModalNotification(props) {
         setFinalDisabled(true);
         setRespLoading(false);
         showModalNotif();
+        if(docID!=undefined)
+          window.location.href = `/records/${docID}`;
       }
     } catch (error) {
       console.log(error);
@@ -83,7 +85,7 @@ export default function ModalNotification(props) {
       <div className="uk-card uk-card-default uk-modal-body uk-width-1-2@m">
         <div className="uk-card-body">
           <span className="uk-card-title">
-            Document {props.notifShow.notification.documentData.name}
+            Document: {props.notifShow.notification.documentData.name}
           </span>
           <dl className="uk-description-list">
             <dd>
@@ -101,15 +103,17 @@ export default function ModalNotification(props) {
           </dl>
         </div>
         <div className="uk-card-footer buttonContainer">
-          <Button
-            // link="#"
-            border=""
-            children="Access Document"
-            newClasses="uk-margin-small-top uk-margin-small-left modalButton"
-            loading={respLoading}
-            disabled={finalDisabled}
-            onClick={markWasSeenNotification}
-          />
+          {props.notifShow.notification.documentData.status=='approved' ? (
+            <Button
+              // link={`/records/${props.notifShow.notification.documentData.documentID}`}
+              border=""
+              children="Access Document"
+              newClasses="uk-margin-small-top uk-margin-small-left modalButton"
+              loading={respLoading}
+              disabled={finalDisabled}
+              onClick={markWasSeenNotification.bind(this, props.notifShow.notification.documentData.documentID)}
+            />
+          ) : ("")}
           <Button
             // link="#"
             border=""
@@ -117,7 +121,7 @@ export default function ModalNotification(props) {
             newClasses="uk-margin-small-top uk-margin-small-left modalButton"
             loading={respLoading}
             disabled={finalDisabled}
-            onClick={markWasSeenNotification}
+            onClick={markWasSeenNotification.bind(this,undefined)}
           />
         </div>
       </div>
