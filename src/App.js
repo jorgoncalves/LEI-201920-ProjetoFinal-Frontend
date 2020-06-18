@@ -35,10 +35,13 @@ export default withRouter(function App() {
       token: null,
       tokenInfo: null,
       authLoading: false,
+      isAdmin: null,
       error: null
     });
     localStorage.removeItem('token');
     localStorage.removeItem('userID');
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('isAdmin');
     localStorage.removeItem('expiryDate');
     history.push('/');
   };
@@ -73,16 +76,19 @@ export default withRouter(function App() {
       }
       const tokenDecode = jwtDecode(resp.data.token);
       let userInfo = await getUserInfo(tokenDecode.userID);
+      localStorage.setItem('token', resp.data.token);
+      localStorage.setItem('userID', tokenDecode.userID);
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      localStorage.setItem('tokenInfo', JSON.stringify(tokenDecode));
+      localStorage.setItem('isAdmin', tokenDecode.isAdmin);
       console.log(userInfo);
       setState({
         tokenInfo: tokenDecode,
         token: resp.data.token,
+        isAdmin: tokenDecode.isAdmin,
         authLoading: false,
         userInfo
       });
-      localStorage.setItem('token', resp.data.token);
-      localStorage.setItem('userID', tokenDecode.userID);
-      localStorage.setItem('userInfo', JSON.stringify(userInfo));
       const remainingMilliseconds = 60 * 60 * 1000;
       const expiryDate = new Date(new Date().getTime() + remainingMilliseconds);
       localStorage.setItem('expiryDate', expiryDate.toISOString());
@@ -93,6 +99,7 @@ export default withRouter(function App() {
         token: null,
         tokenInfo: null,
         authLoading: false,
+        isAdmin: null,
         error: error,
         userInfo: null
       });
@@ -102,6 +109,8 @@ export default withRouter(function App() {
     const userInfo = localStorage.getItem('userInfo');
     const token = localStorage.getItem('token');
     const expiryDate = localStorage.getItem('expiryDate');
+    const tokenInfo = localStorage.getItem('tokenInfo');
+    const isAdmin = localStorage.getItem('isAdmin');
     if (!token || !expiryDate) {
       return;
     }
@@ -113,10 +122,13 @@ export default withRouter(function App() {
     const remainingMilliseconds =
       new Date(expiryDate).getTime() - new Date().getTime();
     const tokenDecode = jwtDecode(token);
+    console.log(tokenDecode);
+
     setState({
       token: token,
       tokenInfo: tokenDecode,
       userInfo: JSON.parse(userInfo),
+      isAdmin: tokenDecode.isAdmin,
       authLoading: false
     });
     setAutoLogout(remainingMilliseconds);
@@ -139,7 +151,7 @@ export default withRouter(function App() {
     </>
   );
   // Quando estiver feito à autenticação, colocar o if a apontar para variavel
-  if (state.token) {
+  if (state.token && !state.isAdmin) {
     // alterar o componente a que está a fazer render
     routes = (
       <>
@@ -272,6 +284,163 @@ export default withRouter(function App() {
           )}
         />
         <Route
+          path="/submitrecord"
+          exact
+          render={(props) => (
+            <SubmitRecord
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        {/* <Route render={() => <Redirect to="/" />} /> */}
+      </>
+    );
+  }
+  if (state.token && state.isAdmin) {
+    routes = (
+      <>
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <Home
+              {...props}
+              tokenInfo={state.tokenInfo}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/profile"
+          exact
+          render={(props) => (
+            <ProfilePage
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+              state={state}
+              setState={setState}
+            />
+          )}
+        />
+        <Route
+          path="/department"
+          exact
+          render={(props) => (
+            <DepartmentPage
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/useDocs"
+          exact
+          render={(props) => (
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Documents for Use"
+              files="use"
+              userInfo={state.userInfo}
+              docStatus="approved"
+            />
+          )}
+        />
+        <Route
+          path="/aprovDocs"
+          exact
+          render={(props) => (
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Documents for Approval"
+              files="aprove"
+              userInfo={state.userInfo}
+              docStatus="forapproval"
+            />
+          )}
+        />
+        <Route
+          path="/penDocs"
+          exact
+          render={(props) => (
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Pending Documents"
+              files="pending"
+              userInfo={state.userInfo}
+              docStatus="pending"
+            />
+          )}
+        />
+        <Route
+          path="/notApprovDocs"
+          exact
+          render={(props) => (
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Not Approved Documents"
+              files="notaprove"
+              docStatus="repproved"
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/obsoleteDocs"
+          exact
+          render={(props) => (
+            <DocsPage
+              {...props}
+              onLogout={logoutHandler}
+              title="Obsolete Documents"
+              files="obsolete"
+              docStatus="obsolete"
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/newDoc"
+          exact
+          render={(props) => (
+            <SubmitDocPage
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/records/:id"
+          exact
+          render={(props) => (
+            <DetailDocPage
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/submitrecord"
+          exact
+          render={(props) => (
+            <SubmitRecord
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
           path="/adminPanel"
           exact
           render={(props) => (
@@ -303,7 +472,7 @@ export default withRouter(function App() {
               userInfo={state.userInfo}
             />
           )}
-        />{' '}
+        />
         <Route
           path="/departmentsmanagement"
           exact
@@ -326,20 +495,9 @@ export default withRouter(function App() {
             />
           )}
         />
-        <Route
-          path="/submitrecord"
-          exact
-          render={(props) => (
-            <SubmitRecord
-              {...props}
-              onLogout={logoutHandler}
-              userInfo={state.userInfo}
-            />
-          )}
-        />
-        {/* <Route render={() => <Redirect to="/" />} /> */}
       </>
     );
   }
+
   return <Switch>{routes}</Switch>;
 });

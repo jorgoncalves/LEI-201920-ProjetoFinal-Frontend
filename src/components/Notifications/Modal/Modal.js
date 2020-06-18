@@ -90,9 +90,9 @@ export default function ModalNotification(props) {
               Is on status: {props.notifShow.notification.documentData.status}
             </dd>
             <dd>{props.notifShow.notification.description}</dd>
+            <dd>Notification emmitted by</dd>
             <dd>
-              Notification emmitted by
-              <dd>{props.notifShow.notification.submittingUserData.name}</dd>
+              {props.notifShow.notification.submittingUserData.name}
               On
               {moment(props.notifShow.notification.created_on).format(
                 'DD-MM-YYYY HH[h]MM'

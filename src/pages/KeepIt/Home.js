@@ -49,7 +49,9 @@ export default function Home(props) {
     <>
       <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
       {loading ? (
-        <Loading />
+        <>
+          <Loading />
+        </>
       ) : (
         <>
           <div className="uk-margin uk-flex uk-flex-around mainContainer">

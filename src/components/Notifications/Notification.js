@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
 // import Modal from '../../components/Notifications/Modal/Modal'
@@ -20,7 +20,7 @@ export default function Notification(props) {
       if (
         operator === 'next' &&
         prevState.pageNotification + 1 <
-          Math.round(prevState.notifications.length / 4)
+          Math.ceil(prevState.notifications.length / 4)
       ) {
         newPageNotification = prevState.pageNotification + 1;
       }
@@ -41,6 +41,23 @@ export default function Notification(props) {
       notification: notifData
     });
   };
+
+  useEffect(() => {
+    setState((prevState) => {
+      let page;
+      if (
+        prevState.pageNotification !== 0 &&
+        prevState.pageNotification + 1 >
+          Math.ceil(prevState.notifications.length / 4)
+      )
+        page = prevState.pageNotification - 1;
+      else page = prevState.pageNotification;
+      return {
+        pageNotification: page,
+        notifications: props.notifications
+      };
+    });
+  }, [props.notifications]);
 
   return (
     <>

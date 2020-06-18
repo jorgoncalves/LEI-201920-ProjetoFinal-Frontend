@@ -24,7 +24,8 @@ export default function ProfilePage(props) {
   const [countriesList, setCountriesList] = useState();
   const [countriesLoaded, setCountriesLoaded] = useState(false);
   const [userLoaded, setUserLoaded] = useState(false);
-
+  const [newPassword, setNetPassword] = useState({ value: '' });
+  const [validPassword, setValidPassword] = useState(false);
   const getUser = async () => {
     let userInfo = await getUserInfo(userID);
 
@@ -119,6 +120,7 @@ export default function ProfilePage(props) {
       country_code: state.userInfo_form.country_code.value,
       phone_number: state.userInfo_form.phone_number.value
     };
+    if (newPassword !== '' && validPassword) obj.password = newPassword.value;
     console.log(obj);
     try {
       let resp = await updateUserInfo(userID, obj);
@@ -175,6 +177,18 @@ export default function ProfilePage(props) {
       };
     });
   };
+
+  const passwordChangeHandler = (input, value) => {
+    console.log(input, value);
+    setNetPassword((prevState) => {
+      if (value.length >= 5) {
+        setValidPassword(true);
+      } else {
+        setValidPassword(false);
+      }
+      return { value: value };
+    });
+  };
   return (
     <>
       <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
@@ -187,14 +201,14 @@ export default function ProfilePage(props) {
           </h2>
           <div className="profileBox">
             <form
-              onSubmit={(e) =>
-                props.updateUserInfo(e, {
-                  name: state.loginForm.email.value,
-                  country: state.loginForm.password.value,
-                  country_code: '',
-                  phone_number: ''
-                })
-              }
+            // onSubmit={(e) =>
+            //   props.updateUserInfo(e, {
+            //     name: state.loginForm.email.value,
+            //     country: state.loginForm.password.value,
+            //     country_code: '',
+            //     phone_number: ''
+            //   })
+            // }
             >
               <div className="profileLInline">
                 <h4 className="uk-comment-title uk-margin-small-bottom inlineB">
@@ -268,6 +282,21 @@ export default function ProfilePage(props) {
                   disabled={isDisabled ? true : false}
                 />
                 <br />
+                <h4 className="uk-comment-title uk-margin-small-bottom inlineB">
+                  <b>New Password: </b>
+                </h4>
+                <Input
+                  id="password"
+                  type="text"
+                  control="input"
+                  newDivClasses="inlineB5 usr_info_put uk-margin-remove-top uk-margin-small-bottom"
+                  onChange={passwordChangeHandler}
+                  onBlur={inputBlurHandler.bind(this, 'password')}
+                  value={newPassword.value}
+                  disabled={isDisabled ? true : false}
+                  min={5}
+                />
+                <br />
               </div>
               <div className="profileContainer inlineB">
                 <i uk-icon="icon: user; ratio: 10"></i>
@@ -282,6 +311,9 @@ export default function ProfilePage(props) {
             <Button
               onClick={
                 isDisabled ? editable.bind(this) : saveHandler.bind(this)
+              }
+              disabled={
+                !isDisabled && newPassword.value !== '' && !validPassword
               }
               children={isDisabled ? `Edit Profile` : `Save`}
               newClasses="uk-margin-small-right"
