@@ -5,6 +5,8 @@ import './Select.css';
 import UserPopup from './UserPopup/UserPopup';
 
 export default function SelectOne(props) {
+  const [filteredUsers, setFilteredUsers] = useState(props.Info);
+
   const [tempEl, setTempEl] = useState({ name: '', userID: '' });
   const addSelected = (user, event) => {
     event.target.parentElement.style.display = 'none';
@@ -64,6 +66,24 @@ export default function SelectOne(props) {
   const inputChangeHandler = (id, value, addNew) => {
     props.onChange(id, value, addNew);
   };
+
+  const filterUser = async (el) => {
+    let temparray = [];
+    const elemValue= el.target.value.toLowerCase();
+    if (elemValue==""){
+      setFilteredUsers(props.Info)
+    }else{
+      await setFilteredUsers(props.Info)
+      filteredUsers.map((user,index)=>{
+        console.log(user.name.toLowerCase().includes(elemValue), user.name);
+        if(user.name.toLowerCase().includes(elemValue)){
+          temparray.push(user);
+        }
+      });
+      setFilteredUsers(temparray);
+    }
+  };
+
   return (
     <>
       {props.loading ? null : (
@@ -85,6 +105,8 @@ export default function SelectOne(props) {
               }
               onFocus={showList.bind(this)}
               disabled={props.addNew || props.disabled}
+              onKeyUp={filterUser.bind(this)}
+              autoComplete="off"
             />
             <div className="userInputDropdown userSelect">
               {props.Info.map((user, index) => {
