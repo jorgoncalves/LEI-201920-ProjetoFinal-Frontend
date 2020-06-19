@@ -94,7 +94,6 @@ export default function Select(props) {
             {props.selected.map((user, index) => {
               return (
                 <UserPopup key={index} user={user}>
-                  {console.log(user.chief_userID, props.userIDUpdate)}
                   {!props.disabled && (
                     <>
                       {props.userIDUpdate !== undefined &&

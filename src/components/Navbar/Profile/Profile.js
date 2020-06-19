@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
 
 import './Profile.css';
 
@@ -10,16 +9,12 @@ export default function Profile(props) {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState();
   const [LocationPath] = useState(useLocation().pathname);
+  const [isAdmin] = useState(
+    localStorage.getItem('isAdmin') === 'true' ? true : false
+  );
   useEffect(() => {
-    async function userInform() {
-      // const userID = localStorage.getItem('userID');
-      // let userInfo = await getUserInfo(userID);
-      // console.log(jwtDecode(localStorage.getItem('token')));
-
-      setUserInfo(props.userInfo);
-      setLoading(false);
-    }
-    userInform();
+    setUserInfo(props.userInfo);
+    setLoading(false);
   }, []);
   return (
     <>
@@ -31,12 +26,21 @@ export default function Profile(props) {
               <li className="profInfo">{userInfo.name}</li>
               <li className="profInfo">{userInfo.email}</li>
               <li className="profInfo">{userInfo.department}</li>
-              <li className="uk-nav-divider"></li>
-              <li className={LocationPath === '/adminPanel' ? 'uk-active' : ''}>
-                <Link to="/adminPanel" href="#">
-                  Admin Panel
-                </Link>
-              </li>
+              {console.log(isAdmin)}
+              {isAdmin ? (
+                <>
+                  <li className="uk-nav-divider"></li>
+                  <li
+                    className={
+                      LocationPath === '/adminPanel' ? 'uk-active' : ''
+                    }
+                  >
+                    <Link to="/adminPanel" href="#">
+                      Admin Panel
+                    </Link>
+                  </li>
+                </>
+              ) : null}
               <li className="uk-nav-divider"></li>
               <li className={LocationPath === '/profile' ? 'uk-active' : ''}>
                 <Link to="/profile" href="#" className="fLeft">
