@@ -14,6 +14,7 @@ import { getUserNotifications } from '../../util/restCall_users';
 
 export default function Home(props) {
   const [userID] = useState(localStorage.getItem('userID'));
+  const [userDisplay] = useState(localStorage.getItem('userDisp'));
   const [loading, setLoading] = useState(true);
   const [pendingDocs, setPendingDocs] = useState([]);
   const [notificationList, setNotificationList] = useState([]);
@@ -54,7 +55,7 @@ export default function Home(props) {
         <>
           <div className="uk-margin uk-flex uk-flex-around mainContainer">
             <div className="homeLeftContainer">
-              <QuickAccess />
+              <QuickAccess userDisplay={userDisplay}/>
             </div>
             <div className="homeRightContainer">
               <Notification

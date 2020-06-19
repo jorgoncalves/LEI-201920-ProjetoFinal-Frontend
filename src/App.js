@@ -38,8 +38,10 @@ export default withRouter(function App() {
       error: null
     });
     localStorage.removeItem('token');
+    localStorage.removeItem('userDisp');
     localStorage.removeItem('userID');
     localStorage.removeItem('expiryDate');
+    localStorage.removeItem('userInfo');
     history.push('/');
   };
   const setAutoLogout = (milliseconds) => {
@@ -74,15 +76,16 @@ export default withRouter(function App() {
       const tokenDecode = jwtDecode(resp.data.token);
       let userInfo = await getUserInfo(tokenDecode.userID);
       console.log(userInfo);
+      localStorage.setItem('token', resp.data.token);
+      localStorage.setItem('userDisp', userInfo.user_display);
+      localStorage.setItem('userID', tokenDecode.userID);
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
       setState({
         tokenInfo: tokenDecode,
         token: resp.data.token,
         authLoading: false,
         userInfo
       });
-      localStorage.setItem('token', resp.data.token);
-      localStorage.setItem('userID', tokenDecode.userID);
-      localStorage.setItem('userInfo', JSON.stringify(userInfo));
       const remainingMilliseconds = 60 * 60 * 1000;
       const expiryDate = new Date(new Date().getTime() + remainingMilliseconds);
       localStorage.setItem('expiryDate', expiryDate.toISOString());
