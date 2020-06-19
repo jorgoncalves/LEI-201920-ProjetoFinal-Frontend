@@ -19,5 +19,9 @@ module.exports = Object.freeze({
   updateDoc: `${base}/docs`,
   createDepart: `${base}/depart/create`,
   getRecords: `${base}/registers/getRecords`,
-  postRecord: `${base}/registers/postRecord`
+  postRecord: `${base}/registers/postRecord`,
+  getDocsLocations: `${base}/docLocation/getDocsLocations`,
+  postDocLocation: `${base}/docLocation/newDocLocation`,
+  updateDocLocation: `${base}/docLocation/updateDocLocation`,
+  getCommits: `${base}/commits/getCommits`
 });

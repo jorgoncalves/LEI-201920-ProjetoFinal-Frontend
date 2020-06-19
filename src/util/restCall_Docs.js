@@ -6,8 +6,30 @@ import {
   getDocs,
   getDocDepart,
   insertDoc,
-  updateDoc
+  updateDoc,
+  getCommits
 } from './restAddress';
+
+export const getDocCommits = async (documentID) => {
+  try {
+    // const tempObj = {};
+    // if (userID) tempObj.userID = userID;
+    // if (status) tempObj.status = status;
+    // if (documentID) tempObj.documentID = documentID;
+    // const params = queryString.stringify(tempObj);
+
+    const resp = await axios(`${getCommits}/${documentID}`, {
+      method: 'GET'
+    });
+    console.log(resp.data);
+
+    return resp.data;
+  } catch (error) {
+    console.log(error);
+
+    return error;
+  }
+};
 
 export const getDocsUser = async (userID, status, documentID) => {
   try {
@@ -34,7 +56,6 @@ export const getDocsOnly = async (userID, status, documentID) => {
     if (status) tempObj.status = status;
     if (documentID) tempObj.documentID = documentID;
     const params = queryString.stringify(tempObj);
-    console.log(params);
 
     const resp = await axios(`${getDocs}?${params}`, {
       method: 'GET'

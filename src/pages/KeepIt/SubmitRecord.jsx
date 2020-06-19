@@ -19,6 +19,7 @@ export default function SubmitRecord(props) {
   const [disabled, setDisabled] = useState(false);
   const [addNew, setAddNew] = useState(false);
   const [respLoading, setRespLoading] = useState(false);
+  const [documentsList, setDocumentsList] = useState([]);
   const [formDocumentName, setFormDocumentName] = useState({
     name: '',
     userID: ''
@@ -29,7 +30,6 @@ export default function SubmitRecord(props) {
   const [formTagCliente, setFormTagCliente] = useState({ value: '' });
   const [formTagNIF, setFormTagNIF] = useState({ value: '' });
   const [formTagCategoria, setFormTagCategoria] = useState({ value: '' });
-  const [documentsList, setDocumentsList] = useState([]);
   const [submitValidation, setSubmitValidation] = useState({
     DocumentName: false,
     Description: false,

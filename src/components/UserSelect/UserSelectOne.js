@@ -35,7 +35,6 @@ export default function SelectOne(props) {
   };
 
   const removeSelected = (user, event) => {
-    console.log(user);
     // setTempEl({ name: '', userID: '' });
     props.select({ name: '', userID: '' });
     props.setSubmitValidation((prevState) => {
