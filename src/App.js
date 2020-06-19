@@ -23,8 +23,11 @@ import UpdateUser from './pages/Admin/Users/UpdateUser';
 import DepartmentsManagement from './pages/Admin/Departments/DepartmentsManagement';
 import UpdateDepartment from './pages/Admin/Departments/UpdateDepartment';
 import SubmitRecord from './pages/KeepIt/SubmitRecord';
+import DocLocation from './pages/KeepIt/DocLocation/DocLocation';
+import DocLocationList from './pages/KeepIt/DocLocation/DocLocationList';
+import Commit from './pages/KeepIt/Commits/Commit';
 
-import { loginAddress, userInfo } from './util/restAddress';
+import { loginAddress } from './util/restAddress';
 import { getUserInfo } from './util/restCall_users';
 
 export default withRouter(function App() {
@@ -124,7 +127,6 @@ export default withRouter(function App() {
     const remainingMilliseconds =
       new Date(expiryDate).getTime() - new Date().getTime();
     const tokenDecode = jwtDecode(token);
-    console.log(tokenDecode);
 
     setState({
       token: token,
@@ -290,6 +292,39 @@ export default withRouter(function App() {
           exact
           render={(props) => (
             <SubmitRecord
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/doclocation"
+          exact
+          render={(props) => (
+            <DocLocation
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/doclocationlist"
+          exact
+          render={(props) => (
+            <DocLocationList
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/commit/:documentID"
+          exact
+          render={(props) => (
+            <Commit
               {...props}
               onLogout={logoutHandler}
               userInfo={state.userInfo}
@@ -491,6 +526,39 @@ export default withRouter(function App() {
           exact
           render={(props) => (
             <UpdateDepartment
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/doclocation"
+          exact
+          render={(props) => (
+            <DocLocation
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/doclocationlist"
+          exact
+          render={(props) => (
+            <DocLocationList
+              {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+        <Route
+          path="/commit/:documentID"
+          exact
+          render={(props) => (
+            <Commit
               {...props}
               onLogout={logoutHandler}
               userInfo={state.userInfo}

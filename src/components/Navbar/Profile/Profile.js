@@ -26,7 +26,6 @@ export default function Profile(props) {
               <li className="profInfo">{userInfo.name}</li>
               <li className="profInfo">{userInfo.email}</li>
               <li className="profInfo">{userInfo.department}</li>
-              {console.log(isAdmin)}
               {isAdmin ? (
                 <>
                   <li className="uk-nav-divider"></li>

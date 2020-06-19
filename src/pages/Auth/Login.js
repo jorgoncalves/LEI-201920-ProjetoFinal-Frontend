@@ -19,7 +19,7 @@ function Login(props) {
         validators: [required, email],
       },
       password: {
-        value: '123453',
+        value: '12345',
         valid: false,
         touched: false,
         validators: [required, length({ min: 5 })],

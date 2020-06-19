@@ -190,14 +190,16 @@ export default function UsersManagement(props) {
       country: formCountry.value,
       country_code: formCountryCode.value,
       phone_number: formPhoneNumber.value,
-      password: 12345,
       is_active: !formIsActive
     };
     setRespLoading(true);
     let resp;
     if (userIDUpdate !== undefined)
       resp = await updateClient(userIDUpdate, obj);
-    else resp = await createClient(obj);
+    else {
+      obj.password = 12345;
+      resp = await createClient(obj);
+    }
     UIkit.modal.dialog(`<p class="uk-modal-body">${resp.message}</p>`);
     setRespLoading(false);
     if (resp.status === 201 || resp.status === 200) setFinalDisabled(true);

@@ -16,7 +16,6 @@ export default function Burger() {
           <li className={useLocation().pathname == '/department' ? 'actv' : ''}>
             <Link to="/department">Departamento</Link>
           </li>
-
           <li className="uk-nav-header">Documentação</li>
           <li className={useLocation().pathname == '/useDocs' ? 'actv' : ''}>
             <Link to="/useDocs">Documentos para uso</Link>
@@ -36,6 +35,13 @@ export default function Burger() {
             className={useLocation().pathname == '/obsoleteDocs' ? 'actv' : ''}
           >
             <Link to="/obsoleteDocs">Documentos obsoletos</Link>
+          </li>
+          <li
+            className={
+              useLocation().pathname == '/doclocationlist' ? 'actv' : ''
+            }
+          >
+            <Link to="/doclocationlist">Documents Location List</Link>
           </li>
           <li className="uk-nav-divider"></li>
           <li className={useLocation().pathname == '/newDoc' ? 'actv' : ''}>

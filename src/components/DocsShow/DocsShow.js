@@ -69,21 +69,30 @@ export default function DocsShow(props) {
           ) : (
             <Icon icon="bookmark" tooltip="Pin" link="#" onClick={props.setQuickAccess.bind(this, props.file, true)}/>
           )}
+          <Icon
+            icon="history"
+            tooltip="Commit history"
+            link={`/commit/${props.file.documentID}`}
+          />
           {props.file.isModelFile && (
-            <Icon icon="download" tooltip="Download File" link={`${geFile}?path=${props.file.path}`} />
+            <Icon
+              icon="download"
+              tooltip="Download File"
+              link={`${geFile}?path=${props.file.path}`}
+            />
           )}
           {(props.docStatus === 'approved' ||
             props.docStatus === 'obsolete') && (
-              <>
-                {props.file.has_records && (
-                  <Icon
-                    icon="album"
-                    link={`/records/${props.file.documentID}`}
-                    tooltip="Records"
-                  />
-                )}{' '}
-              </>
-            )}
+            <>
+              {props.file.has_records && (
+                <Icon
+                  icon="album"
+                  link={`/records/${props.file.documentID}`}
+                  tooltip="Records"
+                />
+              )}{' '}
+            </>
+          )}
         </div>
         <div className="docsListChild">
           <Icon
