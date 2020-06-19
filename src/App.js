@@ -83,7 +83,7 @@ export default withRouter(function App() {
       localStorage.setItem('token', resp.data.token);
       localStorage.setItem('userID', tokenDecode.userID);
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
-      localStorage.setItem('userDisp', JSON.stringify(userInfo.user_display));
+      localStorage.setItem('userDisp', userInfo.user_display);
       localStorage.setItem('tokenInfo', JSON.stringify(tokenDecode));
       localStorage.setItem('isAdmin', tokenDecode.isAdmin);
       console.log(userInfo);

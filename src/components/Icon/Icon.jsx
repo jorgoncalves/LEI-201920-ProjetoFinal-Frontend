@@ -10,6 +10,7 @@ export default function Icon(props) {
         <span
           uk-icon={`icon: ${props.icon}`}
           className={[props.class, 'iconFormat'].join(' ')}
+          onClick={props.onClick}
         ></span>
       ) : (
         <>
@@ -20,6 +21,7 @@ export default function Icon(props) {
               className={[props.class, 'iconFormat'].join(' ')}
               download
               uk-tooltip={props.tooltip}
+              onClick={props.onClick}
             ></a>
           ) : (
             <Link
@@ -27,6 +29,7 @@ export default function Icon(props) {
               to={`${props.link}`}
               uk-icon={`icon: ${props.icon}`}
               className={[props.class, 'iconFormat'].join(' ')}
+              onClick={props.onClick}
             ></Link>
           )}
         </>
