@@ -64,6 +64,11 @@ export default function DocsShow(props) {
           )}
         </div>
         <div className="docsListChild">
+          {(props.userDisplay.quickAccess.findIndex(x=> x.documentID == props.file.documentID)>-1) ? (
+            <Icon icon="bookmark" tooltip="UnPin" link="#" onClick={props.setQuickAccess.bind(this, props.file, false)} class="red"/>
+          ) : (
+            <Icon icon="bookmark" tooltip="Pin" link="#" onClick={props.setQuickAccess.bind(this, props.file, true)}/>
+          )}
           {props.file.isModelFile && (
             <Icon icon="download" tooltip="Download File" link={`${geFile}?path=${props.file.path}`} />
           )}
