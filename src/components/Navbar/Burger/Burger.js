@@ -56,6 +56,10 @@ export default function Burger() {
           >
             <Link to="/submitrecord">Submit record</Link>
           </li>
+          <li className="uk-nav-divider"></li>
+          <li className={useLocation().pathname === '/about' ? 'actv' : ''}>
+            <Link to="/about">About</Link>
+          </li>
         </ul>
       </div>
     </div>

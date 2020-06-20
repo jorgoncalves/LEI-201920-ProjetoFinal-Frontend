@@ -26,6 +26,7 @@ import SubmitRecord from './pages/KeepIt/SubmitRecord';
 import DocLocation from './pages/KeepIt/DocLocation/DocLocation';
 import DocLocationList from './pages/KeepIt/DocLocation/DocLocationList';
 import Commit from './pages/KeepIt/Commits/Commit';
+import About from './pages/KeepIt/AboutPage';
 
 import { loginAddress } from './util/restAddress';
 import { getUserInfo } from './util/restCall_users';
@@ -331,6 +332,19 @@ export default withRouter(function App() {
             />
           )}
         />
+
+        <Route
+          path="/about"
+          exact
+          render={(props) => (
+            <About
+              {...props}
+              tokenInfo={state.tokenInfo}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
         {/* <Route render={() => <Redirect to="/" />} /> */}
       </>
     );
@@ -560,6 +574,19 @@ export default withRouter(function App() {
           render={(props) => (
             <Commit
               {...props}
+              onLogout={logoutHandler}
+              userInfo={state.userInfo}
+            />
+          )}
+        />
+
+        <Route
+          path="/about"
+          exact
+          render={(props) => (
+            <About
+              {...props}
+              tokenInfo={state.tokenInfo}
               onLogout={logoutHandler}
               userInfo={state.userInfo}
             />

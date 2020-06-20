@@ -1,0 +1,14 @@
+.AboutBox{
+    width: 95%;
+    margin: auto;
+}
+
+.SoftwareDtls{
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.contactInfo{
+    display: inline-block;
+    vertical-align: top;
+}
