@@ -33,6 +33,8 @@ import { getUserInfo } from './util/restCall_users';
 export default withRouter(function App() {
   const [state, setState] = useState({});
   let history = useHistory();
+  const remainingMilliseconds = 30 * 60 * 1000;
+  let autoLogout;
   const logoutHandler = () => {
     setState({
       token: null,
@@ -46,11 +48,12 @@ export default withRouter(function App() {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('userDisp');
     localStorage.removeItem('isAdmin');
-    localStorage.removeItem('expiryDate');
+    // localStorage.removeItem('expiryDate');
+    localStorage.removeItem('tokenInfo');
     history.push('/');
   };
   const setAutoLogout = (milliseconds) => {
-    setTimeout(() => {
+    autoLogout = setTimeout(() => {
       logoutHandler();
     }, milliseconds);
   };
@@ -94,9 +97,9 @@ export default withRouter(function App() {
         authLoading: false,
         userInfo
       });
-      const remainingMilliseconds = 60 * 60 * 1000;
-      const expiryDate = new Date(new Date().getTime() + remainingMilliseconds);
-      localStorage.setItem('expiryDate', expiryDate.toISOString());
+
+      // const expiryDate = new Date(new Date().getTime() + remainingMilliseconds);
+      // localStorage.setItem('expiryDate', expiryDate.toISOString());
       setAutoLogout(remainingMilliseconds);
     } catch (error) {
       UIkit.modal.dialog(`<p class="uk-modal-body">${error.message}</p>`);
@@ -113,19 +116,23 @@ export default withRouter(function App() {
   useEffect(() => {
     const userInfo = localStorage.getItem('userInfo');
     const token = localStorage.getItem('token');
-    const expiryDate = localStorage.getItem('expiryDate');
-    // const tokenInfo = localStorage.getItem('tokenInfo');
-    // const isAdmin = localStorage.getItem('isAdmin');
-    if (!token || !expiryDate) {
+    // const expiryDate = localStorage.getItem('expiryDate');
+    const tokenInfo = localStorage.getItem('tokenInfo');
+    const isAdmin = localStorage.getItem('isAdmin');
+    if (!token) {
       return;
     }
-    if (new Date(expiryDate) <= new Date()) {
-      logoutHandler();
-      return;
-    }
-    // const isAuth = localStorage.getItem('isAuth') === 'true';
-    const remainingMilliseconds =
-      new Date(expiryDate).getTime() - new Date().getTime();
+    // if (new Date(expiryDate) <= new Date()) {
+    //   logoutHandler();
+    //   return;
+    // }
+    const isAuth = localStorage.getItem('isAuth') === 'true';
+    // const remainingMilliseconds =
+    //   new Date(expiryDate).getTime() - new Date().getTime();
+    window.addEventListener('click', () => {
+      clearTimeout(autoLogout);
+      setAutoLogout(remainingMilliseconds);
+    });
     const tokenDecode = jwtDecode(token);
 
     setState({
@@ -135,7 +142,8 @@ export default withRouter(function App() {
       isAdmin: tokenDecode.isAdmin,
       authLoading: false
     });
-    setAutoLogout(remainingMilliseconds);
+    console.log('this');
+
     return () => {};
   }, []);
   let routes = (

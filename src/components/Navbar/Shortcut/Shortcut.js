@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './Shortcut.css';
 
-import Button from '../../Button/Button';
+// import Button from '../../Button/Button';
 
 export default function Shortcut(props) {
   return (
