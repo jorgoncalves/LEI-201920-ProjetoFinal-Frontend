@@ -74,7 +74,7 @@ export default function SubmitDocPage(props) {
     let userTemp = await getAllUserInfo(obj);
     // const userID = localStorage.getItem('userID');
     setApprovingUserList(userTemp.data);
-    setUserInfo(userTemp.data.filter((u) => u.userID != userID));
+    setUserInfo(userTemp.data.filter((u) => u.userID !== userID));
     // setUserInfo(userTemp.data);
   };
 
@@ -408,7 +408,7 @@ export default function SubmitDocPage(props) {
                 setSaveValidation={setSaveValidation}
                 setSubmitValidation={setSubmitValidation}
                 disabledSelected={disabledSelected}
-                finalDisabled={finalDisabled}
+                disabled={finalDisabled}
               />
               {/* <Input
                 id="name"
@@ -454,7 +454,7 @@ export default function SubmitDocPage(props) {
                     onChange={inputChangeHandlerBool.bind(this, 'isModel')}
                     disabled={finalDisabled}
                   />
-                  This document has a model document
+                  This is a printable document
                 </label>
               </div>
               <UserSelect

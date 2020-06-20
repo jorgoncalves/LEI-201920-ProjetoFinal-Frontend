@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Route,
   Switch,
-  Redirect,
+  // Redirect,
   withRouter,
   useHistory
 } from 'react-router-dom';
@@ -114,8 +114,8 @@ export default withRouter(function App() {
     const userInfo = localStorage.getItem('userInfo');
     const token = localStorage.getItem('token');
     const expiryDate = localStorage.getItem('expiryDate');
-    const tokenInfo = localStorage.getItem('tokenInfo');
-    const isAdmin = localStorage.getItem('isAdmin');
+    // const tokenInfo = localStorage.getItem('tokenInfo');
+    // const isAdmin = localStorage.getItem('isAdmin');
     if (!token || !expiryDate) {
       return;
     }

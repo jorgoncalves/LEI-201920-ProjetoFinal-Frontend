@@ -66,7 +66,7 @@ export default function DocLocationList(props) {
                         <div className="docsListChild">{location.userName}</div>
                         <div className="docsListChild">
                           {moment(location.created_on).format(
-                            'DD-MM-YYYY HH[h]MM'
+                            'DD-MM-YYYY HH[h]mm'
                           )}
                         </div>
                       </div>

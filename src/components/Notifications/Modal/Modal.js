@@ -69,8 +69,7 @@ export default function ModalNotification(props) {
         setFinalDisabled(true);
         setRespLoading(false);
         showModalNotif();
-        if(docID!=undefined)
-          window.location.href = `/records/${docID}`;
+        if (docID !== undefined) window.location.href = `/records/${docID}`;
       }
     } catch (error) {
       console.log(error);
@@ -103,7 +102,7 @@ export default function ModalNotification(props) {
           </dl>
         </div>
         <div className="uk-card-footer buttonContainer">
-          {props.notifShow.notification.documentData.status=='approved' ? (
+          {props.notifShow.notification.documentData.status === 'approved' ? (
             <Button
               // link={`/records/${props.notifShow.notification.documentData.documentID}`}
               border=""
@@ -111,9 +110,14 @@ export default function ModalNotification(props) {
               newClasses="uk-margin-small-top uk-margin-small-left modalButton"
               loading={respLoading}
               disabled={finalDisabled}
-              onClick={markWasSeenNotification.bind(this, props.notifShow.notification.documentData.documentID)}
+              onClick={markWasSeenNotification.bind(
+                this,
+                props.notifShow.notification.documentData.documentID
+              )}
             />
-          ) : ("")}
+          ) : (
+            ''
+          )}
           <Button
             // link="#"
             border=""
@@ -121,7 +125,7 @@ export default function ModalNotification(props) {
             newClasses="uk-margin-small-top uk-margin-small-left modalButton"
             loading={respLoading}
             disabled={finalDisabled}
-            onClick={markWasSeenNotification.bind(this,undefined)}
+            onClick={markWasSeenNotification.bind(this, undefined)}
           />
         </div>
       </div>

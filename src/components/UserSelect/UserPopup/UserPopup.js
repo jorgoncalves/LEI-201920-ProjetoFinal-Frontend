@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+// import { Link, useLocation } from 'react-router-dom';
 
 import './UserPopup.css';
 
-const { getUserInfo } = require('../../../util/restCall_users');
+// const { getUserInfo } = require('../../../util/restCall_users');
 
 export default function Profile(props) {
-  const [loading, setLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState();
+  // const [loading, setLoading] = useState(true);
+  // const [userInfo, setUserInfo] = useState();
   useEffect(() => {
-      setUserInfo(props.user);
-      setLoading(false);
+      // setUserInfo(props.user);
+      // setLoading(false);
 
   }, [props.user]);
 

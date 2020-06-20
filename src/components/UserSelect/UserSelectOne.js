@@ -62,23 +62,28 @@ export default function SelectOne(props) {
     props.setAddNew(!props.addNew);
   };
 
-  const inputChangeHandler = (id, value, addNew) => {
-    props.onChange(id, value, addNew);
-  };
+  // const inputChangeHandler = (id, value, addNew) => {
+  //   props.onChange(id, value, addNew);
+  // };
 
   const filterUser = async (el) => {
     let temparray = [];
-    const elemValue= el.target.value.toLowerCase();
-    if (elemValue==""){
-      setFilteredUsers(props.Info)
-    }else{
-      await setFilteredUsers(props.Info)
-      filteredUsers.map((user,index)=>{
-        console.log(user.name.toLowerCase().includes(elemValue), user.name);
-        if(user.name.toLowerCase().includes(elemValue)){
+    const elemValue = el.target.value.toLowerCase();
+    if (elemValue === '') {
+      setFilteredUsers(props.Info);
+    } else {
+      await setFilteredUsers(props.Info);
+      // filteredUsers.map((user, index) => {
+      //   console.log(user.name.toLowerCase().includes(elemValue), user.name);
+      //   if (user.name.toLowerCase().includes(elemValue)) {
+      //     temparray.push(user);
+      //   }
+      // });
+      for (const user of filteredUsers) {
+        if (user.name.toLowerCase().includes(elemValue)) {
           temparray.push(user);
         }
-      });
+      }
       setFilteredUsers(temparray);
     }
   };
@@ -99,14 +104,14 @@ export default function SelectOne(props) {
               id={props.id}
               value={props.value}
               placeholder={props.title}
-              autoComplete="false"
+              // autoComplete="false"
+              autoComplete="off"
               onChange={(e) =>
                 props.onChange(props.id, e.target.value, props.addNew)
               }
               onFocus={showList.bind(this)}
               disabled={props.addNew || props.disabled}
               onKeyUp={filterUser.bind(this)}
-              autoComplete="off"
             />
             <div className="userInputDropdown userSelect">
               {props.Info.map((user, index) => {

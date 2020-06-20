@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from 'react';
 // import { Link, useLocation } from 'react-router-dom';
 
-import "./DocsSelect.css";
+import './DocsSelect.css';
 // import UserPopup from './UserPopup/UserPopup';
 
-import { getDocsUser } from "../../util/restCall_Docs";
-import Loading from "../../components/Loading/Loading";
+import { getDocsUser } from '../../util/restCall_Docs';
+// import Loading from "../../components/Loading/Loading";
 
 export default function SelectOne(props) {
-  const [userID] = useState(localStorage.getItem("userID"));
+  const [userID] = useState(localStorage.getItem('userID'));
   const [loading, setLoading] = useState(true);
   const [docs, setDocs] = useState([]);
   const [filteredDocs, setFilteredDocs] = useState([]);
@@ -59,7 +59,7 @@ export default function SelectOne(props) {
   const unShowList = (e) => {
     let temp = e.target.parentElement.parentElement.children[1];
     setTimeout(() => {
-      temp.style.display = "none";
+      temp.style.display = 'none';
     }, 100);
   };
 
@@ -71,19 +71,25 @@ export default function SelectOne(props) {
     await setFilteredDocs(resp.data.documents);
     setLoading(false);
   };
-  
+
   const filterDocs = (el) => {
     let temparray = [];
-    const elemValue= el.target.value.toLowerCase();
-    if (elemValue==""){
-      setFilteredDocs(docs)
-    }else{
-      docs.map((doc,index)=>{
+    const elemValue = el.target.value.toLowerCase();
+    if (elemValue === '') {
+      setFilteredDocs(docs);
+    } else {
+      // docs.map((doc, index) => {
+      //   console.log(doc.name.toLowerCase().includes(elemValue), doc.name);
+      //   if (doc.name.toLowerCase().includes(elemValue)) {
+      //     temparray.push(doc);
+      //   }
+      // });
+      for (const doc of docs) {
         console.log(doc.name.toLowerCase().includes(elemValue), doc.name);
-        if(doc.name.toLowerCase().includes(elemValue)){
+        if (doc.name.toLowerCase().includes(elemValue)) {
           temparray.push(doc);
         }
-      });
+      }
       setFilteredDocs(temparray);
     }
   };
@@ -98,7 +104,10 @@ export default function SelectOne(props) {
         )}
         <div className="docsInput" onBlur={unShowList.bind(this)}>
           <form className="uk-search uk-form-width-large">
-            <span className="uk-search-icon-flip uk-margin-small-right" uk-search-icon="true"></span>
+            <span
+              className="uk-search-icon-flip uk-margin-small-right"
+              uk-search-icon="true"
+            ></span>
             <input
               className="uk-input textInput uk-form-width-large uk-search-input searchBar"
               type="search"
@@ -115,7 +124,6 @@ export default function SelectOne(props) {
               </div>
             ) : (
               filteredDocs.length > 0 ? (
-                //VERIFICAR filteredDocs <- Length!!
                 filteredDocs.map((doc, index) => {
                   return (
                     <a

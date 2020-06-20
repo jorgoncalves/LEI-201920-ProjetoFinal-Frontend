@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import Button from '../../components/Button/Button';
 import Navbar from '../../components/Navbar/Navbar';

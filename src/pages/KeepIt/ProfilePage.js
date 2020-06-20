@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import UIkit from 'uikit';
 import './ProfilePage.css';
-import { required, length, email } from '../../util/validators';
+import { required } from '../../util/validators';
 
 import Navbar from '../../components/Navbar/Navbar';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Form/Input/Input';
 import Loading from '../../components/Loading/Loading';
+import ShortcutsModal from '../../components/Shortcuts/Modal/ShortcutsModal';
 
 import {
   getUserInfo,
@@ -26,6 +27,7 @@ export default function ProfilePage(props) {
   const [userLoaded, setUserLoaded] = useState(false);
   const [newPassword, setNetPassword] = useState({ value: '' });
   const [validPassword, setValidPassword] = useState(false);
+  const [showModal, setShowModal] = useState({ state: false });
   const getUser = async () => {
     let userInfo = await getUserInfo(userID);
 
@@ -191,13 +193,27 @@ export default function ProfilePage(props) {
   };
   return (
     <>
-      <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
+      <>
+        <Navbar onLogout={props.onLogout} userInfo={props.userInfo} />
+        {showModal.state ? (
+          <ShortcutsModal showModal={showModal} setShowModal={setShowModal} />
+        ) : null}
+      </>
       {loading ? (
         <Loading />
       ) : (
         <div className="profileBox">
           <h2 className="uk-heading-divider uk-margin-medium-bottom">
             User Profile
+            <Button
+              children="Shortcut Management"
+              newClasses="btnNewLocation"
+              onClick={() => {
+                setShowModal((prevState) => {
+                  return { ...prevState, state: true };
+                });
+              }}
+            />
           </h2>
           <div className="profileBox">
             <form
