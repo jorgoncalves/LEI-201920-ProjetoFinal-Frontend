@@ -1,7 +1,7 @@
 import React from "react";
-import UIkit from "uikit";
-import FileViewer from "react-file-viewer";
-import { Link } from "react-router-dom";
+// import UIkit from "uikit";
+// import FileViewer from "react-file-viewer";
+// import { Link } from "react-router-dom";
 
 import "./RecsShow.css";
 
@@ -17,7 +17,7 @@ export default function RecsShow(props) {
     const temp =
       el.target.parentElement.children[1].firstElementChild.firstElementChild;
 
-    if (temp.className == "spanTextLess") {
+    if (temp.className === "spanTextLess") {
       temp.className = "spanTextMore";
     } else {
       temp.className = "spanTextLess";

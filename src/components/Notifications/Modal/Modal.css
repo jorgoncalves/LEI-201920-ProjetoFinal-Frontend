@@ -1,28 +1,35 @@
-.modalNotif{
+.modalNotif {
     position: fixed;
-    top:0;bottom:0;left:0;right:0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
-.modalNotif .background{
+
+.modalNotif .background {
     position: absolute;
-    top:0;bottom:0;left:0;right:0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background-color: lightgray;
     opacity: .4;
 }
 
-.modalNotif .uk-card{
+.modalNotif .uk-card {
     margin: auto;
     top: 50%;
     transform: translateY(-50%);
     width: 30rem;
 }
 
-.buttonContainer{
+.buttonContainer {
     display: flex;
     justify-content: space-between;
     height: 50px;
 }
 
-.modalButton{
+.modalButton {
     display: table;
     vertical-align: top;
 }

@@ -13,10 +13,10 @@ import { getDocsOnly } from '../../util/restCall_Docs';
 import { postRecordData } from '../../util/restCall_records';
 
 export default function SubmitRecord(props) {
-  const [userID, setUserID] = useState(localStorage.getItem('userID'));
+  const [userID] = useState(localStorage.getItem('userID'));
   const [loading, setLoading] = useState(true);
   const [finalDisabled, setFinalDisabled] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  // const [disabled, setDisabled] = useState(false);
   const [addNew, setAddNew] = useState(false);
   const [respLoading, setRespLoading] = useState(false);
   const [documentsList, setDocumentsList] = useState([]);

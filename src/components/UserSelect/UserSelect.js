@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from 'react';
 // import { Link, useLocation } from 'react-router-dom';
 
 import './Select.css';
@@ -37,26 +37,34 @@ export default function Select(props) {
   };
 
   const showList = (e) => {
-    setFilteredUsers(props.Info)
+    setFilteredUsers(props.Info);
     e.target.parentElement.children[1].style.display = 'block';
   };
 
   const filterUser = async (el) => {
     let temparray = [];
-    const elemValue= el.target.value.toLowerCase();
-    if (elemValue==""){
-      setFilteredUsers(props.Info)
-    }else{
-      filteredUsers.map((user,index)=>{
+    const elemValue = el.target.value.toLowerCase();
+    if (elemValue === '') {
+      setFilteredUsers(props.Info);
+    } else {
+      // filteredUsers.map((user, index) => {
+      //   console.log(user.name.toLowerCase().includes(elemValue), user.name);
+      //   if (user.name.toLowerCase().includes(elemValue)) {
+      //     temparray.push(user);
+      //   }
+      // });
+
+      for (const user of filteredUsers) {
         console.log(user.name.toLowerCase().includes(elemValue), user.name);
-        if(user.name.toLowerCase().includes(elemValue)){
+        if (user.name.toLowerCase().includes(elemValue)) {
           temparray.push(user);
         }
-      });
+      }
+
       setFilteredUsers(temparray);
     }
   };
-  
+
   return (
     <>
       {props.loading ? null : (

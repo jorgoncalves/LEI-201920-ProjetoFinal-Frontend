@@ -12,13 +12,14 @@ import {
 
 export const getDocCommits = async (documentID) => {
   try {
-    // const tempObj = {};
-    // if (userID) tempObj.userID = userID;
-    // if (status) tempObj.status = status;
-    // if (documentID) tempObj.documentID = documentID;
-    // const params = queryString.stringify(tempObj);
+    const tempObj = {};
+    if (documentID) {
+      tempObj.documentID_new = documentID;
+      tempObj.documentID_old = documentID;
+    }
+    const params = queryString.stringify(tempObj);
 
-    const resp = await axios(`${getCommits}/${documentID}`, {
+    const resp = await axios(`${getCommits}?${params}`, {
       method: 'GET'
     });
     console.log(resp.data);

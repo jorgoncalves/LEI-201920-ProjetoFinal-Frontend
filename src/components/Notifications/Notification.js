@@ -123,7 +123,7 @@ export default function Notification(props) {
                       Notification emmitted by{' '}
                       {notification.submittingUserData.name} On
                       {moment(notification.created_on).format(
-                        'DD-MM-YYYY HH[h]MM'
+                        'DD-MM-YYYY HH[h]mm'
                       )}
                     </dd>
                   </dl>

@@ -55,9 +55,9 @@ export default function DepartmentsManagement(props) {
       });
   };
   const submitHandler = async () => {
-    const tempObj = {
-      ...submitValidation
-    };
+    // const tempObj = {
+    //   ...submitValidation
+    // };
     const obj = {
       departName: formDepartmentName.value,
       chief_user: formApprovingUser.userID,

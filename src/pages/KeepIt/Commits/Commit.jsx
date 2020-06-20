@@ -37,12 +37,12 @@ export default function Commits(props) {
       ) : (
         <div className="profileBox">
           <h2 className="uk-heading-divider uk-margin-medium-bottom">
-            Document Location List{' '}
-            <Button
+            Document history
+            {/* <Button
               children="New document Location"
               link="/doclocation"
               newClasses="btnNewLocation"
-            />
+            /> */}
           </h2>
           <div className="profileBox">
             <div className="DocsBox">
@@ -76,7 +76,7 @@ export default function Commits(props) {
                         <div className="docsListChild">{commit.status}</div>
                         <div className="docsListChild">
                           {moment(commit.created_on).format(
-                            'DD-MM-YYYY HH[h]MM'
+                            'DD-MM-YYYY HH[h]mm'
                           )}
                         </div>
                       </div>

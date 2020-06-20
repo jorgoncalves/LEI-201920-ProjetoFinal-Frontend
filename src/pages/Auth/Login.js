@@ -16,68 +16,68 @@ function Login(props) {
         value: 'jorge@email.com',
         valid: false,
         touched: false,
-        validators: [required, email],
+        validators: [required, email]
       },
       password: {
         value: '12345',
         valid: false,
         touched: false,
-        validators: [required, length({ min: 5 })],
+        validators: [required, length({ min: 5 })]
       },
       formIsValid: false,
-      loading: false,
-    },
+      loading: false
+    }
   });
-  const loginHandler = async (event, authData) => {
-    event.preventDefault();
-    state.loading = true;
-    console.log(state);
-    // fetch('http://localhost:8080/auth/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     email: authData.email,
-    //     password: authData.password,
-    //   }),
-    // })
-    //   .then((res) => {
-    //     if (res.status === 422) {
-    //       throw new Error('Validation failed.');
-    //     }
-    //     if (res.status !== 200 && res.status !== 201) {
-    //       console.log('Error!');
-    //       throw new Error('Could not authenticate you!');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((resData) => {
-    //     console.log(resData);
-    //     this.setState({
-    //       isAuth: true,
-    //       token: resData.token,
-    //       authLoading: false,
-    //       userId: resData.userId,
-    //     });
-    //     localStorage.setItem('token', resData.token);
-    //     localStorage.setItem('userId', resData.userId);
-    //     const remainingMilliseconds = 60 * 60 * 1000;
-    //     const expiryDate = new Date(
-    //       new Date().getTime() + remainingMilliseconds
-    //     );
-    //     localStorage.setItem('expiryDate', expiryDate.toISOString());
-    //     this.setAutoLogout(remainingMilliseconds);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     this.setState({
-    //       isAuth: false,
-    //       authLoading: false,
-    //       error: err,
-    //     });
-    //   });
-  };
+  // const loginHandler = async (event, authData) => {
+  //   event.preventDefault();
+  //   state.loading = true;
+  //   console.log(state);
+  // fetch('http://localhost:8080/auth/login', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     email: authData.email,
+  //     password: authData.password,
+  //   }),
+  // })
+  //   .then((res) => {
+  //     if (res.status === 422) {
+  //       throw new Error('Validation failed.');
+  //     }
+  //     if (res.status !== 200 && res.status !== 201) {
+  //       console.log('Error!');
+  //       throw new Error('Could not authenticate you!');
+  //     }
+  //     return res.json();
+  //   })
+  //   .then((resData) => {
+  //     console.log(resData);
+  //     this.setState({
+  //       isAuth: true,
+  //       token: resData.token,
+  //       authLoading: false,
+  //       userId: resData.userId,
+  //     });
+  //     localStorage.setItem('token', resData.token);
+  //     localStorage.setItem('userId', resData.userId);
+  //     const remainingMilliseconds = 60 * 60 * 1000;
+  //     const expiryDate = new Date(
+  //       new Date().getTime() + remainingMilliseconds
+  //     );
+  //     localStorage.setItem('expiryDate', expiryDate.toISOString());
+  //     this.setAutoLogout(remainingMilliseconds);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     this.setState({
+  //       isAuth: false,
+  //       authLoading: false,
+  //       error: err,
+  //     });
+  //   });
+  // };
   const inputChangeHandler = (input, value) => {
     setState((prevState) => {
       let isValid = true;
@@ -89,8 +89,8 @@ function Login(props) {
         [input]: {
           ...prevState.loginForm[input],
           valid: isValid,
-          value: value,
-        },
+          value: value
+        }
       };
       let formIsValid = true;
       for (const inputName in updatedForm) {
@@ -98,11 +98,10 @@ function Login(props) {
       }
       return {
         loginForm: updatedForm,
-        formIsValid: formIsValid,
+        formIsValid: formIsValid
       };
     });
     console.log(state);
-    
   };
   const inputBlurHandler = (input) => {
     setState((prevState) => {
@@ -111,21 +110,21 @@ function Login(props) {
           ...prevState.loginForm,
           [input]: {
             ...prevState.loginForm[input],
-            touched: true,
-          },
-        },
+            touched: true
+          }
+        }
       };
     });
   };
   return (
     <>
       <Auth>
-        <img src={LOGO} className="uk-margin login-logo" />
+        <img src={LOGO} className="uk-margin login-logo" alt="this is the logo" />
         <form
           onSubmit={(e) =>
             props.onLogin(e, {
               email: state.loginForm.email.value,
-              password: state.loginForm.password.value,
+              password: state.loginForm.password.value
             })
           }
         >

@@ -15,7 +15,7 @@ const input = (props) => (
           'uk-input',
           !props.valid ? 'invalid' : 'valid',
           props.touched ? 'touched' : 'untouched',
-          props.newInputClasses,
+          props.newInputClasses
         ].join(' ')}
         type={props.type}
         id={props.id}
@@ -36,7 +36,7 @@ const input = (props) => (
           'uk-textarea',
           !props.valid ? 'invalid' : 'valid',
           props.touched ? 'touched' : 'untouched',
-          props.newInputClasses,
+          props.newInputClasses
         ].join(' ')}
         id={props.id}
         rows={props.rows}
@@ -50,12 +50,12 @@ const input = (props) => (
     )}
     {props.control === 'select' && (
       <select
-        className="uk-select"
         className={[
+          'uk-select',
           'uk-input',
           !props.valid ? 'invalid' : 'valid',
           props.touched ? 'touched' : 'untouched',
-          props.newInputClasses,
+          props.newInputClasses
         ].join(' ')}
         id={props.id}
         required={props.required}
@@ -77,7 +77,7 @@ const input = (props) => (
           'uk-input',
           !props.valid ? 'invalid' : 'valid',
           props.touched ? 'touched' : 'untouched',
-          props.newInputClasses,
+          props.newInputClasses
         ].join(' ')}
         id={props.id}
         required={props.required}
