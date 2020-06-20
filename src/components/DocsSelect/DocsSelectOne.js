@@ -65,10 +65,10 @@ export default function SelectOne(props) {
 
   const showList = async (e) => {
     const elementTemp = e.target.parentElement.parentElement.children[1];
-    elementTemp.style.display = "block";
     const resp = await getDocsUser(userID, "approved");
+    elementTemp.style.display = "block";
     await setDocs(resp.data.documents);
-    await setFilteredDocs(resp.data.documents)
+    await setFilteredDocs(resp.data.documents);
     setLoading(false);
   };
   
@@ -114,7 +114,8 @@ export default function SelectOne(props) {
                 <div uk-spinner="ratio: 1"></div>
               </div>
             ) : (
-              filteredDocs.lenght > 0 ? (
+              filteredDocs.length > 0 ? (
+                //VERIFICAR filteredDocs <- Length!!
                 filteredDocs.map((doc, index) => {
                   return (
                     <a
