@@ -21,7 +21,7 @@ export default function Home(props) {
   
   const getPendingDocs = async () => {
     const resp = await getDocsUser(userID, 'pending');
-    setPendingDocs(resp.data.documents);
+    await setPendingDocs(resp.data.documents);
   };
 
   const getUserNotificationsList = async () => {

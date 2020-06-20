@@ -65,8 +65,8 @@ export default function SelectOne(props) {
 
   const showList = async (e) => {
     const elementTemp = e.target.parentElement.parentElement.children[1];
-    elementTemp.style.display = 'block';
-    const resp = await getDocsUser(userID, 'approved');
+    const resp = await getDocsUser(userID, "approved");
+    elementTemp.style.display = "block";
     await setDocs(resp.data.documents);
     await setFilteredDocs(resp.data.documents);
     setLoading(false);
@@ -122,22 +122,24 @@ export default function SelectOne(props) {
               <div className="uk-input uk-form-width-large waitSelection">
                 <div uk-spinner="ratio: 1"></div>
               </div>
-            ) : filteredDocs.lenght > 0 ? (
-              filteredDocs.map((doc, index) => {
-                return (
-                  <a
-                    className="uk-input uk-form-width-large selection"
-                    key={index}
-                    href={`/records/${doc.documentID}`}
-                  >
-                    {doc.name}
-                  </a>
-                );
-              })
             ) : (
-              <div className="uk-input uk-form-width-large selection">
-                There are no Documents
-              </div>
+              filteredDocs.length > 0 ? (
+                filteredDocs.map((doc, index) => {
+                  return (
+                    <a
+                      className="uk-input uk-form-width-large selection"
+                      key={index}
+                      href={`/records/${doc.documentID}`}
+                    >
+                      {doc.name}
+                    </a>
+                  );
+                })
+              ) : (
+                <div className="uk-input uk-form-width-large selection">
+                  There are no Documents
+                </div>
+              )
             )}
           </div>
           {/* 
