@@ -1,6 +1,6 @@
 // const base = 'http://localhost:8080';
 // const base = 'http://192.168.1.39:8080';
-const base = process.env.BASE;
+const base = process.env.REACT_APP_BASE;
 module.exports = Object.freeze({
   signupAddress: `${base}/auth/signup`,
   loginAddress: `${base}/auth/login`,
