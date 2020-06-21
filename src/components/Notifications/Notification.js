@@ -114,14 +114,15 @@ export default function Notification(props) {
                   onClick={showModalNotif.bind(this, notification)}
                 >
                   <span className="uk-card-title">
-                    Document {notification.documentData.name}
+                    Document: {notification.documentData.name}
                   </span>
                   <dl className="uk-description-list">
-                    <dd>Is on status: {notification.documentData.status}</dd>
+                    <dd>Is on status: <b>{notification.documentData.status}</b></dd>
                     <dd>{notification.description}</dd>
                     <dd>
-                      Notification emmitted by{' '}
-                      {notification.submittingUserData.name} On
+                      Notification emmitted by&nbsp;
+                      {notification.submittingUserData.name} 
+                      <br/>On&nbsp;
                       {moment(notification.created_on).format(
                         'DD-MM-YYYY HH[h]mm'
                       )}

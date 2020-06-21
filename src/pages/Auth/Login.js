@@ -13,13 +13,13 @@ function Login(props) {
   const [state, setState] = useState({
     loginForm: {
       email: {
-        value: 'jorge@email.com',
+        value: '',
         valid: false,
         touched: false,
         validators: [required, email]
       },
       password: {
-        value: '12345',
+        value: '',
         valid: false,
         touched: false,
         validators: [required, length({ min: 5 })]

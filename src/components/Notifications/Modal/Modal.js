@@ -88,13 +88,13 @@ export default function ModalNotification(props) {
           </span>
           <dl className="uk-description-list">
             <dd>
-              Is on status: {props.notifShow.notification.documentData.status}
+              Is on status: <b>{props.notifShow.notification.documentData.status}</b>
             </dd>
             <dd>{props.notifShow.notification.description}</dd>
-            <dd>Notification emmitted by</dd>
+            <dd>Notification emmitted by </dd>
             <dd>
               {props.notifShow.notification.submittingUserData.name}
-              On
+              &nbsp;on&nbsp;
               {moment(props.notifShow.notification.created_on).format(
                 'DD-MM-YYYY HH[h]MM'
               )}

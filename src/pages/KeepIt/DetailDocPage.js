@@ -151,6 +151,7 @@ export default function DetailDocPage(props) {
                     <Button
                       children="New Record"
                       newClasses="uk-margin-small-bottom inlineT"
+                      link="/submitrecord"
                     />
                   ) : (
                     ''
