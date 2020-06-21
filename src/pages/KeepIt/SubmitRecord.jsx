@@ -204,11 +204,11 @@ export default function SubmitRecord(props) {
                 <Input
                   id="TagNIF"
                   type="number"
-                  label="VAT Tag (Optional)"
+                  label="NIF Tag (Optional)"
                   value={formTagNIF.value}
                   onChange={inputChangeHandler}
                   control="input"
-                  placeholder="Insert an VAT Tag (Optional)"
+                  placeholder="Insert an NIF Tag (Optional)"
                   // newInputClasses="uk-form-width-large"
                   required={true}
                   disabled={finalDisabled}

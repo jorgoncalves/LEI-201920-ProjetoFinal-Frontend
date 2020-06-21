@@ -118,8 +118,8 @@ export default withRouter(function App() {
     const userInfo = localStorage.getItem('userInfo');
     const token = localStorage.getItem('token');
     // const expiryDate = localStorage.getItem('expiryDate');
-    const tokenInfo = localStorage.getItem('tokenInfo');
-    const isAdmin = localStorage.getItem('isAdmin');
+    // const tokenInfo = localStorage.getItem('tokenInfo');
+    // const isAdmin = localStorage.getItem('isAdmin');
     if (!token) {
       return;
     }
@@ -127,7 +127,7 @@ export default withRouter(function App() {
     //   logoutHandler();
     //   return;
     // }
-    const isAuth = localStorage.getItem('isAuth') === 'true';
+    // const isAuth = localStorage.getItem('isAuth') === 'true';
     // const remainingMilliseconds =
     //   new Date(expiryDate).getTime() - new Date().getTime();
     window.addEventListener('click', () => {
@@ -143,7 +143,6 @@ export default withRouter(function App() {
       isAdmin: tokenDecode.isAdmin,
       authLoading: false
     });
-    console.log('this');
 
     return () => {};
   }, []);
