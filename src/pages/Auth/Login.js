@@ -101,7 +101,6 @@ function Login(props) {
         formIsValid: formIsValid
       };
     });
-    console.log(state);
   };
   const inputBlurHandler = (input) => {
     setState((prevState) => {
