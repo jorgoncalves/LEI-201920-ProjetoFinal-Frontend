@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/LEI-201920-ProjetoFinal-Frontend/static/css/main.afda1d35.chunk.css",
+    "main.js": "/LEI-201920-ProjetoFinal-Frontend/static/js/main.aac91edc.chunk.js",
+    "main.js.map": "/LEI-201920-ProjetoFinal-Frontend/static/js/main.aac91edc.chunk.js.map",
+    "runtime-main.js": "/LEI-201920-ProjetoFinal-Frontend/static/js/runtime-main.6f134611.js",
+    "runtime-main.js.map": "/LEI-201920-ProjetoFinal-Frontend/static/js/runtime-main.6f134611.js.map",
+    "static/js/2.b1a8108f.chunk.js": "/LEI-201920-ProjetoFinal-Frontend/static/js/2.b1a8108f.chunk.js",
+    "static/js/2.b1a8108f.chunk.js.map": "/LEI-201920-ProjetoFinal-Frontend/static/js/2.b1a8108f.chunk.js.map",
+    "index.html": "/LEI-201920-ProjetoFinal-Frontend/index.html",
+    "precache-manifest.a58b59da6576f154bcd3a32c5247b49a.js": "/LEI-201920-ProjetoFinal-Frontend/precache-manifest.a58b59da6576f154bcd3a32c5247b49a.js",
+    "service-worker.js": "/LEI-201920-ProjetoFinal-Frontend/service-worker.js",
+    "static/css/main.afda1d35.chunk.css.map": "/LEI-201920-ProjetoFinal-Frontend/static/css/main.afda1d35.chunk.css.map",
+    "static/js/2.b1a8108f.chunk.js.LICENSE.txt": "/LEI-201920-ProjetoFinal-Frontend/static/js/2.b1a8108f.chunk.js.LICENSE.txt",
+    "static/media/LOGO.png": "/LEI-201920-ProjetoFinal-Frontend/static/media/LOGO.104c0a33.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6f134611.js",
+    "static/js/2.b1a8108f.chunk.js",
+    "static/css/main.afda1d35.chunk.css",
+    "static/js/main.aac91edc.chunk.js"
+  ]
+}
