@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "47bff2fc936c6236f0508650a66d4437",
+    "revision": "17262acfb242fefa040bf4110a17fae8",
     "url": "/LEI-201920-ProjetoFinal-Frontend/index.html"
   },
   {
-    "revision": "ef65aac464a53e4368f6",
+    "revision": "4238074b6a7c3d902ee7",
     "url": "/LEI-201920-ProjetoFinal-Frontend/static/css/main.afda1d35.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/LEI-201920-ProjetoFinal-Frontend/static/js/2.b1a8108f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "ef65aac464a53e4368f6",
-    "url": "/LEI-201920-ProjetoFinal-Frontend/static/js/main.43fcd391.chunk.js"
+    "revision": "4238074b6a7c3d902ee7",
+    "url": "/LEI-201920-ProjetoFinal-Frontend/static/js/main.cfbedea4.chunk.js"
   },
   {
     "revision": "c60412a7eb3790b1af9d",
