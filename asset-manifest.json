@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/LEI-201920-ProjetoFinal-Frontend/static/css/main.afda1d35.chunk.css",
-    "main.js": "/LEI-201920-ProjetoFinal-Frontend/static/js/main.e3cfa780.chunk.js",
-    "main.js.map": "/LEI-201920-ProjetoFinal-Frontend/static/js/main.e3cfa780.chunk.js.map",
+    "main.js": "/LEI-201920-ProjetoFinal-Frontend/static/js/main.43fcd391.chunk.js",
+    "main.js.map": "/LEI-201920-ProjetoFinal-Frontend/static/js/main.43fcd391.chunk.js.map",
     "runtime-main.js": "/LEI-201920-ProjetoFinal-Frontend/static/js/runtime-main.6f134611.js",
     "runtime-main.js.map": "/LEI-201920-ProjetoFinal-Frontend/static/js/runtime-main.6f134611.js.map",
     "static/js/2.b1a8108f.chunk.js": "/LEI-201920-ProjetoFinal-Frontend/static/js/2.b1a8108f.chunk.js",
     "static/js/2.b1a8108f.chunk.js.map": "/LEI-201920-ProjetoFinal-Frontend/static/js/2.b1a8108f.chunk.js.map",
     "index.html": "/LEI-201920-ProjetoFinal-Frontend/index.html",
-    "precache-manifest.847b09e29afd2adb80760645c03846f6.js": "/LEI-201920-ProjetoFinal-Frontend/precache-manifest.847b09e29afd2adb80760645c03846f6.js",
+    "precache-manifest.c682792e0a70191b39b4a6187609c838.js": "/LEI-201920-ProjetoFinal-Frontend/precache-manifest.c682792e0a70191b39b4a6187609c838.js",
     "service-worker.js": "/LEI-201920-ProjetoFinal-Frontend/service-worker.js",
     "static/css/main.afda1d35.chunk.css.map": "/LEI-201920-ProjetoFinal-Frontend/static/css/main.afda1d35.chunk.css.map",
     "static/js/2.b1a8108f.chunk.js.LICENSE.txt": "/LEI-201920-ProjetoFinal-Frontend/static/js/2.b1a8108f.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.6f134611.js",
     "static/js/2.b1a8108f.chunk.js",
     "static/css/main.afda1d35.chunk.css",
-    "static/js/main.e3cfa780.chunk.js"
+    "static/js/main.43fcd391.chunk.js"
   ]
 }
