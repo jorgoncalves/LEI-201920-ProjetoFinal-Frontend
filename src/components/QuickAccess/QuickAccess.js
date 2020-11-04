@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import './QuickAccess.css';
 
@@ -12,7 +13,7 @@ export default function QuickAccess(props) {
         <ul className="uk-list uk-list-divider">
           {(quickAccess.length > 0) ? (
             quickAccess.map((li,index) => {
-              return (<li key={index}><a className="uk-text-secondary" href={`/records/${li.documentID}`}>{li.name}</a></li>)
+              return (<li key={index}><Link className="uk-text-secondary" to={`/records/${li.documentID}`}>{li.name}</Link></li>)
             })
           ) : (
             <li>There are no pinned Documents</li>
